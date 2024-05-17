@@ -6,40 +6,9 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="vue.css">
+  <link rel="stylesheet" href="css/vue.css">
+  <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4535603_9hbwqa9vxd.css">
   <link rel="shortcut icon" href="https://s1.imagehub.cc/images/2024/05/04/62b1371a82a829e6f7aa9ea49ded57e7.png">
-  <style>
-  /*侧边栏*/
-    .sidebar {
-      padding-top: 35px;
-    }
-
-    aside.sidebar ul li {
-      margin: 0;
-      position: relative;
-    }
-
-    aside.sidebar ul li ul {
-      margin: 6px 0;
-    }
-
-    aside.sidebar ul li p {
-      padding-left: 13px;
-      font-size: 18px;
-      font-weight: normal;
-    }
-
-    aside.sidebar ul li a {
-      line-height: 35px;
-      font-size: 16px;
-      padding: 3px 0 3px 13px;
-    }
-
-    aside.sidebar ul li.active > a {
-      font-size: 18px !important;
-    }
-    /*以上调侧边栏*/
-    </style>
 </head>
 <body>
   <div id="app"></div>
@@ -47,11 +16,14 @@
     window.$docsify = {
       coverpage: true,
       onlyCover: true,
+      loadNavbar: true,
+      //themeColor: '#007be8',
       name: '<p>🍉<b>Machine Learning</b></p>',
       namelink: '_coverpage.md',
+      subMaxLevel: 6,
       loadSidebar: true,
       externalLinkTarget: '_blank',
-      auto2top: true,
+      auto2top: false,
       search: {
         paths: 'auto',
         placeholder: ':)  搜索',
@@ -60,6 +32,15 @@
         depth: 6,
         maxAge: 86400000, // 过期时间，单位毫秒，默认一天
       },
+      plugins: [
+        function (hook) {
+          hook.doneEach(function () {
+            if (window.MathJax) {
+              window.MathJax.typesetPromise();
+            }
+          });
+        }
+      ]
     }
   </script>
   <!-- Docsify v4 -->
@@ -67,16 +48,30 @@
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.js"></script>
   <!-- Docsify-back2Top -->
-  <script src="js/docsify-back2Top.js"></script>
-	<script>
-    docsifyBackTop = {
-      size: 40,           	// 数值，组件大小，默认值32。
-      bottom: 15,         	// 数值，组件底部偏移距离，默认值15。
-      right: 15,          	// 数值，组件右侧偏移距离，默认值15。
-      logo: '<svg t="1714911366915" class="icon" viewBox="0 0 1824 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5703" width="200" height="200"><path d="M0 911.607042 911.607042 0l911.607042 911.607042-112.392958 112.392958L911.607042 224.901647 112.392958 1024 0 911.607042z" fill="#0091EA" p-id="5704"></path></svg>',
-      bgColor: ''
-    };
-	</script>
+  <script src="https://cdn.jsdelivr.net/gh/LQY-0314/Docsify-Notebooks@v1.0.0/Machine-Learning/js/docsify-back2Top.js"></script>
+  <script>
+      docsifyBackTop = {
+        size: 40,           	// 数值，组件大小，默认值32。
+        bottom: 15,         	// 数值，组件底部偏移距离，默认值15。
+        right: 15,          	// 数值，组件右侧偏移距离，默认值15。
+        logo: '<svg t="1714911366915" class="icon" viewBox="0 0 1824 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5703" width="200" height="200"><path d="M0 911.607042 911.607042 0l911.607042 911.607042-112.392958 112.392958L911.607042 224.901647 112.392958 1024 0 911.607042z" fill="#0091EA" p-id="5704"></path></svg>',
+        bgColor: ''
+      };
+  </script>
+  <!-- Live2d -->
   <script src="https://fastly.jsdelivr.net/gh/LQY-0314/live2d-widget@v1.1.2/autoload.js"></script>
+  <!-- MathJax -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" 
+  async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 </body>
 </html>

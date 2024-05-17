@@ -207,9 +207,9 @@ main.hidden {
   padding: 40px 0 0;
   position: absolute;
   top: 0;
-  bottom: 0;
+  bottom: 225px;
   left: 0;
-  transition: transform 250ms ease-out;
+  transition: transform 450ms ease-out;
   width: 300px;
   z-index: 20;
 }
@@ -236,7 +236,7 @@ main.hidden {
 }
 .sidebar ul {
   margin: 0 0 0 15px;
-  padding: 0;
+  padding: 0 0 0 10px;
 }
 .sidebar li > p {
   font-weight: 700;
@@ -302,17 +302,18 @@ body.sticky .sidebar-toggle {
   right: 0;
   bottom: 0;
   left: 300px;
-  transition: left 250ms ease;
+  transition: left 650ms ease;
 }
 .markdown-section {
-  margin: 0 auto;
+  margin: 0 auto 0 auto;
   max-width: 80%;
   padding: 30px 15px 40px 15px;
   position: relative;
 }
 .markdown-section > * {
   box-sizing: border-box;
-  font-size: inherit;
+  font-size: 16px;
+  line-height: 1.5;
 }
 .markdown-section > :first-child {
   margin-top: 0 !important;
@@ -398,6 +399,8 @@ body.close .sidebar-toggle {
 }
 body.close .content {
   left: 0;
+  padding-left: 120px; /* 设置您想要的 padding-left 值 */
+
 }
 @media print {
   .github-corner,
@@ -556,12 +559,12 @@ section.cover ul {
   padding: 0;
 }
 section.cover .cover-main > p:last-child a {
-  border-color: var(--theme-color, #9b80ff);
+  border-color: var(--theme-color, #b8b8ff);
   border-radius: 2rem;
   border-style: solid;
   border-width: 1.5px;
   box-sizing: border-box;
-  color: var(--theme-color, #9b80ff);
+  color: var(--theme-color, #b8b8ff);
   display: inline-block;
   font-size: 1.05rem;
   letter-spacing: 0.1rem;
@@ -571,7 +574,7 @@ section.cover .cover-main > p:last-child a {
   transition: all 0.15s ease;
 }
 section.cover .cover-main > p:last-child a:last-child {
-  background-color: var(--theme-color, #9b80ff);
+  background-color: var(--theme-color, #b8b8ff);
   color: #fff;
 }
 section.cover .cover-main > p:last-child a:last-child:hover {
@@ -582,11 +585,11 @@ section.cover .cover-main > p:last-child a:hover {
   color: inherit;
 }
 section.cover blockquote > p > a {
-  border-bottom: 2px solid var(--theme-color, #9b80ff);
+  border-bottom: 2px solid var(--theme-color, #b8b8ff);
   transition: color 0.3s;
 }
 section.cover blockquote > p > a:hover {
-  color: var(--theme-color, #9b80ff);
+  color: var(--theme-color, #b8b8ff);
 }
 body {
   background-color: #fff;
@@ -601,8 +604,8 @@ body {
 }
 .sidebar ul li a {
   color: #505d6b;
-  font-size: 14px;
-  font-weight: normal;
+  font-size: 15px;
+  font-weight: lighter;
   overflow: hidden;
   text-decoration: none;
   text-overflow: ellipsis;
@@ -646,14 +649,14 @@ body {
   margin: 45px 0 0.8rem;
 }
 .markdown-section h3 {
-  font-size: 1.5rem;
+  font-size: 1.60rem;
   margin: 40px 0 0.6rem;
 }
 .markdown-section h4 {
-  font-size: 1.25rem;
+  font-size: 1.35rem;
 }
 .markdown-section h5 {
-  font-size: 1rem;
+  font-size: 1.15rem;
 }
 .markdown-section h6 {
   color: #777;
@@ -666,7 +669,7 @@ body {
 .markdown-section p,
 .markdown-section ul,
 .markdown-section ol {
-  line-height: 1.6rem;
+  line-height: 1.8rem;
   word-spacing: 0.05rem;
 }
 .markdown-section ul,
@@ -855,4 +858,11 @@ code .token {
   min-height: 1.5rem;
   position: relative;
   left: auto;
+}
+.math {
+  font-size: 17.5px; /* 调整数学公式的大小 */
+}
+.blocks {
+  font-size: 18px; /* 调整块级元素的大小 */
+  color: #2c3e50; /* 调整块级元素的文本颜色 */
 }

@@ -16,8 +16,8 @@
   <img src="https://img.shields.io/github/license/LQY-0314/Docsify-Notebooks" alt=""></a>
 </p>
 
-[GitHub](https://github.com/LQY-0314/Machine-Learning)
-[Get Started](/README.md)
+[GitHub](https://github.com/LQY-0314/Docsify-Notebooks)
+[Get Started](README.md)
 
 <!-- 背景图片 -->
-![](https://s1.imagehub.cc/images/2024/05/03/e75903fd07023e7b63d0bc1e66adb8eb.jpeg)
+![](https://s21.ax1x.com/2024/05/07/pkEbw0s.jpg)
