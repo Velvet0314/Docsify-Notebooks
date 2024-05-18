@@ -9,14 +9,14 @@
 - <font size=4.5>多样的编程任务</font>
 
 <p align="center">
-  <a href="https://github.com/LQY-0314"><img src="https://img.shields.io/badge/Github-LQY__0314-A1A1FF?logo=github&logoColor=black&labelColor=white" alt=""></a>
+  <a href="https://github.com/Velvet0314"><img src="https://img.shields.io/badge/Github-LQY__0314-A1A1FF?logo=github&logoColor=black&labelColor=white" alt=""></a>
   &nbsp;&nbsp;
   <img src="https://img.shields.io/github/stars/LQY-0314/Docsify-Notebooks" alt=""></a>
   &nbsp;&nbsp;
   <img src="https://img.shields.io/github/license/LQY-0314/Docsify-Notebooks" alt=""></a>
 </p>
 
-[GitHub](https://github.com/LQY-0314/Docsify-Notebooks)
+[GitHub](https://github.com/Velvet0314/Docsify-Notebooks)
 [Get Started](README.md)
 
 <!-- 背景图片 -->
