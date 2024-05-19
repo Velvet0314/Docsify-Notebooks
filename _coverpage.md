@@ -9,7 +9,7 @@
 - <font size=4.5>多样的编程任务</font>
 
 <p align="center">
-  <a href="https://github.com/Velvet0314"><img src="https://img.shields.io/badge/Github-LQY__0314-A1A1FF?logo=github&logoColor=black&labelColor=white" alt=""></a>
+  <a href="https://github.com/Velvet0314"><img src="https://img.shields.io/badge/Github-Velvet0314-%23A1A1FF?logo=github&logoColor=black&labelColor=white" alt=""></a>
   &nbsp;&nbsp;
   <img src="https://img.shields.io/github/stars/LQY-0314/Docsify-Notebooks" alt=""></a>
   &nbsp;&nbsp;
