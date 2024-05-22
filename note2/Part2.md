@@ -128,9 +128,10 @@ $
 $
 </div>
 
-### ⭐小结：LMS
+#### ⭐小结：LMS
 
-#### BGD 与 SGD 的区别
+##### BGD 与 SGD 的区别
+
 批量梯度下降法（BGD）和随机梯度下降法（SGD）是都采用了LMS的核心思想，但其区别在于：
 
 * 批量梯度下降法每次更新参数时，使用全部的训练样本。
@@ -138,7 +139,7 @@ $
 
 如果训练集过大，一般采用 SGD 以加速收敛。
 
-#### SGD 与 学习率衰减
+##### SGD 与 学习率衰减
 
 SGD在训练过程中虽然收敛速度更快，但是存在一个问题：SGD最后会最优处来回振荡。这导致其无法收敛到最优解。所以在训练过程中我们一般采用如下策略来应对：
 
@@ -267,7 +268,7 @@ $$
 
 接下来，我们将利用之前提到的性质对方程进行数学推导。
 
-将每一个参数 $ \theta $ 对应的 $ x $ 值看做是一个列向量，那么特征矩阵 $ X $ 可以表示为：
+将每一个参数 $ \theta $ 对应的 $ x $ 值看做是一个列向量，那么特征矩阵 $ X $ （design matrix）可以表示为：
 
 <div class="math">
 $$
@@ -376,3 +377,99 @@ $$
  \theta = (X^TX)^{-1}X^T\vec{y}
 $$
 </div>
+
+### 概率解释
+
+除开数学上的推导，我们对于回归问题，还可以从概率的角度进行解释。
+
+首先，我们假设目标值与输入通过以下的等式相关联：
+
+<div class="math">
+$$
+y^{(i)} = \theta^T x^{(i)} + \epsilon^{(i)}
+$$
+</div>
+
+其中，$ \epsilon $ 是一个误差项，一般指未被学习到的要素或随机噪声。
+
+进一步地，我们假设 $ \epsilon^{(i)} $ 是 $ distributed\ i.i.d. $ (离散式独立同分布变量) 并服从均值为 $ 0 $，方差为 $ \sigma^2 $ 的正态分布（高斯分布），即 $ \epsilon^{(i)} \sim N(0, \sigma^2) $ 。那么其概率密度函数为：
+
+<div class="math">
+$$
+p(\epsilon^{(i)}) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(-\frac{(\epsilon^{(i)})^2}{2\sigma^2}\right)
+$$
+</div>
+
+如此，带入一开始的等式，我们有：
+<div class="math">
+$$
+p(y^{(i)} \mid x^{(i)}; \theta) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(- \frac{(y^{(i)} - \theta^T x^{(i)})^2}{2\sigma^2}\right)
+$$
+</div>
+
+也就是说，在给定的参数 $\theta $ 下，确定了一个输入值 $ x^{(i)} $，得到对应的 $ y^{(i)} $ 的概率。
+
+!> <span class="blocks">**这里解释一下为什么公式没有写为 $ p(y^{(i)} | x^{(i)}, \theta) $ ：因为 $ \theta $ 并非一个随机变量**</span>
+
+在矩阵形式下，我们可以将概率写为：
+
+<div class="math">
+$$
+p(\vec{y} \mid X ; \theta) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(- \frac{(y^{(i)} - \theta^T x^{(i)})^2}{2\sigma^2}\right)
+$$
+</div>
+
+在这样的一个形式下，我们将其视为一个 $ \theta $ 的函数：
+
+<div class="math">
+$$
+L(\theta) = L(\theta; X, \vec{y}) = p(\vec{y} \mid X; \theta)
+$$
+</div>
+
+这个函数被称为 **似然函数（likelihood function）**。
+
+> **⭐极大似然估计（maximum likelihood estimation）：** <br>
+> **若总体 $ X $ 为离散型，$ \theta \in \Theta $，其中 $ \theta $ 为为待估参数，$ \Theta $ 是 $ \theta $ 可能取值范围。设 $ X_1,X_2,...,X_n $ 是来自 $ X $ 的样本，则其联合分布律为 $$ \prod_{i=1}^n p(x_{i}; \theta) $$** <br>
+> **又设 $ x_1,x_2,...,x_n $ 是相应于样本 $ X_1,X_2,...,X_n $ 的一个样本值，则样本 $ X_1,X_2,...,X_n $ 取到观察值 $ x_1,x_2,...,x_n $ 的概率，即事件 $ \\{ X_1=x_1,X_2=x_2,...,X_n =x_n\\} $ 发生的概率为**
+> **$$ L(\theta) = L(x_1,x_2,...,x_n;\theta) = \prod_{i=1}^n p(x_{i}; \theta),\ \theta \in \Theta $$**<br>
+> **固定样本观察值 $ x_1,x_2,...,x_n $，在 $ \theta $ 取值的可能范围 $ \Theta $ 内挑选使似然函数达到最大的参数值 $ \hat{\theta} $，即：**<br>
+> **$$ L(x_1,x_2,...,x_n;\hat{\theta}) = \max_{\theta \in \Theta} L(x_1,x_2,...,x_n;\theta)$$**
+
+基于 $ \epsilon^{(i)} $ 的独立同分布，我们可以得到：
+
+<div class="math">
+$$
+\begin{aligned}
+L(\theta) &= \prod_{i=1}^m p(y^{(i)} \mid x^{(i)}; \theta) \\
+&= \prod_{i=1}^m \frac{1}{\sqrt{2\pi}\sigma} \exp\left( -\frac{\left(y^{(i)} - \theta^T x^{(i)}\right)^2}{2\sigma^2} \right)
+\end{aligned}
+$$
+</div>
+
+为了选择合适的 $ \theta $ 以最大化 $ L(\theta) $，采用 **极大似然估计** 的思想，并且将其转化为 **对数似然函数** 易于后续计算：
+
+<div class="math">
+$$
+\begin{aligned}
+\ell(\theta) &= \log L(\theta) \\
+&= \log \prod_{i=1}^m \frac{1}{\sqrt{2\pi}\sigma} \exp\left( -\frac{\left(y^{(i)} - \theta^T x^{(i)}\right)^2}{2\sigma^2} \right) \\
+&= \sum_{i=1}^m \log \frac{1}{\sqrt{2\pi}\sigma} \exp\left( -\frac{\left(y^{(i)} - \theta^T x^{(i)}\right)^2}{2\sigma^2} \right) \\
+&= m \log \frac{1}{\sqrt{2\pi}\sigma} - \frac{1}{\sigma^2} \cdot \frac{1}{2} \sum_{i=1}^m \left(y^{(i)} - \theta^T x^{(i)}\right)^2 \\
+\end{aligned}
+$$
+</div>
+
+如此，最大化 $ \ell(\theta) $ 就是去最小化
+
+<div class="math">
+$$ 
+ \frac{1}{2} \sum_{i=1}^m \left(y^{(i)} - \theta^T x^{(i)}\right)^2
+$$
+</div>
+
+同样的，这也就是我们的 **[代价函数](note2/Part2?id=代价函数)** 。
+
+### 局部加权线性回归
+
+#### 过拟合与欠拟合
