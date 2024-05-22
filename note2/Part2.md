@@ -473,3 +473,21 @@ $$
 ### 局部加权线性回归
 
 #### 过拟合与欠拟合
+
+下面是一个关于 **欠拟合（underfitting）** 和 **过拟合（overfitting）** 的很形象的例子：
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/05/22/pkMWmz8.png" data-lightbox="image-1" data-title="Example of underfitting and overfitting">
+  <img src="https://s21.ax1x.com/2024/05/22/pkMWmz8.png" alt="Example of underfitting and overfitting" style="width:100%;max-width:500px;cursor:pointer">
+ </a>
+</div>
+
+下面是一个具体训练模型可视化的例子：
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/05/22/pkMg0eA.jpg" data-lightbox="image-1" data-title="fitting in Machine Learning">
+  <img src="https://s21.ax1x.com/2024/05/22/pkMg0eA.jpg" alt="fitting in Machine Learning" style="width:100%;max-width:2000px;cursor:pointer">
+ </a>
+</div>
+
+在这个例子中我们可以看到，在模型拟合的多项式次数较低时（图中展示的为1次），函数呈线性，拟合效果不好；而当模型拟合的多项式次数较高时（图中展示的为20次），函数学习到了过多的细节与噪声，完全适合与当前的训练集，但是这样其泛用性会降低，也并非一个好的模型；在一个适当的多项式次数下（图中展示的为4次），拟合效果不错。

@@ -859,14 +859,13 @@ code .token {
   position: relative;
   left: auto;
 }
+
 /* 额外添加的部分 */
+
 .math {
   font-size: 17.5px; /* 调整数学公式的大小 */
 }
 .blocks {
   font-size: 16px; /* 调整块级元素的大小 */
   color: #2c3e50; /* 调整块级元素的文本颜色 */
-}
-.custom-link {
-  color: green;
 }
