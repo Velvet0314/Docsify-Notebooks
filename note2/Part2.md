@@ -453,9 +453,7 @@ $$
 $$
 \begin{aligned}
 \ell(\theta) &= \log L(\theta) \\
-&= \log \prod_{i=1}^m \frac{1}{\sqrt{2\pi}\sigma} \exp\left( -\frac{\left(y^{(i)} - \theta^T x^{(i)}\right)^2}{2\sigma^2} \right) \\
-&= \sum_{i=1}^m \log \frac{1}{\sqrt{2\pi}\sigma} \exp\left( -\frac{\left(y^{(i)} - \theta^T x^{(i)}\right)^2}{2\sigma^2} \right) \\
-&= m \log \frac{1}{\sqrt{2\pi}\sigma} - \frac{1}{\sigma^2} \cdot \frac{1}{2} \sum_{i=1}^m \left(y^{(i)} - \theta^T x^{(i)}\right)^2 \\
+&= \log \prod_{i=1}^m \frac{1}{\sqrt{2\pi}\sigma} \exp\left( -\frac{\left(y^{(i)} - \theta^T x^{(i)}\right)^2}{2\sigma^2} \right)
 \end{aligned}
 $$
 </div>
@@ -491,3 +489,34 @@ $$
 </div>
 
 在这个例子中我们可以看到，在模型拟合的多项式次数较低时（图中展示的为1次），函数呈线性，拟合效果不好；而当模型拟合的多项式次数较高时（图中展示的为20次），函数学习到了过多的细节与噪声，完全适合与当前的训练集，但是这样其泛用性会降低，也并非一个好的模型；在一个适当的多项式次数下（图中展示的为4次），拟合效果不错。
+
+#### LWLR 的定义
+
+为了在一般的线性回归中改善过拟合与欠拟合的情况，我们采用 **局部加权线性回归（locally weighted linear regression）**。以下是两者学习过程上的区别：
+
+<div class="math">
+$$
+\begin{aligned}
+&对于一般的线性回归：\\[5pt]
+&\ \ \ \ \ \ \ \ \ \ 1.\ Fit \ \theta \ to \ minimize\ \sum\nolimits_{i} (y^{(i)} - \theta^T x^{(i)})^2 \\
+&\ \ \ \ \ \ \ \ \ \ 2.\ Output \ \theta^T x \\[5pt]
+&对于局部加权线性回归：\\[5pt]
+&\ \ \ \ \ \ \ \ \ \ 1.\ Fit \ \theta \ to \ minimize\ \sum\nolimits_{i} w^{(i)} (y^{(i)} - \theta^T x^{(i)})^2 \\
+&\ \ \ \ \ \ \ \ \ \ 2.\ Output \ \theta^T x \\
+\end{aligned}
+$$
+</div>
+
+其中，$ w $ 一般通过以下公式得到：
+
+<div class="math">
+$$
+w^{(i)} = \exp \left( -\frac{(x^{(i)}-x)^2}{2\tau^2} \right)
+$$
+</div>
+
+其中，$ x $ 是我们希望的预测点，$ \tau $ 是**带宽参数（bandwidth）**，控制了权重随距离衰减的速度。
+
+分析公式，我们发现：$ \left| x^{(i)}-x \right| $ 越大，$ w^{(i)} $ 越小；$ \left| x^{(i)}-x \right| $ 越小，$ w^{(i)} $ 会逐渐逼近到 1 ，最后退化回一般的线性回归。
+
+这表明：**离预测点越远的数据带来的影响会更小**。在 LWR 中我们更关注预测点附近值带来的影响。
