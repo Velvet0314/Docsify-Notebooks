@@ -8,13 +8,13 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="css/vue.css">
+  <link rel="stylesheet" type="text/css" href="live2d/assets/waifu.css"/>
   <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4535603_9hbwqa9vxd.css">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/css/lightbox.css">
   <link rel="shortcut icon" href="https://s1.imagehub.cc/images/2024/05/04/62b1371a82a829e6f7aa9ea49ded57e7.png">
 </head>
 <body>
   <div id="app"></div>
-  <div id="live2d-widget"></div>
   <script>
     window.$docsify = {
       coverpage: true,
@@ -46,10 +46,12 @@
       ]
     }
   </script>
+
   <!-- Docsify v4 -->
   <script src="//cdn.jsdelivr.net/npm/docsify@4.13.1"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.js"></script>
+
   <!-- Docsify-back2Top -->
   <script src="https://cdn.jsdelivr.net/gh/LQY-0314/Docsify-Notebooks@v1.0.0/Machine-Learning/js/docsify-back2Top.js"></script>
   <script>
@@ -61,6 +63,7 @@
         bgColor: ''
       };
   </script>
+
   <!-- Lightbox2 -->
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox-plus-jquery.js"></script>
   <script>
@@ -72,6 +75,55 @@
       'wrapAround': true
     })
   </script>
+
+  <!-- PWA -->
+  <script>
+    if (typeof navigator.serviceWorker !== 'undefined') {
+      navigator.serviceWorker.register('sw.js')
+    }
+  </script>
+
+  <!-- live2d -->
+   <!-- waifu-tips.js 依赖 JQuery 库 -->
+   <script src="live2d/assets/jquery.min.js"></script>
+   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+   <!-- 实现拖动效果，需引入 JQuery UI -->
+   <script src="live2d/assets/jquery-ui.min.js"></script>
+   
+   <div class="waifu">
+       <div class="waifu-tips"></div>
+       <canvas id="live2d" class="live2d"></canvas>
+       <div class="waifu-tool">
+           <span class="fui-home"></span>
+           <span class="fui-chat"></span>
+           <span class="fui-eye"></span>
+           <span class="fui-user"></span>
+           <span class="fui-photo"></span>
+           <span class="fui-info-circle"></span>
+           <span class="fui-cross"></span>
+       </div>
+   </div>
+       
+   <script src="live2d/assets/waifu-tips.js"></script>
+   <script src="live2d/assets/live2d.js"></script>
+   <script type="text/javascript">
+       /* 可直接修改部分参数 */
+       live2d_settings['modelId'] = 1;                  // 默认模型 ID
+       live2d_settings['modelTexturesId'] = 0;         // 默认材质 ID
+       live2d_settings['modelStorage'] = false;         // 不储存模型 ID
+       live2d_settings['canCloseLive2d'] = true;       // 关闭看板娘 按钮
+       live2d_settings['canTurnToHomePage'] = false;    // 隐藏 返回首页 按钮
+       live2d_settings['waifuSize'] = '430x430';        // 看板娘大小
+       live2d_settings['waifuTipsSize'] = '500x130';    // 提示框大小
+       live2d_settings['waifuFontSize'] = '32px';       // 提示框字体
+       live2d_settings['waifuToolFont'] = '40px';       // 工具栏字体
+       live2d_settings['waifuToolLine'] = '60px';       // 工具栏行高
+       live2d_settings['waifuToolTop'] = '-90px';       // 工具栏顶部边距
+       live2d_settings['waifuDraggable'] = 'axis-x';    // 拖拽样式
+       /* 在 initModel 前添加 */
+       initModel("live2d/assets/waifu-tips.json")
+   </script>
+  
   <!-- MathJax -->
   <script>
     MathJax = {
@@ -85,11 +137,5 @@
   </script>
   <script type="text/javascript" id="MathJax-script" 
   async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
-  <!-- PWA -->
-  <script>
-    if (typeof navigator.serviceWorker !== 'undefined') {
-      navigator.serviceWorker.register('sw.js')
-    }
-  </script>
 </body>
 </html>
