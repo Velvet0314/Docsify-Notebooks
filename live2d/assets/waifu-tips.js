@@ -157,7 +157,7 @@ function initModel(waifuPath, type) {
     $(".waifu").css({
         bottom: '-400px'
     });
-
+    $(".waifu").css("transition", 'all .5s ease-out');
     $(window).on('load', function() {
         setTimeout(function() {
             $(".waifu").animate({
