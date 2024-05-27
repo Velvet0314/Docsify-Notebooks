@@ -206,10 +206,10 @@ function initModel(waifuPath, type) {
         var modelTexturesId = live2d_settings.modelTexturesId;
     } loadModel(modelId, modelTexturesId);
 
-    if ($('#waifu-toggle').length === 0) {
-        $('body').append('<div id="waifu-toggle" class="waifu-toggle-active">看板娘</div>');
-        $('#waifu-toggle').addClass('waifu-toggle-active');
-    }
+    // 添加 toggle
+    $('body').append('<div id="waifu-toggle" class="waifu-toggle-active">看板娘</div>');
+    $('#waifu-toggle').addClass('waifu-toggle-active');
+
 }
 
 function loadModel(modelId, modelTexturesId=0) {
