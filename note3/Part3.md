@@ -107,7 +107,7 @@ $$
 <div class="math">
 $$
 \begin{aligned}
-\quad \quad \quad \quad \quad \quad \quad \quad \frac{\partial}{\partial \theta_j} \ell(\theta) &\color{green}{= \left( \frac{y}{g(\theta^T x)} - (1 - y) \frac{1}{1 - g(\theta^T x)} \right) \frac{\partial}{\partial \theta_j} g(\theta^T x)} \\
+\quad \quad \quad \quad \quad \quad \quad \quad \frac{\partial}{\partial \theta_j} \ell(\theta) &\color{orange}{= \left( \frac{y}{g(\theta^T x)} - (1 - y) \frac{1}{1 - g(\theta^T x)} \right) \frac{\partial}{\partial \theta_j} g(\theta^T x)} \\
 &  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \color{red}{\rightarrow \text{求导的链式法则：} \frac{\partial}{\partial \theta_j} \ell(\theta) = \frac{\partial \ell(\theta)}{\partial h_\theta(x)} \cdot \frac{\partial h_\theta(x)}{\partial \theta_j}} \\
 &=  \left( \frac{y}{g(\theta^T x)} - (1 - y) \frac{1}{1 - g(\theta^T x)} \right) \color{blue}{g(\theta^T x) (1 - g(\theta^T x)) x_j} \\
 &  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \color{red}{\rightarrow \text{求导的链式法则：} \frac{\partial h_\theta(x)}{\partial \theta_j} = \frac{\partial g(\theta^T x)}{\partial (\theta^T x)} \cdot \frac{\partial (\theta^T x)}{\partial \theta_j}} \\
