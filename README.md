@@ -8,6 +8,6 @@
 
 <font size=5>**最后，欢迎你来到机器学习的世界。**</font>
 
-!> <font size=3.5>**• 本文内容基于 [CS229](http://cs229.stanford.edu/)。许多内容取自吴恩达老师的 notes，可以把本教程当作一个 notes 的讲解。**<br>**• 本人尚在学习中，如有错误，欢迎指出！** <br> **• 本仓库中的文章采用 [Apache-2.0 License](https://www.apache.org/licenses/)，转载请标明出处。**<br>**• 文章中带 \* 号的内容就是我自己的数学知识不够充足，导致无法加以讲解甚至是理解，就是直接引用的notes的内容，有兴趣的读者可自行研究。**</font>
+!> <font size=3.5>**• 本文内容基于 [CS229](http://cs229.stanford.edu/)。许多内容取自吴恩达老师的 notes，可以把本教程当作一个 notes 的讲解。**<br>**• 本人尚在学习中，如有错误，欢迎指出！** <br> **• 本仓库中的文章采用 [Apache-2.0 License](https://www.apache.org/licenses/)，转载请标明出处。**<br>**• 文章中带 \* 号的内容就是我自己的数学知识不够充足，导致无法完成正确讲解，基本上时直接引用的notes的内容，有兴趣的读者可自行研究。**</font>
 
 > <font size=3.5 color=black>如果有帮助，不妨 **[点一个 star⭐](https://github.com/LQY-0314/Docsify-Notebooks)** 以资鼓励。</font> <br> <font size=2.5>~~前言就是要写得正经一些，不然文章没人看怎么办呀?~~</font>
