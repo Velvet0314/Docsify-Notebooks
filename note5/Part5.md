@@ -61,7 +61,141 @@ $ p(x) = 1 $ 表示 $ p(x) $ 涵盖了所有的情况。
 
 #### * 多元正态分布
 
-多元正态分布
+多元正态分布是由 **均值向量（mean vector）** $ \displaystyle{\mu \in \mathbb{R}^n} $ 与一个 **协方差矩阵（covariance matrix）** $ \displaystyle{\Sigma \in \mathbb{R}^{n \times n}} $ 确定的。符号记为 $ \mathcal{N}(\mu,\Sigma) $：
+
+<div class="math">
+$$
+p(x) = \frac{1}{(2 \pi)^{n/2} |\Sigma|^{1/2}} \exp \left( -\frac{1}{2} (x-\mu)^T \Sigma^{-1} (x-\mu) \right)
+$$
+</div>
+
+其中，$ \Sigma $ 是对称半正定的，$ |\Sigma| $ 表示矩阵 $ \Sigma $ 的行列式。
+
+对于一个随机变量 $ X $，分布在 $ \mathcal{N}(\mu,\Sigma) $ 上，有：
+
+<div class="math">
+$$
+E[X] = \int_{x}xp(x;\mu,\Sigma)dx=\mu
+$$
+</div>
+
+一个基于向量的随机变量 $ Z $，其协方差定义为：
+
+<div class="math">
+$$
+\begin{aligned}
+Cov(Z) &= E[(Z-\mu)(Z-\mu)^T] \\[5pt]
+&= E[ZZ^T] - E[Z]E[Z]^T
+\end{aligned}
+$$
+</div>
+
+所以，如果 $ X~\mathcal{N}(\mu,\Sigma) $，有：
+
+<div class="math">
+$$
+Cov(X) = \Sigma
+$$
+</div>
+
+下面我们给出可视化的图形来帮助我们掌握 $ \Sigma $ 对多元正态分布的影响。
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/06/14/pkd5H74.png" data-lightbox="image-5" data-title="Gaussian distribution 1">
+  <img src="https://s21.ax1x.com/2024/06/14/pkd5H74.png" alt="Gaussian distribution 1" style="width:100%;max-width:1000px;cursor:pointer">
+ </a>
+</div>
+
+接下来我们讨论都是在 $ 2\times1\ 大小的\ 0向量\ \mu \ 与\ 2\times2\ 大小的\ \Sigma $ 的条件下进行的。
+
+左边的图像是 $ \Sigma = I $，我们称为标准正态分布；中间的图像是 $ \Sigma = 0.6I $；右边的图像是 $ \Sigma = 2I $。
+
+由图像我们得知，$ \Sigma $ 的主对角线的大小决定了 $ \mathcal{N}(\mu,\Sigma) $ 是 **密集（compressed）** 还是 **扁平（spread-out）**。
+
+然后，我们试着改变副对角线的值：
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/06/14/pkdIQEQ.png" data-lightbox="image-5" data-title="Gaussian distribution 2">
+  <img src="https://s21.ax1x.com/2024/06/14/pkdIQEQ.png" alt="Gaussian distribution 2" style="width:100%;max-width:1000px;cursor:pointer">
+ </a>
+</div>
+
+在均值是 0 的情况下，给出 $ \Sigma $（从左至右）：
+
+<div class="math">
+$$
+\Sigma = \begin{bmatrix}
+ 1 & 0 \\
+ 0 & 1
+\end{bmatrix};\ 
+\Sigma = \begin{bmatrix}
+ 1 & 0.5 \\
+ 0.5 & 1
+\end{bmatrix};\ 
+\Sigma = \begin{bmatrix}
+ 1 & 0.8 \\
+ 0.8 & 1
+\end{bmatrix}
+$$
+</div>
+
+进一步对副对角线的值进行尝试：
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/06/14/pkdIrCR.png" data-lightbox="image-5" data-title="Gaussian distribution 3">
+  <img src="https://s21.ax1x.com/2024/06/14/pkdIrCR.png" alt="Gaussian distribution 3" style="width:100%;max-width:1000px;cursor:pointer">
+ </a>
+</div>
+
+$ \Sigma $ 为：
+
+<div class="math">
+$$
+\Sigma = \begin{bmatrix}
+ 1 & -0.5 \\
+ -0.5 & 1
+\end{bmatrix};\ 
+\Sigma = \begin{bmatrix}
+ 1 & -0.8 \\
+ -0.8 & 1
+\end{bmatrix};\ 
+\Sigma = \begin{bmatrix}
+ 3 & 0.8 \\
+ 0.8 & 1
+\end{bmatrix}
+$$
+</div>
+
+由此我们得出结论：当对副对角线的值进行变动时，其绝对值越大，朝向 $ 45°/135° $ 分布越密集，且当数值大于 0 时朝向 $ 45° $，小于 0 时朝向 $ 135° $。
+
+最后我们对均值 $ \mu $ 进行变动：
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/06/14/pkdI6v6.png" data-lightbox="image-5" data-title="Gaussian distribution 4">
+  <img src="https://s21.ax1x.com/2024/06/14/pkdI6v6.png" alt="Gaussian distribution 4" style="width:100%;max-width:1000px;cursor:pointer">
+ </a>
+</div>
+
+$ \mu $ 为：
+
+<div class="math">
+$$
+\mu = \begin{bmatrix}
+ 1 \\
+ 0
+\end{bmatrix};\ 
+\mu = \begin{bmatrix}
+ -0.5 \\
+ 0
+\end{bmatrix};\ 
+\mu = \begin{bmatrix}
+ -1 \\
+ -1.5
+\end{bmatrix};\ 
+$$
+</div>
+
+显然，$ \mu $ 的改变只是让图像进行了平移。
 
 #### GDA 模型
 

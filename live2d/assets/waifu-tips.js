@@ -161,7 +161,7 @@ function initModel(waifuPath, type) {
     $(window).on('load', function() {
         setTimeout(function() {
             $(".waifu").animate({
-                bottom: '-130px'
+                bottom: '-120px'
             }, {
                 duration: 2000,
                 easing: 'easeOutQuad'
@@ -295,7 +295,7 @@ function loadTipsMessage(result) {
         $('.waifu').css({
             bottom: '-400px'
         }).show().animate({
-            bottom: '-130px'
+            bottom: '-120px'
         }, {
             duration: 2000,
             easing: 'easeOutQuad'
