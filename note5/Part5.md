@@ -199,4 +199,95 @@ $$
 
 #### GDA 模型
 
+如果我们目前遇到了一个分类问题，并且样本的值是连续的，那么我们就可以利用 GDA 模型。假设 $ p(x|y) $ 满足多元正态分布：
+
+<div class="math">
+$$
+\begin{aligned}
+y &\sim \text{Bernoulli}(\phi) \\[5pt]
+x|y = 0 &\sim \mathcal{N}(\mu_0, \Sigma) \\[5pt]
+x|y = 1 &\sim \mathcal{N}(\mu_1, \Sigma)
+\end{aligned}
+$$
+</div>
+
+其概率分布为：
+
+<div class="math">
+$$
+\begin{aligned}
+p(y) &= \phi^y(1 - \phi)^{1-y} \\[5pt]
+p(x|y = 0) &= \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x - \mu_0)^T\Sigma^{-1}(x - \mu_0)\right) \\[5pt]
+p(x|y = 1) &= \frac{1}{(2\pi)^{n/2}|\Sigma|^{1/2}} \exp\left(-\frac{1}{2}(x - \mu_1)^T\Sigma^{-1}(x - \mu_1)\right)
+\end{aligned}
+$$
+</div>
+
+其中参数为 $ \displaystyle{\phi ,\ \Sigma ,\ \mu_0 ,\ \mu_1 }$。
+
+!> **注意这里的参数有两个 $ \mu $，表示在不同的结果模型下，特征均值不同，但我们假设协方差相同。反映在图上就是不同模型中心位置不同，但形状相同。这样就可以用直线来进行分隔判别。**
+
+给出其对数似然函数：
+
+<div class="math">
+$$
+\begin{aligned}
+\quad \quad \quad \quad\quad \quad \quad \quad \quad \quad \quad \quad \ell(\phi, \mu_0, \mu_1, \Sigma) &= \log \prod_{i=1}^m p(x^{(i)},y^{(i)};\phi, \mu_0, \mu_1, \Sigma) \\[5pt]
+&=  \log \prod_{i=1}^m \color{orange}{p(x^{(i)}|y^{(i)}; \mu_0, \mu_1, \Sigma) p(y^{(i)}; \phi)} \\[5pt]
+&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \color{red}{\rightarrow拆分成了一个二维正态分布和一个伯努利分布} \\[5pt]
+\end{aligned}
+$$
+</div>
+
+同样地，为了最大化似然函数，得到参数：
+
+<div class="math">
+$$
+\begin{aligned}
+\phi &= \frac{1}{m} \sum_{i=1}^{m} 1\{y^{(i)} = 1\}\\[5pt]
+\mu_0 &= \frac{\sum_{i=1}^{m} 1\{y^{(i)} = 0\} x^{(i)}}{\sum_{i=1}^{m} 1\{y^{(i)} = 0\}}\\[5pt]
+\mu_1 &= \frac{\sum_{i=1}^{m} 1\{y^{(i)} = 1\} x^{(i)}}{\sum_{i=1}^{m} 1\{y^{(i)} = 1\}}\\[5pt]
+\Sigma &= \frac{1}{m} \sum_{i=1}^{m} (x^{(i)} - \mu_{y^{(i)}})(x^{(i)} - \mu_{y^{(i)}})^T\\[5pt]
+\end{aligned}
+$$
+</div>
+
+实际上，通过对学习过程的可视化，我们可以看到 GDA 是这样进行学习的：
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/06/17/pk0lYgU.png" data-lightbox="image-5" data-title="GDA">
+  <img src="https://s21.ax1x.com/2024/06/17/pk0lYgU.png" alt="GDA" style="width:100%;max-width:500px;cursor:pointer">
+ </a>
+</div>
+
 #### Extra: GDA 与 逻辑回归
+
+如果我们把 $ p(y = 1 | x; \phi, \Sigma, \mu_0, \mu_1) $ 看作是有关 $ x $ 的函数，那么有：
+
+<div class="math">
+$$
+p(y = 1 | x; \phi, \Sigma, \mu_0, \mu_1) = \displaystyle{\frac{1}{1 + \exp(-\theta^T x)}}
+$$
+</div>
+
+其中，$ \theta $ 有关是 $ \phi, \Sigma, \mu_1, \mu_0 $ 的函数。这显然是一个逻辑回归的形式。
+
+通常，GDA 与 逻辑回归会给出不同的决策边界。那么我们应该如何正确地选择呢？
+
+首先，我们了解到，GDA 在有 $ p(x|y) $ 是多元正态分布下，其 $ p(y|x) $ 是遵循逻辑回归的假设函数的；但相反地，$ p(y|x) $ 是逻辑函数并不意味着 $ p(x|y) $ 是多元正态分布。这表明了 GDA 的建模相比于逻辑回归是更有力、约束更强的。
+
+进一步地讲，当 $ p(x∣y) $ 确实是高斯分布（具有共享的 $ \Sigma $）时，GDA 是 **渐近有效** 的。也就是说，针对准确估计 $ p(y|x) $，GDA 的效果是最好的。
+
+> **渐进有效性（Asymptotically efficient）**<br>
+> **一个估计量是渐进有效的，意味着在样本数量无限增加的情况下，该估计量达到了最小方差，即在所有可能的无偏估计量中，它具有最小的误差。这种估计量在大样本条件下是最精确的。**<br>
+> **简单地讲，渐进有效性就是指在数据量非常大的情况下，这种估计方法是最优的，能给出最准确的结果。**
+
+相反，通过做出显著较弱的假设，逻辑回归更为 **鲁棒（robust）**，对不正确的建模假设也更不敏感。有许多不同的假设集会导致 $ p(y|x) $采取逻辑函数的形式。例如，如果 $ x|y = 0 \sim \text{Poisson}(\lambda_0) $，$ x|y = 1 \sim \text{Poisson}(\lambda_1) $，那么 $ p(y|x) $ 将是逻辑函数。逻辑回归在这样的泊松数据上也会表现良好。但如果我们在这种数据上使用 GDA，并将高斯分布拟合到这种非高斯数据上，那么结果将会不太可预测，而 GDA 可能（也可能不会）表现良好。
+
+总的来说，GDA 做出了更强的建模假设，并且在数据效率上更高（即需要更少的训练数据就能“学得好”），当这些建模假设是正确或至少近似正确时。逻辑回归做出了更弱的假设。具体来说，当数据确实是非高斯分布时，在大规模数据集的极限下，逻辑回归几乎总是会比 GDA 表现更好。因此，实际使用中逻辑回归比 GDA 更常用。
+
+### 朴素贝叶斯
+
+朴素贝叶斯是一种基于贝叶斯定理的分类算法。
+
+### 朴素贝叶斯

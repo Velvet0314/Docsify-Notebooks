@@ -36,7 +36,7 @@ $$
 其中，$ g(z) $ 被称为 **logistic 函数** 或 **sigmoid 函数**。其图像如图：
 
 <div style="text-align: center;">
- <a href="https://s21.ax1x.com/2024/05/26/pklcnER.png" data-lightbox="image-2" data-title="sigmoid function">
+ <a href="https://s21.ax1x.com/2024/05/26/pklcnER.png" data-lightbox="image-3" data-title="sigmoid function">
   <img src="https://s21.ax1x.com/2024/05/26/pklcnER.png" alt="igmoid function" style="width:100%;max-width:450px;cursor:pointer">
  </a>
 </div>

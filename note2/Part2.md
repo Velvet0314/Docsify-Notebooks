@@ -492,7 +492,7 @@ $$
 下面是一个关于 **欠拟合（underfitting）** 和 **过拟合（overfitting）** 的很形象的例子：
 
 <div style="text-align: center;">
- <a href="https://s21.ax1x.com/2024/05/22/pkMWmz8.png" data-lightbox="image-1" data-title="Example of underfitting and overfitting">
+ <a href="https://s21.ax1x.com/2024/05/22/pkMWmz8.png" data-lightbox="image-2" data-title="Example of underfitting and overfitting">
   <img src="https://s21.ax1x.com/2024/05/22/pkMWmz8.png" alt="Example of underfitting and overfitting" style="width:100%;max-width:500px;cursor:pointer">
  </a>
 </div>
@@ -500,7 +500,7 @@ $$
 下面是一个具体训练模型可视化的例子：
 
 <div style="text-align: center;">
- <a href="https://s21.ax1x.com/2024/05/22/pkMg0eA.jpg" data-lightbox="image-1" data-title="fitting in Machine Learning">
+ <a href="https://s21.ax1x.com/2024/05/22/pkMg0eA.jpg" data-lightbox="image-2" data-title="fitting in Machine Learning">
   <img src="https://s21.ax1x.com/2024/05/22/pkMg0eA.jpg" alt="fitting in Machine Learning" style="width:100%;max-width:2000px;cursor:pointer">
  </a>
 </div>
