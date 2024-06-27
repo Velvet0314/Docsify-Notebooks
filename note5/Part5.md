@@ -90,7 +90,7 @@ Cov(Z) &= E[(Z-\mu)(Z-\mu)^T] \\[5pt]
 $$
 </div>
 
-所以，如果 $ X~\mathcal{N}(\mu,\Sigma) $，有：
+所以，如果 $ X\sim\mathcal{N}(\mu,\Sigma) $，有：
 
 <div class="math">
 $$
@@ -288,6 +288,129 @@ $$
 
 ### 朴素贝叶斯
 
-朴素贝叶斯是一种基于贝叶斯定理的分类算法。
+在 GDA 中，特征向量 $ x $ 是连续的实数向量。现在我们将讨论 $ x $ 是离散的情况，这将会会运用到另一种学习算法。
 
-### 朴素贝叶斯
+**朴素贝叶斯（naive bayes）** 是一种基于贝叶斯定理的分类算法。下面，我们将通过垃圾邮件分类的例子来进一步学习朴素贝叶斯。
+
+将一封邮件作为输入特征向量，与现有的字典进行比较，如果在字典中第 $ i $ 个词在邮件中出现，$ x_i = 1 $，否则 $ x_i = 0 $。假设输入特征向量将表示为：
+
+<div class="math">
+$$
+x = \left[\begin{array}{@{}c@{}}
+\ 1 \  \\
+\ 0 \  \\
+\ 0 \  \\
+\ \vdots \  \\
+\ 1 \  \\
+\ \vdots \  \\
+\ 0 \  \\
+\end{array}\right] \hspace{10mm}
+\begin{array}{l}
+\text{a} \\
+\text{aardvark} \\
+\text{aardwolf} \\
+\vdots \\
+\text{buy} \\
+\vdots \\
+\text{zygmurgy} \\
+\end{array}
+$$
+</div>
+
+现在，对 $ p(x|y) $ 进行建模。
+
+#### NB 假设
+
+假设字典中有 50000 个词，$ x \in \\{0, 1\\}^{50000} $ 如果采用多项式建模，将会有 $ 2^{50000} $ 种结果，$ 2^{50000} - 1 $ 维的参数向量，这样参数会明显过多。所以为了对$ p(x|y) $ 建模，需要做一个强假设，假设 $ x $ 的特征是条件独立的，这个假设称为 **朴素贝叶斯假设（naive bayes (NB) assumption）** ,导出的算法称为 **朴素贝叶斯分类（naive bayes classifier）**。
+
+!> **朴素贝叶斯分类器被称为“朴素”是因为它假设特定条件下各特征之间相互独立。<br> 例如，如果 $ y = 1 $ 代表垃圾邮件，"buy"是第 2087 个词，"price"是第 39831 个词，假设某封邮件是垃圾邮件（即 $ y = 1 $），知道邮件中出现了"buy"这个词，不会影响"price"这个词出现与否。进一步地，这可以写成：**
+**$$ p(x_{2087} \mid y) = p(x_{2087} \mid y, x_{39831}) $$**
+**注意，这不是说 $ x_{2087} $ 和 $ x_{39831} $ 是独立的，否则会写为 $ p(x_{2087}) = p(x_{2087} \mid x_{39831}) $。<br> 实际上，我们只是假设在给定 $ y $ 的条件下 $ x_{2087} $ 和 $ x_{39831} $ 是条件独立的。**
+
+通过 NB 假设，我们可以得到:
+
+<div class="math">
+$$
+\begin{aligned}
+p(x_1, \ldots, x_{50000} \mid y) &= p(x_1 \mid y)p(x_2 \mid y, x_1)p(x_3 \mid y, x_1, x_2) \cdots p(x_{50000} \mid y, x_1, \ldots, x_{49999}) \\[3pt]
+&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \color{red}{\rightarrow概率的基本性质} \\[5pt]
+&= p(x_1 \mid y)p(x_2 \mid y)p(x_3 \mid y) \cdots p(x_{50000} \mid y) \\[3pt]
+&\ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \color{red}{\rightarrow通过\ NB\ 假设等价转换} \\[5pt]
+&= \prod_{i=1}^{n} p(x_i \mid y)
+\end{aligned}
+$$
+</div>
+
+得到的模型参数：
+
+<div class="math">
+$$
+\begin{aligned}
+\phi_{i \mid y=1} &= p(x_i = 1 \mid y = 1) \\[5pt]
+\phi_{i \mid y=0} &= p(x_i = 1 \mid y = 0) \\[5pt]
+\phi_y &= p(y = 1)
+\end{aligned}
+$$
+</div>
+
+对于一个训练集 $ {(x^{(i)}, y^{(i)}) ; i = 1, \ldots, m\} $，写出其 **联合似然函数（joint likelihood）**：
+
+<div class="math">
+$$
+\mathcal{L}(\phi_{y}, \phi_{j \mid y=0}, \phi_{j \mid y=1}) = \prod_{i=1}^{m} p(x^{(i)}, y^{(i)})
+$$
+</div>
+
+还是同样地对参数进行极大似然估计：
+
+<div class="math">
+$$
+\begin{aligned}
+\phi_{j \mid y=1} &= \frac{\sum_{i=1}^{m} 1\{x_j^{(i)} = 1 \land y^{(i)} = 1\}}{\sum_{i=1}^{m} 1\{y^{(i)} = 1\}} \ \ \color{red}{\rightarrow在垃圾邮件中，单词\ x_j\ 出现的概率} \\[5pt]
+\phi_{j \mid y=0} &= \frac{\sum_{i=1}^{m} 1\{x_j^{(i)} = 1 \land y^{(i)} = 0\}}{\sum_{i=1}^{m} 1\{y^{(i)} = 0\}} \ \ \color{red}{\rightarrow垃圾邮件出现的概率} \\[5pt]
+\phi_{y} &= \frac{\sum_{i=1}^{m} 1\{y^{(i)} = 1\}}{m}
+\end{aligned}
+$$
+</div>
+
+其中，符号 $ "\wedge" $ 表示 "与"。然后，写出概率的公式：
+<div class="math">
+$$
+\begin{aligned}
+p(y = 1 \mid x) &= \frac{p(x \mid y = 1)p(y = 1)}{p(x)} \\[5pt]
+&= \frac{(\prod_{i=1}^{n} p(x_i \mid y = 1))p(y = 1)}{(\prod_{i=1}^{n} p(x_i \mid y = 1))p(y = 1) + (\prod_{i=1}^{n} p(x_i \mid y = 0))p(y = 0)} \\[3pt]
+&\qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \qquad \color{red}{\rightarrow全概率公式展开}
+\end{aligned}
+$$
+</div>
+
+#### 特征向量离散化
+
+最后，我们对朴素贝叶斯的应用进行一个推广。
+
+当连续的属性值不太满足多元正态分布时，我们可以通过对其特征向量离散化，利用 NB 来代替 GDA：
+
+<div style="display: table; margin: auto;">
+<table style="width: 100%;">
+  <tr>
+    <th style="text-align: center; border: 1px solid black; padding: 8px;">$\text{Living area (sq. feet)}$</th>
+    <th style="text-align: center; border: 1px solid black; padding: 8px;">&lt; $400$</th>
+    <th style="text-align: center; border: 1px solid black; padding: 8px;">$400-800$</th>
+    <th style="text-align: center; border: 1px solid black; padding: 8px;">$800-1200$</th>
+    <th style="text-align: center; border: 1px solid black; padding: 8px;">$1200-1600$</th>
+    <th style="text-align: center; border: 1px solid black; padding: 8px;">&gt; $1600$</th>
+  </tr>
+  <tr>
+    <td style="text-align: center; border: 1px solid black; padding: 8px;">$x_i$</td>
+    <td style="text-align: center; border: 1px solid black; padding: 8px;">$1$</td>
+    <td style="text-align: center; border: 1px solid black; padding: 8px;">$2$</td>
+    <td style="text-align: center; border: 1px solid black; padding: 8px;">$3$</td>
+    <td style="text-align: center; border: 1px solid black; padding: 8px;">$4$</td>
+    <td style="text-align: center; border: 1px solid black; padding: 8px;">$5$</td>
+  </tr>
+</table>
+</div>
+
+#### 拉普拉斯平滑
+
+#### 文本分类的事件模型
