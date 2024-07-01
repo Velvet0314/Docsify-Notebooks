@@ -198,16 +198,24 @@ main.hidden {
 .anchor span {
   color: #34495e;
 }
+/* 深色模式样式调整 */
+.dark-mode .anchor span{
+  color: white !important; 
+}
+/* 浅色模式样式调整 */
+.light-mode .anchor span{
+  color: #2c3e50 !important; 
+}
 .anchor:hover {
   text-decoration: underline;
 }
 .sidebar {
   border-right: 1px solid rgba(0,0,0,0.07);
   overflow-y: auto;
-  padding: 40px 0 0;
+  padding: -60px 0 0;
   position: absolute;
   top: 0;
-  bottom: 225px;
+  bottom: -80px;
   left: 0;
   transition: transform 450ms ease-out;
   width: 300px;
@@ -599,11 +607,21 @@ body {
   background-color: #fff;
   color: #364149;
 }
+/* 深色模式下侧边栏的样式 */
+.dark-mode .sidebar {
+  color: white; /* 深色模式下的字体颜色 */
+  background-color: #171717; /* 深色模式下的背景颜色 */
+}
+/* 浅色模式下侧边栏的样式 */
+.light-mode .sidebar {
+  color: #364149; /* 浅色模式下的字体颜色 */
+  background-color: #fff; /* 浅色模式下的背景颜色 */
+}
 .sidebar li {
   margin: 6px 0 6px 0;
 }
 .sidebar ul li a {
-  color: #505d6b;
+  color: inherit;
   font-size: 15px;
   font-weight: lighter;
   overflow: hidden;
@@ -635,6 +653,14 @@ body {
 .markdown-section strong {
   color: #2c3e50;
   font-weight: 600;
+}
+/* 深色模式样式调整 */
+.dark-mode .markdown-section strong {
+  color: white !important; 
+}
+/* 浅色模式样式调整 */
+.light-mode .markdown-section strong {
+  color: #2c3e50 !important;
 }
 .markdown-section a {
   color: var(--theme-color, #42b983);

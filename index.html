@@ -10,6 +10,7 @@
   <link rel="stylesheet" href="css/vue.css">
   <link rel="stylesheet" type="text/css" href="live2d/assets/waifu.css"/>
   <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4535603_9hbwqa9vxd.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/css/lightbox.css">
   <link rel="shortcut icon" href="https://s1.imagehub.cc/images/2024/05/04/62b1371a82a829e6f7aa9ea49ded57e7.png">
 </head>
@@ -20,13 +21,16 @@
       coverpage: true,
       onlyCover: true,
       loadNavbar: true,
-      //themeColor: '#007be8',
       name: '<p>🍉<b>Machine Learning</b></p>',
       namelink: '_coverpage.md',
       subMaxLevel: 6,
       loadSidebar: true,
       externalLinkTarget: '_blank',
       auto2top: false,
+      alias: {
+        '/.*/_sidebar.md': '/_sidebar.md',
+      },
+      sidebarDisplayLevel: 3, // set sidebar display level
       search: {
         paths: 'auto',
         placeholder: ':)  搜索',
@@ -63,7 +67,9 @@
         bgColor: ''
       };
   </script>
-
+  <!-- Docsify-sidebar-collapse -->
+  <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
+  
   <!-- Lightbox2 -->
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox-plus-jquery.js"></script>
   <script>
@@ -130,5 +136,6 @@
   </script>
   <script type="text/javascript" id="MathJax-script" 
   async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script src="js/dark-mode.js"></script>
 </body>
 </html>
