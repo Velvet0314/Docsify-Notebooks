@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Machine Learning</title>
@@ -8,12 +9,13 @@
   <meta name="description" content="Description">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <link rel="stylesheet" href="css/vue.css">
-  <link rel="stylesheet" type="text/css" href="live2d/assets/waifu.css"/>
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" type="text/css" href="live2d/assets/waifu.css" />
   <link rel="stylesheet" href="//at.alicdn.com/t/c/font_4535603_9hbwqa9vxd.css">
-  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/sidebar.min.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/css/lightbox.css">
   <link rel="shortcut icon" href="https://s1.imagehub.cc/images/2024/05/04/62b1371a82a829e6f7aa9ea49ded57e7.png">
 </head>
+
 <body>
   <div id="app"></div>
   <script>
@@ -23,14 +25,48 @@
       loadNavbar: true,
       name: '<p>🍉<b>Machine Learning</b></p>',
       namelink: '_coverpage.md',
-      subMaxLevel: 6,
+      themeColor: '#B0C4DE',
+      //subMaxLevel: 6,
       loadSidebar: true,
       externalLinkTarget: '_blank',
-      auto2top: false,
+      auto2top: true,
+      sidebarDisplayLevel: 4, // set sidebar display level
+      ga: 'G-JRV316Y223',
       alias: {
         '/.*/_sidebar.md': '/_sidebar.md',
       },
-      sidebarDisplayLevel: 3, // set sidebar display level
+      'flexible-alerts': {
+        note: {
+          label: "Notes"
+        },
+        tip: {
+          label: "Tips"
+        },
+        warning: {
+          label: "Notes"
+        },
+        attention: {
+          label: "Tips"
+        }
+      },
+      pagination: {
+        previousText: '上一章节',
+        nextText: '下一章节'
+      },
+      count: {
+        countable: true,
+        position: 'top',
+        margin: '10px',
+        float: 'right',
+        fontsize: '0.9em',
+        color: 'rgb(190,190,190)',
+        language: 'chinese',
+        localization: {
+          words: "",
+          minute: ""
+        },
+        isExpected: false
+      },
       search: {
         paths: 'auto',
         placeholder: ':)  搜索',
@@ -38,6 +74,11 @@
         // Headline depth, 1 - 6
         depth: 6,
         maxAge: 86400000, // 过期时间，单位毫秒，默认一天
+      },
+      autoFooter: {
+        name: "Velvet",
+        url: "https://github.com/Velvet0314/Docsify-Notebooks",
+
       },
       plugins: [
         function (hook) {
@@ -55,21 +96,31 @@
   <script src="//cdn.jsdelivr.net/npm/docsify@4.13.1"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/emoji.js"></script>
   <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/search.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/docsify/lib/plugins/ga.min.js"></script>
 
   <!-- Docsify-back2Top -->
   <script src="js/docsify-back2Top.js"></script>
   <script>
-      docsifyBackTop = {
-        size: 40,           	// 数值，组件大小，默认值32。
-        bottom: 15,         	// 数值，组件底部偏移距离，默认值15。
-        right: 15,          	// 数值，组件右侧偏移距离，默认值15。
-        logo: '<svg t="1714911366915" class="icon" viewBox="0 0 1824 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5703" width="200" height="200"><path d="M0 911.607042 911.607042 0l911.607042 911.607042-112.392958 112.392958L911.607042 224.901647 112.392958 1024 0 911.607042z" fill="#0091EA" p-id="5704"></path></svg>',
-        bgColor: ''
-      };
+    docsifyBackTop = {
+      size: 40,           	// 数值，组件大小，默认值32。
+      bottom: 15,         	// 数值，组件底部偏移距离，默认值15。
+      right: 15,          	// 数值，组件右侧偏移距离，默认值15。
+      logo: '<svg t="1714911366915" class="icon" viewBox="0 0 1824 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5703" width="200" height="200"><path d="M0 911.607042 911.607042 0l911.607042 911.607042-112.392958 112.392958L911.607042 224.901647 112.392958 1024 0 911.607042z" fill="#0091EA" p-id="5704"></path></svg>',
+      bgColor: ''
+    };
   </script>
+  <!-- Docsify-flexible-alerts-->
+  <script src="https://unpkg.com/docsify-plugin-flexible-alerts"></script>
+
   <!-- Docsify-sidebar-collapse -->
-  <script src="//cdn.jsdelivr.net/npm/docsify-sidebar-collapse/dist/docsify-sidebar-collapse.min.js"></script>
-  
+  <script src="js/sidebar-collapse.js"></script>
+
+  <!-- Docsify-pagination-->
+  <script src="js/pagination.js"></script>
+
+  <!-- Docsify-Count -->
+  <script src="https://cdn.jsdelivr.net/npm/docsify-count@latest/dist/countable.min.js"></script>
+
   <!-- Lightbox2 -->
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox-plus-jquery.js"></script>
   <script>
@@ -83,46 +134,46 @@
   </script>
 
   <!-- live2d -->
-   <!-- waifu-tips.js 依赖 JQuery 库 -->
-   <script src="live2d/assets/jquery.min.js"></script>
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
-   <!-- 实现拖动效果，需引入 JQuery UI -->
-   <script src="live2d/assets/jquery-ui.min.js"></script>
-   
-   <div class="waifu">
-       <div class="waifu-tips"></div>
-       <canvas id="live2d" class="live2d"></canvas>
-       <div class="waifu-tool">
-           <span class="fui-home"></span>
-           <span class="fui-chat"></span>
-           <span class="fui-eye"></span>
-           <span class="fui-user"></span>
-           <span class="fui-photo"></span>
-           <span class="fui-info-circle"></span>
-           <span class="fui-cross"></span>
-       </div>
-   </div>
-       
-   <script src="live2d/assets/waifu-tips.js"></script>
-   <script src="live2d/assets/live2d.js"></script>
-   <script type="text/javascript">
-       /* 可直接修改部分参数 */
-       live2d_settings['modelId'] = 1;                  // 默认模型 ID
-       live2d_settings['modelTexturesId'] = 0;         // 默认材质 ID
-       live2d_settings['modelStorage'] = false;         // 不储存模型 ID
-       live2d_settings['canCloseLive2d'] = true;       // 关闭看板娘 按钮
-       live2d_settings['canTurnToHomePage'] = false;    // 隐藏 返回首页 按钮
-       live2d_settings['waifuSize'] = '430x430';        // 看板娘大小
-       live2d_settings['waifuTipsSize'] = '500x130';    // 提示框大小
-       live2d_settings['waifuFontSize'] = '32px';       // 提示框字体
-       live2d_settings['waifuToolFont'] = '40px';       // 工具栏字体
-       live2d_settings['waifuToolLine'] = '60px';       // 工具栏行高
-       live2d_settings['waifuToolTop'] = '-90px';       // 工具栏顶部边距
-       live2d_settings['waifuDraggable'] = 'disable';    // 拖拽样式
-       /* 在 initModel 前添加 */
-       initModel("live2d/assets/waifu-tips.json")
-   </script>
-  
+  <!-- waifu-tips.js 依赖 JQuery 库 -->
+  <script src="live2d/assets/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+  <!-- 实现拖动效果，需引入 JQuery UI -->
+  <script src="live2d/assets/jquery-ui.min.js"></script>
+
+  <div class="waifu">
+    <div class="waifu-tips"></div>
+    <canvas id="live2d" class="live2d"></canvas>
+    <div class="waifu-tool">
+      <span class="fui-home"></span>
+      <span class="fui-chat"></span>
+      <span class="fui-eye"></span>
+      <span class="fui-user"></span>
+      <span class="fui-photo"></span>
+      <span class="fui-info-circle"></span>
+      <span class="fui-cross"></span>
+    </div>
+  </div>
+
+  <script src="live2d/assets/waifu-tips.js"></script>
+  <script src="live2d/assets/live2d.js"></script>
+  <script type="text/javascript">
+    /* 可直接修改部分参数 */
+    live2d_settings['modelId'] = 1;                  // 默认模型 ID
+    live2d_settings['modelTexturesId'] = 0;         // 默认材质 ID
+    live2d_settings['modelStorage'] = false;         // 不储存模型 ID
+    live2d_settings['canCloseLive2d'] = true;       // 关闭看板娘 按钮
+    live2d_settings['canTurnToHomePage'] = false;    // 隐藏 返回首页 按钮
+    live2d_settings['waifuSize'] = '430x430';        // 看板娘大小
+    live2d_settings['waifuTipsSize'] = '500x130';    // 提示框大小
+    live2d_settings['waifuFontSize'] = '32px';       // 提示框字体
+    live2d_settings['waifuToolFont'] = '40px';       // 工具栏字体
+    live2d_settings['waifuToolLine'] = '60px';       // 工具栏行高
+    live2d_settings['waifuToolTop'] = '-90px';       // 工具栏顶部边距
+    live2d_settings['waifuDraggable'] = 'disable';    // 拖拽样式
+    /* 在 initModel 前添加 */
+    initModel("live2d/assets/waifu-tips.json")
+  </script>
+
   <!-- MathJax -->
   <script>
     MathJax = {
@@ -134,8 +185,10 @@
       }
     };
   </script>
-  <script type="text/javascript" id="MathJax-script" 
-  async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
   <script src="js/dark-mode.js"></script>
 </body>
+
 </html>

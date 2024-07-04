@@ -100,7 +100,8 @@ $$
 
 如何最大化 $ L(\theta) $ 呢？还是与之前一样，采用 **梯度上升（gradient ascent）**，即更新策略为：$ \theta := \theta + \alpha \nabla_\theta \ell(\theta)\ $。
 
-!> 注意这里使用的是 **梯度上升**，因为我们这里是是在“**最大化**”一个函数，而非在梯度下降中“**最小化**”代价函数。
+> [!NOTE]
+> 注意这里使用的是 **梯度上升**，因为我们这里是是在“**最大化**”一个函数，而非在梯度下降中“**最小化**”代价函数。
 
 与 SGD 相似地，对于其中一个训练样本：
 
@@ -109,7 +110,7 @@ $$
 \begin{aligned}
 \quad \quad \quad \quad \quad \quad \quad \quad \frac{\partial}{\partial \theta_j} \ell(\theta) &\color{orange}{= \left( \frac{y}{g(\theta^T x)} - (1 - y) \frac{1}{1 - g(\theta^T x)} \right) \frac{\partial}{\partial \theta_j} g(\theta^T x)} \\
 &  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \color{red}{\rightarrow \text{求导的链式法则：} \frac{\partial}{\partial \theta_j} \ell(\theta) = \frac{\partial \ell(\theta)}{\partial h_\theta(x)} \cdot \frac{\partial h_\theta(x)}{\partial \theta_j}} \\
-&=  \left( \frac{y}{g(\theta^T x)} - (1 - y) \frac{1}{1 - g(\theta^T x)} \right) \color{blue}{g(\theta^T x) (1 - g(\theta^T x)) x_j} \\
+&=  \left( \frac{y}{g(\theta^T x)} - (1 - y) \frac{1}{1 - g(\theta^T x)} \right) \color{lightgreen}{g(\theta^T x) (1 - g(\theta^T x)) x_j} \\
 &  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \quad  \color{red}{\rightarrow \text{求导的链式法则：} \frac{\partial h_\theta(x)}{\partial \theta_j} = \frac{\partial g(\theta^T x)}{\partial (\theta^T x)} \cdot \frac{\partial (\theta^T x)}{\partial \theta_j}} \\
 &= (y (1 - g(\theta^T x)) - (1 - y) g(\theta^T x)) x_j \\[10pt]
 &= (y - h_\theta(x)) x_j

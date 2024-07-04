@@ -207,7 +207,7 @@ main.hidden {
   color: #2c3e50 !important; 
 }
 .anchor:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 .sidebar {
   border-right: 1px solid rgba(0,0,0,0.07);
@@ -350,13 +350,38 @@ body.sticky .sidebar-toggle {
   font-weight: bold;
   padding: 6px 13px;
 }
+
 .markdown-section td {
   border: 1px solid #ddd;
   padding: 6px 13px;
 }
+
 .markdown-section tr {
   border-top: 1px solid #ccc;
 }
+
+.markdown-section tr:nth-child(2n) {
+  background-color: #f8f8f8;
+}
+
+/* 浅色模式样式 */
+.light-mode .markdown-section th,
+.light-mode .markdown-section td {
+  background-color: white;
+  color: black;
+}
+
+/* 深色模式样式 */
+.dark-mode .markdown-section th,
+.dark-mode .markdown-section td {
+  background-color: #2f2f2f;
+  color: white;
+}
+
+.dark-mode .markdown-section tr:nth-child(2n) {
+  background-color: black; /* 更深的背景颜色用于斑马线 */
+}
+
 .markdown-section tr:nth-child(2n) {
   background-color: #f8f8f8;
 }
@@ -511,6 +536,9 @@ section.cover {
   width: 100vw;
   display: none;
 }
+section.cover.show + #theme-toggle {
+  display: none;
+}
 section.cover.show {
   display: flex;
 }
@@ -630,7 +658,7 @@ body {
   white-space: nowrap;
 }
 .sidebar ul li a:hover {
-  text-decoration: underline;
+  text-decoration: none;
 }
 .sidebar ul li ul {
   padding: 0;
@@ -887,11 +915,6 @@ code .token {
 }
 
 /* 额外添加的部分 */
-
 .math {
   font-size: 17.5px; /* 调整数学公式的大小 */
-}
-.blocks {
-  font-size: 16px; /* 调整块级元素的大小 */
-  color: #2c3e50; /* 调整块级元素的文本颜色 */
 }

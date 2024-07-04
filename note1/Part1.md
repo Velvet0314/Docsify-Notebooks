@@ -8,11 +8,13 @@
 
 关于机器学习，有着诸多的定义。但是其中 Tom Mitchell 于1998年提出的定义是最有趣的：
 
-> <span class="blocks">"A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E." - Tom Mitchell</span>
+> [!NOTE]
+> **"A computer program is said to learn from experience E with respect to some class of tasks T and performance measure P, if its performance at tasks in T, as measured by P, improves with experience E." - Tom Mitchell**
 
 如果翻译为中文是这样的：
 
-> <span class="blocks">"如果一个程序通过经验 E 在任务 T 的性能衡量 P 方面有所提高，那么就称该程序从经验 E 中学习。"</span>
+> [!NOTE]
+> **"如果一个程序通过经验 E 在任务 T 的性能衡量 P 方面有所提高，那么就称该程序从经验 E 中学习。"**
 
 简单地讲，机器学习就是通过数据（经验）来改进程序的性能。
 

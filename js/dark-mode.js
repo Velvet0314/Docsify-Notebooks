@@ -24,10 +24,16 @@ function addToggleButton() {
         localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
         button.innerHTML = isDarkMode ? getSunIcon() : getMoonIcon();
         updateStyles(isDarkMode);
-
     };
 
-    document.body.insertBefore(button, document.body.firstChild);
+    // 查找封面元素，然后在其后添加按钮
+    const coverElement = document.querySelector('.cover');
+    if (coverElement) {
+        coverElement.parentNode.insertBefore(button, coverElement.nextSibling);
+    } else {
+        // 如果没有找到封面元素，回退到在body的第一个子元素前添加
+        document.body.insertBefore(button, document.body.firstChild);
+    }
 }
 
 function getMoonIcon() {
@@ -46,8 +52,8 @@ function injectStyles() {
     const styles = `
         .theme-toggle {
             position: fixed;
-            top: 780px;
-            right: 13px;
+            top: 805px;
+            right: 1447px;
             background-color: transparent;
             border: none;
             cursor: pointer;
@@ -64,7 +70,7 @@ function injectStyles() {
             color: #333;  /* Light mode icon color */
         }
         .dark-mode .theme-toggle svg {
-            transform: translateX(2.25px);
+            transform: translateX(0.5px) translateY(1px);
             color: #fff;  /* Dark mode icon color */
         }
         /* 全局过渡效果定义 */
@@ -105,7 +111,6 @@ function injectStyles() {
     `;
 
     const styleSheet = document.createElement('style');
-    styleSheet.type = 'text/css';
     styleSheet.innerText = styles;
     document.head.appendChild(styleSheet);
 }

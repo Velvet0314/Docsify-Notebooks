@@ -41,9 +41,10 @@ $$
 </div>
 
 即：
+
 <div class="math">
 $$
-h\_{\theta}(x) = \big[\theta\_0,\ \theta\_1,\ ... ,\ \theta\_n\big] \left[\begin{matrix}x\_0\\\ x\_1\\\ ...\\\ x\_n\end{matrix}\right]= \theta^Tx
+h_{\theta}(x) = \big[\theta_0,\ \theta_1,\ ... ,\ \theta_n\big] \left[\begin{matrix}x_0\\\ x_1\\\ ...\\\ x_n\end{matrix}\right]= \theta^Tx
 $$
 </div>
 
@@ -61,9 +62,7 @@ $$
 
 由代价函数的定义我们可以得知：当 $h_\theta(x)$ 越接近 $y$ 时，代价函数的值越小，即模型训练的效果越好。
 
-
-
-### ⭐LMS Algorithm 
+### ⭐LMS Algorithm
 
 为了最小化代价函数以得到最优的模型，我们采用 **最速梯度下降 (Greadient Descent)** 算法来更新参数 $ \theta $：
 
@@ -372,8 +371,8 @@ proof:\ & \nabla_\theta J(\theta) = X^TX\theta - X^T\vec{y} \\
 & \begin{aligned}[t]
     \nabla_\theta J(\theta) &= \nabla_{\theta} \frac{1}{2} (X\theta - y)^T (X\theta - y) \\[5pt]
     &= \frac{1}{2} \nabla_{\theta} (\theta^T X^T X \theta - \theta^T X^T y - y^T X \theta + y^T y)\ \color{red}{\rightarrow矩阵转置的展开} \\[5pt]
-    &= \frac{1}{2} \nabla_{\theta} \mathrm{tr} (\theta^T X^T X \theta {\color{blue}- \theta^T X^T y - y^T X \theta} + y^T y)\  \color{red}{\rightarrow J(\theta)是一个实数，有:\mathrm{tr}J = J} \\[5pt]
-    &= \frac{1}{2} \nabla_{\theta} ({\color{green}\mathrm{tr} \theta^T X^T X \theta} {\color{green}- 2\vec{y}^TX\theta}) \ \color{red}{\rightarrow \mathrm{tr}A^T = \mathrm{tr}A} 与 迹的循环不变性 \\[5pt]
+    &= \frac{1}{2} \nabla_{\theta} \mathrm{tr} (\theta^T X^T X \theta {\color{orange}- \theta^T X^T y - y^T X \theta} + y^T y)\  \color{red}{\rightarrow J(\theta)是一个实数，有:\mathrm{tr}J = J} \\[5pt]
+    &= \frac{1}{2} \nabla_{\theta} ({\color{lightgreen}\mathrm{tr} \theta^T X^T X \theta} {\color{lightgreen}- 2\vec{y}^TX\theta}) \ \color{red}{\rightarrow \mathrm{tr}A^T = \mathrm{tr}A} 与 迹的循环不变性 \\[5pt]
     With\ Equation (4):\\
 & \nabla_\theta \mathrm{tr} \theta^T X^T X \theta = X^TX\theta + X^TX\theta \\[5pt]
      With\ Equation (1):\\
@@ -426,7 +425,8 @@ $$
 
 也就是说，在给定的参数 $\theta $ 下，确定了一个输入值 $ x^{(i)} $，得到对应的 $ y^{(i)} $ 的概率。
 
-!> <span class="blocks">**这里解释一下为什么公式没有写为 $ p(y^{(i)} | x^{(i)}, \theta) $ ：因为 $ \theta $ 并非一个随机变量**</span>
+> [!TIP]
+> **这里解释一下为什么公式没有写为 $ p(y^{(i)} | x^{(i)}, \theta) $ ：因为 $ \theta $ 并非一个随机变量**
 
 在矩阵形式下，我们可以将概率写为：
 
@@ -446,6 +446,7 @@ $$
 
 这个函数被称为 **似然函数（likelihood function）**。
 
+> [!NOTE]
 > **⭐极大似然估计（maximum likelihood estimation）：** <br>
 > **若总体 $ X $ 为离散型，$ \theta \in \Theta $，其中 $ \theta $ 为为待估参数，$ \Theta $ 是 $ \theta $ 可能取值范围。设 $ X_1,X_2,...,X_n $ 是来自 $ X $ 的样本，则其联合分布律为 $$ \prod_{i=1}^n p(x_{i}; \theta) $$** <br>
 > **又设 $ x_1,x_2,...,x_n $ 是相应于样本 $ X_1,X_2,...,X_n $ 的一个样本值，则样本 $ X_1,X_2,...,X_n $ 取到观察值 $ x_1,x_2,...,x_n $ 的概率，即事件 $ \\{ X_1=x_1,X_2=x_2,...,X_n =x_n\\} $ 发生的概率为**
