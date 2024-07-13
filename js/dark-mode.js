@@ -92,6 +92,9 @@ function injectStyles() {
         .dark-mode .sidebar-toggle {
             background-color: #171717; /* 深色切换按钮背景 */
         }
+        body.dark-mode.close .sidebar-toggle {
+            background-color: #212121;  /* 暗模式下关闭状态的深色背景 */
+        }
         /* 浅色模式样式，确保切换回浅色模式时也有过渡效果 */
         .light-mode {
             background-color: #fff; /* 浅色背景 */
@@ -115,11 +118,4 @@ function injectStyles() {
     document.head.appendChild(styleSheet);
 }
 
-function updateStyles(isDarkMode) {
-    // Optionally apply other dynamic styles or classes
-    if (isDarkMode) {
-        // Additional dark mode style changes
-    } else {
-        // Revert to light mode styles
-    }
-}
+
