@@ -571,6 +571,14 @@ d^* \leq p^*
 $$
 </div>
 
+下面是弱对偶的示意图：
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/07/15/pk5oLyn.png" data-lightbox="image-6" data-title="weak duality">
+  <img src="https://s21.ax1x.com/2024/07/15/pk5oLyn.png" alt="weak duality" style="width:100%;max-width:500px;cursor:pointer">
+ </a>
+</div>
+
 即便原问题不是凸问题，上述不等式也成立，这就是 **弱对偶性（Weak Duality）**。这种性质即使是 $d^*, p^*$为 无穷也成立:
 
 - 如果 $p^* = -\infty$，则 $d^* = -\infty$
@@ -582,6 +590,14 @@ $$
 
 当 $ d^* = p^*$ 时，称为 **强对偶性（Strong Duality）**。
 
+下面是强对偶的示意图：
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/07/15/pk5TPSJ.png" data-lightbox="image-6" data-title="strong duality">
+  <img src="https://s21.ax1x.com/2024/07/15/pk5TPSJ.png" alt="strong duality" style="width:100%;max-width:500px;cursor:pointer">
+ </a>
+</div>
+
 显然，强对偶需要满足一定的限制条件。
 
 #### KKT 条件
@@ -591,11 +607,11 @@ $$
 <div class="math">
 $$
 \begin{align*}
-\frac{\partial}{\partial w_i} \mathcal{L}(w^*, \alpha^*, \beta^*) &= 0, \quad i = 1, \ldots, n \quad (3) \\[5pt]
-\frac{\partial}{\partial \beta_i} \mathcal{L}(w^*, \alpha^*, \beta^*) &= 0, \quad i = 1, \ldots, l \quad (4) \\[5pt]
-\alpha_i^* g_i(w^*) &= 0, \quad i = 1, \ldots, k \quad (5) \\[5pt]
-g_i(w^*) &\leq 0, \quad i = 1, \ldots, k \quad (6) \\[5pt]
-\alpha_i^* &\geq 0, \quad i = 1, \ldots, k \quad (7)
+\frac{\partial}{\partial w_i} \mathcal{L}(w^*, \alpha^*, \beta^*) &= 0, \quad i = 1, \ldots, n \quad \tag{3} \\[5pt]
+\frac{\partial}{\partial \beta_i} \mathcal{L}(w^*, \alpha^*, \beta^*) &= 0, \quad i = 1, \ldots, l \quad \tag{4} \\[5pt]
+\alpha_i^* g_i(w^*) &= 0, \quad i = 1, \ldots, k \quad \tag{5} \\[5pt]
+g_i(w^*) &\leq 0, \quad i = 1, \ldots, k \quad \tag{6} \\[5pt]
+\alpha_i^* &\geq 0, \quad i = 1, \ldots, k \quad \tag{7}
 \end{align*}
 $$
 </div>
@@ -606,7 +622,287 @@ $$
 
 ### 最优边界决策器
 
+在先前的讨论中，我们希望能够找到一个决策边界，这个（几何）边界需要尽可能的大——越大的边界意味着越高的置信度。更形象一些，（几何）边界会像一个巨大的鸿沟，将正负样本分隔在边界的两侧。
+
+现在，我们假设训练集中的样例都是线性可分的——表示为这些样本可由某些超平面来分隔开。为找出最大的（几何）边界，我们给出如下的表示：
+
+<div class="math">
+$$
+\begin{aligned}
+\max&_{\gamma,w,b}\  \gamma \\[5pt]
+\text{s.t.}& \quad \quad y^{(i)}(w^T x^{(i)}+b) \geq \gamma,\quad i = 1,2,...,m \\[5pt]
+&\quad \quad ||w||=1
+\end{aligned}
+$$
+</div>
+
+在上述条件中，通过 $ ||w|| = 1 $ 使得函数边界等于几何边界，从而将两者联系起来。同时，保证了几何边界的最小值是 $\gamma$。解决上述问题将得到 $ (w, b) $ 相对于训练集 $ S $ 的最大几何边界。
+
+但是，$ ||w|| = 1 $ 是一个非凸约束，不容易直接解出上述问题。所以，考虑将问题转化为另一个形式：
+
+<div class="math">
+$$
+\begin{aligned}
+\max&_{\hat{\gamma},w,b}\ \ \frac{\hat{\gamma} }{||w||}\\[5pt]
+\text{s.t.}& \quad \quad \ y^{(i)}(w^T x^{(i)}+b) \geq \hat{\gamma},\quad i = 1,2,...,m
+\end{aligned}
+$$
+</div>
+
+很不幸，$\displaystyle{\frac{\hat{\gamma} }{||w||}}$ 仍然是非凸的。继续将问题进行转化。
+
+在之前的对于边界的讨论中，我们提到函数边界可以随 $ (w, b) $ 进行任意的放缩。于是，在这里我们规定，$ (w, b) $ 相对于 $ S $ 的函数边界为 1 ：
+
+<div class="math">
+$$
+\hat{\gamma} = 1
+$$
+</div>
+
+在这样规定后，问题被等价转化为了：
+
+<div class="math">
+$$
+\begin{aligned}
+\min&_{\gamma,w,b}\ \ \frac{1}{2}||w||^2\\[5pt]
+\text{s.t.}& \quad \quad \ y^{(i)}(w^T x^{(i)}+b) \geq 1,\quad i = 1,2,...,m
+\end{aligned}
+$$
+</div>
+
+显然，$\displaystyle{\frac{1}{2}||w||^2}$ 是一个带有凸二次目标函数和线性约束的优化问题。它的解给我们提供了最优边界分决策器。这种优化问题可以使用常见的 **二次规划（quadratic programming）** 算法来解决。
+
+在基本了解了最优边界决策器后，我们将通过我们之前了解到的拉格朗日对偶来进一步深入。
+
+将约束转化为：
+
+<div class="math">
+$$
+g_i(w) = -y^{(i)}(w^T x^{(i)}+b) + 1 \leq 0
+$$
+</div>
+
+由 KKT 条件的等式$(5)$与等式$(7)$得：
+
+拉格朗日算子 $ \alpha_i \geq 0 $ 。若要使 $ \alpha_i \cdot g_i(w) = 0 $，则有 $ \alpha_i = 0 $ 或 $ g_i(w) = 0 $。
+
+当 $ \alpha_i > 0 $ 时，且仅当 $ g_i(w) = 0 $ 满足条件。即 $ -y^{(i)}(w^T x^{(i)}+b) + 1 = 0$。自然得到：$y^{(i)}(w^T x^{(i)}+b) = 1$，即 $ \hat{\gamma} = 1$。满足上述条件的样本点，一定是距离决策边界最近的，如下图所示：
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/07/15/pk5H1dP.png" data-lightbox="image-6" data-title="support vectors">
+  <img src="https://s21.ax1x.com/2024/07/15/pk5H1dP.png" alt="support vectors" style="width:100%;max-width:400px;cursor:pointer">
+ </a>
+</div>
+
+这些在虚线上，距离决策边界最近的点被称为 **支持向量（support vector）**。支持向量的特性是函数边界 $ \hat{\gamma} = 1$ 且其拉格朗日算子 $ \alpha_i > 0 $。
+
+当 $ \alpha_i = 0 $，此时单独考虑 $ g_i(w) = -y^{(i)}(w^T x^{(i)}+b) + 1 < 0 $。对其进行等价转换得 $ g_i(w) = y^{(i)}(w^T x^{(i)}+b) > 1 $。表示这些点未越过由支持向量构成得决策平面，它们被正确地分类。
+
+接下来我们对上述优化问题的对偶问题进行讨论。
+
+当我们尝试利用拉格朗日对偶来解决此问题时，其中一个关键的点在于只用输入特征的内积  $ \langle x^{(i)}, x^{(j)} \rangle $ 来表示算法。
+
+> [!NOTE]
+> **$ \langle x^{(i)}, x^{(j)} \rangle $** 等价于 **$ (x^{(i)})^T x^{(j)} $。**
+
+当我们为我们的对偶优化问题构建拉格朗日函数时，我们有：
+
+<div class="math">
+$$
+\begin{align*}
+\mathcal{L}(w, b, \alpha) = \frac{1}{2} \|w\|^2 - \sum_{i=1}^m \alpha_i [y^{(i)}(w^T x^{(i)} + b) - 1] \tag{8}
+\end{align*}
+$$
+</div>
+注意这里只有 $\alpha_i$，而没有 $\beta_i$。表明拉格朗日乘子只有不等式约束。
+
+接下来，需要找到问题的对偶形式。为此，我们首先需要对 $w$ 和 $b$（对于固定的 $\alpha$）求导并令其等于零以最小化 $\mathcal{L}(w, b, \alpha)$，进而得到 $θ_\mathcal{D}$。于是，我们有：
+
+<div class="math">
+$$
+\nabla_w L(w, b, \alpha) = w - \sum_{i=1}^m \alpha_i y^{(i)} x^{(i)} = 0
+$$
+</div>
+
+这意味着：
+
+<div class="math">
+$$
+\begin{align*}
+w = \sum_{i=1}^m \alpha_i y^{(i)} x^{(i)} \tag{9}
+\end{align*}
+$$
+</div>
+
+其对于 $b$ 的导数为：
+
+<div class="math">
+$$
+\frac{\partial}{\partial b} L(w, b, \alpha) = \sum_{i=1}^m \alpha_i y^{(i)} = 0 \tag{10}
+$$
+</div>
+
+如果取 $w$ 在方程$(9)$中的定义并将其重新代入拉格朗日方程（方程$(8)$），并化简，会得到：
+
+<div class="math">
+$$
+L(w, b, \alpha) = \sum_{i=1}^m \alpha_i - \frac{1}{2} \sum_{i,j=1}^m y^{(i)} y^{(j)} \alpha_i \alpha_j x^{(i)T} x^{(j)} - b \sum_{i=1}^m \alpha_i y^{(i)}
+$$
+</div>
+
+又根据方程（10），得到最后一项必须为零，因此有：
+
+<div class="math">
+$$
+L(w, b, \alpha) = \sum_{i=1}^m \alpha_i - \frac{1}{2} \sum_{i,j=1}^m y^{(i)} y^{(j)} \alpha_i \alpha_j (x^{(i)})^T x^{(j)}
+$$
+</div>
+
+由于我们是通过最小化 $ \mathcal{L}$ 相对于 $w$ 和 $b$ 的函数得到上述方程的，并且一直有 $\alpha_i \geq 0 $ 的约束和方程$(10)$。于是，我们得到以下对偶优化问题：
+
+<div class="math">
+$$
+\begin{aligned}
+\text{max}_\alpha \quad &W(\alpha) = \sum_{i=1}^m \alpha_i - \frac{1}{2} \sum_{i,j=1}^m y^{(i)} y^{(j)} \alpha_i \alpha_j \langle x^{(i)}, x^{(j)} \rangle \\[5pt]
+\text{s.t.}\quad &\alpha_i ≥ 0, i = 1, \ldots, m \\[5pt]
+&\sum_{i=1}^m \alpha_i y^{(i)} = 0
+\end{aligned}
+$$
+</div>
+
+您也应该能够验证 $p^* = d^*$ 和 KKT 条件（方程 3-7）确实适用于我们的优化问题。因此，我们可以解决对偶问题而不是原始问题。具体来说，在上述的对偶问题中，我们有一个最大化问题，其参数是 $\alpha_i$。我们稍后再谈这个问题。
+
+关于我们将用于解决对偶问题的特定算法的讨论可以留到后面，但如果我们确实能解决它（即，找到最大化 $W(\alpha)$ 的 $\alpha$ 值，并满足约束条件，那么我们可以使用方程$(9)$回去找到 $\alpha$ 的函数作为最优 $w$ 的解。找到 $w^*$ 后，通过考虑原始问题，找到截距项 $b$ 的最优值也很直接。具体而言，截距项 $b$ 可以表示为：
+
+<div class="math">
+$$
+b^* = -\frac{\max_{y^{(i)}=1} w^{*T}x^{(i)} + \min_{y^{(i)}=-1} w^{*T}x^{(i)}}{2} \tag{11}
+$$
+</div>
+
+在继续之前，让我们也仔细看看方程$(9)$，它给出了最优 $w$ 的值，即 $\alpha$ 的最优值的函数。假设我们已经将我们模型的参数适配到一个训练集上，现在希望对一个新的输入点 $x$ 进行预测。我们将计算 $w^T x + b$ 并且只有当这个量大于零时，才预测 $y = 1$。但是使用方程$(9)$，这个量也可以写成：
+
+<div class="math">
+$$
+\begin{align*}
+w^T x + b = \left( \sum_{i=1}^m \alpha_i y^{(i)} x^{(i)} \right)^T x + b \tag{12} \\[5pt]
+= \sum_{i=1}^m \alpha_i y^{(i)} \left( x^{(i)} \right)^T x + b \tag{13}
+\end{align*}
+$$
+</div>
+
+因此，如果我们找到了 $\alpha_i$，为了做出预测，我们需要计算一个只依赖于 $x$ 和所有训练集数据点之间内积的量。我们之前已经看到 $\alpha_i$ 将全部为零，除了支持向量。因此，许多在总和上述的项将为零，而我们真正需要考虑的只是内积在 $x$ 和支持向量之间的（通常只有少数几个）来计算$(13)$并做出我们的预测。
+
+通过检查问题的对偶形式，我们获得了问题结构的重要见解，并且还能够完全用内积项将整个算法表达出来，仅应用到特征向量。在下一节中，我们将利用这个属性应用内核技巧到我们的分类问题中。结果算法，支持向量机，将能够在非常高维的空间中有效学习。
+
 ### 核 Kernel
+
+在之前关于线性回归的讨论中，我们遇到了一个问题，其中输入 $ x $ 代表了房屋的居住面积，我们考虑执行回归分析。使用特征 $ x, x^2 $ 和 $ x^3 $ 来获得一个三次函数。为了区分这两组变量，我们将原始输入值称为问题的输入属性（在这个例子中，$ x $，即居住面积）。当这些属性映射到一些新的量，然后传递给学习算法时，我们将这些新的量称为输入特征。不同的作者使用不同的术语来描述这两种事物，但我们会尝试在这些笔记中一致使用这些术语。我们还将让 $ \phi $ 表示特征映射，它将属性映射到特征。例如，在我们的例子中，我们有：
+
+<div class="math">
+$$
+\phi(x) = \begin{bmatrix} x \\ x^2 \\ x^3 \end{bmatrix}
+$$
+</div>
+
+而不是使用 SVM 的原始输入属性 $ x $ 应用学习算法，我们可能想要使用一些特征 $ \phi(x) $ 来学习。为此，我们只需回顾之前的算法，并用 $ \phi(x) $ 替换其中的 $ x $。因为算法完全可以用内积的形式编写，这意味着我们将用 $ \phi(x), \phi(z) $ 替换所有这些内积。具体来说，给定一个特征映射 $ \phi $，我们定义相应的核为：
+
+<div class="math">
+$$
+K(x, z) = \phi(x)^\top \phi(z)
+$$
+</div>
+
+然后，在我们之前算法中使用的任何地方都用 $ K(x, z) $ 替换 $ x, z $，现在我们的算法将使用特征 $ \phi $ 学习。现在，给定 $ \phi $，我们可以通过找到 $ \phi(x) $ 和 $ \phi(z) $ 并取它们的内积来轻松计算 $ K(x, z) $。但更有趣的是，尽管 $ \phi(x) $ 本身可能计算成本很高，$ K(x, z) $ 的计算通常很便宜。在这种情况下，通过在算法中使用一个有效的方式来计算 $ K(x, z) $，我们可以让 SVM 在由 $ \phi $ 给定的高维特征空间中学习，而不需要显式地找到或表示向量 $ \phi(x) $。
+
+这是一个例子。假设 $ x, z \in \mathbb{R}^n $，并考虑
+
+<div class="math">
+$$
+K(x, z) = (x^\top z)^2
+$$
+</div>
+
+我们还可以将其写成以下形式：
+
+<div class="math">
+$$
+K(x, z) = \left(\sum_{i=1}^n x_iz_i\right)^2 = \sum_{i=1}^n \sum_{j=1}^n x_iz_ix_jz_j = \sum_{i,j=1}^n (x_ix_j)(z_iz_j)
+$$
+</div>
+
+因此，我们看到 $ K(x, z) $ 等于 $ \phi(x)^\top \phi(z) $，其中特征映射 $ \phi $ 给出如下（这里展示的是 $ n = 3 $ 的情况）：
+
+<div class="math">
+$$
+\phi(x) = \begin{bmatrix}
+x_1x_1 \\
+x_1x_2 \\
+x_1x_3 \\
+x_2x_1 \\
+x_2x_2 \\
+x_2x_3 \\
+x_3x_1 \\
+x_3x_2 \\
+x_3x_3
+\end{bmatrix}
+$$
+</div>
+
+请注意，尽管计算高维度的 $ \phi(x) $ 需要 $ O(n^2) $ 时间，但找到 $ K(x, z) $ 只需要 $ O(n) $ 时间——线性于输入属性的维度。
+
+考虑相关的核，请也考虑以下形式：
+
+<div class="math">
+$$
+K(x, z) = (x^\top z + c)^2 = \sum_{i=1}^n (x_iz_i)(z_ix_i) + \sum_{i=1}^n \sqrt{2cx_i} \sqrt{2cz_i} + c^2
+$$
+</div>
+
+（请自行验证。）这对应于特征映射（再次展示如下）：
+
+<div class="math">
+$$
+\phi(x) = \begin{bmatrix}
+x_1x_1 \\
+x_1x_2 \\
+\vdots \\
+x_nx_n \\
+\sqrt{2cx_1} \\
+\vdots \\
+\sqrt{2cx_n} \\
+c
+\end{bmatrix}
+$$
+</div>
+
+参数 $ c $ 控制了 $ x_i $（一阶项）和 $ x_ix_j $（二阶项）之间的相对权重。更广泛地说，核 $ K(x, z) = (x^\top z + c)^d $ 对应于一个特征映射到一个 $ n^d $ 维特征空间，涵盖了所有的 $ x_i, x_i \cdot x_j $ 等到 $ d $ 阶的单项式。然而，尽管在这个 $ n^d $-维空间中操作，计算 $ K(x, z) $ 仍然只需要 $ O(n^2) $ 时间，因为我们不需要显式地表示这个非常高维的特征向量。
+
+现在，让我们从一个稍微不同的角度来考虑核的概念。直观上，如果 $ \phi(x) $ 和 $ \phi(z) $ 非常接近，则 $ K(x, z) = \phi(x)^\top \phi(z) $ 应该很大。相反，如果 $ \phi(x) $ 和 $ \phi(z) $ 非常远离——比如几乎正交——那么 $ K(x, z) $ 将会很小。因此，我们可以将 $ K(x, z) $ 看作是 $ \phi(x) $ 和 $ \phi(z) $ 的相似度或者接近度的量度。
+
+给定这种直觉，假设你正在处理某个学习问题，并且你想到了一个你认为可能是 $ x $ 和 $ z $ 相似度的合理度量的函数 $ K(x, z) $，比如你选择：
+
+<div class="math">
+$$
+K(x, z) = \exp\left(-\frac{\|x-z\|^2}{2\sigma^2}\right)
+$$
+</div>
+
+这是一个衡量 $ x $ 和 $ z $ 相似度的合理度量，当 $ x $ 和 $ z $ 接近时接近 1，当 $ x $ 和 $ z $ 远离时接近 0。我们可以使用这个定义作为核，答案是肯定的。这个核被称为高斯核，在某些文献中，也被称为径向基函数（RBF）核。
+
+要到达一个无限维的特征映射 $ \phi $。但更广泛地说，给定某些函数 $ K $，我们如何确定它是否是一个有效的核，即我们是否可以找到某种特征映射 $ \phi $ 使得 $ K(x, z) = \phi(x)^\top \phi(z) $ 对所有的 $ x, z $ 成立？假设现在 $ K $ 确实是一个有效的核，对应某个特征映射 $ \phi $。现在，考虑一组有限的 $ m $ 个点的集合（不一定是训练集）{ $ x_1, ..., x_m $ }，并且定义一个 $ m \times m $ 的矩阵 $ K $ ，其 $ (i, j) $-项由 $ K_{ij} = K(x_i, x_j) $ 给出。这个矩阵被称为核矩阵。注意，我们重载了符号 $ K $ 来表示核函数 $ K(x, z) $ 和核矩阵 $ K $，它们显然是密切相关的。
+
+如果 $ K $ 是一个有效的核，那么 $ K_{ij} = K(x_i, x_j) = \phi(x_i)^\top \phi(x_j) = \phi(x_j)^\top \phi(x_i) = K_{ji} $，因此 $ K $ 必须是对称的。此外，如果让 $ \phi_k(x) $ 表示向量 $ \phi(x) $ 的第 $ k $ 个坐标，我们发现对于任何向量 $ z $，我们有：
+
+<div class="math">
+$$
+z^\top Kz = \sum_i \sum_j z_iK_{ij}z_j = \sum_i \sum_j z_i\phi(x_i)^\top \phi(x_j)z_j = \sum_k (\sum_i z_i\phi_k(x_i))^2 \geq 0
+$$
+</div>
+
+上述倒数第二步使用了之前问题集中的同一个技巧。由于 $ z $ 是任意的，这表明 $ K $ 是半正定的。
+
+因此，如果 $ K $ 是一个有效的核（即它对应于某个特征映射 $ \phi $），那么相应的核矩阵 $ K $ 是对称正定的。更一般地说，这不仅是 $ K $ 是有效核的必要条件，也是充分条件（也称为 Mercer 核）。Mercer 定理给出了这一结果，对于 $ K $ 是有效的 Mercer 核，它是必要且充分的条件，即对于任何 { $ x_1, ..., x_m $ }，$ m < \infty $，相应的核矩阵 $ K $ 是对称正定的。
 
 ### 正则化
 

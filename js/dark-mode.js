@@ -52,8 +52,8 @@ function injectStyles() {
     const styles = `
         .theme-toggle {
             position: fixed;
-            top: 805px;
-            right: 1447px;
+            top: 91.5%;
+            right: 97.25%;
             background-color: transparent;
             border: none;
             cursor: pointer;
