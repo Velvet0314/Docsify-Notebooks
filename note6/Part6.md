@@ -946,4 +946,62 @@ $$
 
 ### 正则化
 
+到目前为止，有关 SVM 的推导，都是在假设数据是线性可分的前提下进行的。虽然通过 $\phi$ 将数据映射到高维特征空间可以增加数据可分的可能性，我们不能保证总是可以通过维度提升来解决这个问题。此外，在某些情况下，由于某些离群数据，我们也无法明确找到一个完全令人满意的分隔超平面。例如，下面显示了一个决策边界，当添加一个离群值时，它导致决策边界发生剧烈转变，使得其显著缩小。
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/08/09/pASSCCR.png" data-lightbox="image-6" data-title="outlier">
+  <img src="https://s21.ax1x.com/2024/08/09/pASSCCR.png" alt="outlier" style="width:100%;max-width:800px;cursor:pointer">
+ </a>
+</div>
+
+为了让算法同样适用于非线性可分数据集并且对离群值不过于敏感，这里重新描述我们的优化问题（使用 $ \mathcal{l}_1 $ **正则化（regularization）**）如下：
+
+<div class="math">
+$$
+\begin{aligned}
+\min&_{w,b,\xi}\quad \frac{1}{2}\|w\|^2 + C \sum_{i=1}^m \xi_i \\[5pt]
+&\text{s.t. }\quad y^{(i)}(w^T x^{(i)} + b) \geq 1 - \xi_i , \ i = 1, \ldots, m \\[5pt]
+&\quad\quad\ \  \xi_i \geq 0, \ i = 1, \ldots, m
+\end{aligned}
+$$
+</div>
+
+借由正则化后，现在样本被允许有小于 1 的（函数）边界，如果一个样本的函数边界为 $ 1 - \xi_i$（$\xi_i \geq 0$），我们将为目标函数增加 $C\xi_i$ 的额外代价。$C$ 是惩罚系数。如果 $y^{(i)}(w^T x^{(i)} + b) < 1 - \xi_i$，则损失增加 $\xi_i$，这是乘以常数 $C$，并且加到目标函数中，这就允许一些样本点距离间隔的边界有一定的违背程度，从而使模型能更好地泛化。
+
+如前所述，重写广义拉格朗日函数：
+
+<div class="math">
+$$
+L(w,b,\xi,\alpha,r) = \frac{1}{2}w^Tw + C \sum_{i=1}^m \xi_i - \sum_{i=1}^m \alpha_i [y^{(i)}(w^T\phi(x^{(i)})+b) - 1 + \xi_i] - \sum_{i=1}^m r_i\xi_i
+$$
+</div>
+
+这里，$\alpha_i$ 和 $r_i$ 是我们的拉格朗日乘子（限制为 $\geq 0$）。将 $w$ 和 $b$ 的导数设置为零后，代回并简化，我们得到了如下的对偶形式问题：
+
+<div class="math">
+$$
+\begin{aligned}
+\text{max}_\alpha \quad &W(\alpha) = \sum_{i=1}^m \alpha_i - \frac{1}{2} \sum_{i,j=1}^m y^{(i)}y^{(j)}\alpha_i\alpha_j\langle x^{(i)}, x^{(j)} \rangle \\[5pt]
+\text{s.t. }\quad &0 \leq \alpha_i \leq C, \ i = 1, \ldots, m \\[5pt]
+&\sum_{i=1}^m \alpha_i y^{(i)} = 0
+\end{aligned}
+$$
+</div>
+
+类似地，如方程(9)，我们可以将 $w$ 利用 $\alpha_i$ 来表示，从而在解决对偶问题后，我们可以继续使用方程(13)进行预测。注意，在添加 $ \mathcal{l}_1 $ 正则化后，对偶问题唯一的变化是：原来的约束 $0 \leq \alpha_i$ 现在变成了 $0 \leq \alpha_i \leq C$；同时，对 $b$ 的计算也必须修改（方程(11)现在不再有效）。
+
+之前所给出的 KKT 对偶互补条件，也是相应转变为：
+
+<div class="math">
+$$
+\begin{align*}
+\alpha_i = 0 \quad &\Rightarrow \quad y^{(i)}(w^T\phi(x^{(i)})+b) \geq 1 \tag{14} \\[5pt]
+\alpha_i = C \quad &\Rightarrow \quad y^{(i)}(w^T\phi(x^{(i)})+b) \leq 1 \tag{15} \\[5pt]
+0 < \alpha_i < C \quad &\Rightarrow \quad y^{(i)}(w^T\phi(x^{(i)})+b) = 1 \tag{16}
+\end{align*}
+$$
+</div>
+
+现在，我们只需要提供一个解决对偶问题的算法，在下一节中进行详解。
+
 ### SMO 算法
