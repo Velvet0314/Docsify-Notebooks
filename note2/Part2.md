@@ -117,13 +117,13 @@ $$
 其算法描述为：
 
 <div class="math">
-$
+$$
 \begin{align}
 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ &\mathrm{Repeat\ Until\ Convergence}\ \{ \\[5pt]
 &\ \ \ \ \ \ \ \theta_j := \theta_j + \alpha\sum\nolimits_{i=1}^{m}(y^{(i)} - h_\theta(x^{(i)}))x_j^{(i)}\ \ \ \ \ \ \ (\mathrm{for\ every\ } j). \\[5pt]
 &\}
 \end{align}
-$
+$$
 </div>
 
 #### 随机梯度下降
@@ -133,7 +133,7 @@ $
 其算法描述为：
 
 <div class="math">
-$
+$$
 \begin{align}
 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ &\mathrm{Loop}\ \{ \\[5pt]
 &\ \ \ \ \ \ \mathrm{for}\ i = 1\ \mathrm{to}\ m, \{ \\[5pt]
@@ -141,7 +141,7 @@ $
 &\ \ \ \ \ \ \} \\
 &\}
 \end{align}
-$
+$$
 </div>
 
 #### ⭐小结：LMS

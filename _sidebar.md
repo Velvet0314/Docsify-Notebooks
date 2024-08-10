@@ -77,3 +77,5 @@
   * [核 Kernel](note6/Part6.md?id=核-Kernel)
   * [正则化](note6/Part6.md?id=正则化)
   * [SMO 算法](note6/Part6.md?id=SMO-算法)
+    * [坐标上升](note6/Part6.md?id=坐标上升)
+    * [SMO 详解](note6/Part6.md?id=SMO-详解)
