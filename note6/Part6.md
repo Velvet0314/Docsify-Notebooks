@@ -1005,7 +1005,7 @@ $$
 
 ### SMO 算法
 
-**SMO 算法 （sequential minimal optimization）**，即序列最小化优化算法。在1998年由John Platt提出，是一种用于解决支持向量机训练期间出现的二次规划问题的算法。再进一步学习 SMO 前，我们需要先了解一下坐标上升优化算法。
+**SMO 算法 （sequential minimal optimization）**，即序列最小化优化算法。在1998年由 John Platt 提出，是一种用于解决支持向量机训练期间出现的二次规划问题的算法。再进一步学习 SMO 前，我们需要先了解一下坐标上升优化算法。
 
 #### 坐标上升
 
@@ -1019,14 +1019,14 @@ $$
 $$
 </div>
 
-这里，我们将 $W$ 视为参数 $\alpha_i$ 的某个函数，先暂时忽略这个问题和 SVM 之间的关系。之前我们已经学习过两种优化算法：梯度上升与牛顿法。这里将要学习的新算法称为 **坐标上升（coordinate ascent）**：
+这里，我们将 $W$ 视为参数 $\alpha_i$ 的某个函数，先暂时忽略这个问题和 SVM 之间的关系。之前我们已经学习过两种优化算法：梯度上升与牛顿法。这里将要学习的新算法称为 **坐标上升（coordinate ascent）**，具体如下：
 
 <div class="math">
 $$
 \begin{align*}
 \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ \ &\mathrm{Loop\ until\ convergence:}\ \{ \\[5pt]
 &\ \ \ \ \ \ \mathrm{for}\ i = 1, \cdots,m,\ \{ \\[5pt]
-&\ \ \ \ \ \ \ \ \ \ \ \ \alpha_i = \arg\text{max}_{\alpha_i}\ W(\alpha_1, \dots, \alpha_{i-1}, \alpha_i, \alpha_{i+1}, \dots, \alpha_m)\\
+&\ \ \ \ \ \ \ \ \ \ \ \ \alpha_i = \arg\text{max}_{\hat{\alpha_i}}\ W(\alpha_1, \dots, \alpha_{i-1}, \hat{\alpha_i}, \alpha_{i+1}, \dots, \alpha_m)\\
 &\ \ \ \ \ \ \} \\
 &\}
 \end{align*}
@@ -1049,7 +1049,7 @@ $$
 
 #### SMO 详解
 
-我们通过讨论SMO算法的推导来结束对SVM的讨论。一些细节将留作家庭作业，而其他的可能需要在课堂上用到更复杂的例子来解释。这里是（对偶）优化问题，我们想要解决的：
+基于前面的讲解，我们得到新的（对偶）优化问题如下：
 
 <div class="math">
 $$
@@ -1061,7 +1061,7 @@ $$
 $$
 </div>
 
-假设我们已经设置了满足约束条件（18-19）的一组 $\alpha_i$ 。现在，假设我们想固定$\alpha_2, \ldots, \alpha_m$，并对目标函数关于$\alpha_1$进行坐标上升步骤来重新优化。我们能取得任何进展吗？答案是否定的，因为约束条件（19）确保了
+假设我们已经设置对应的的一组 $\alpha_i$ 满足约束条件（18-19） 。现在，假设我们想固定 $\alpha_2, \ldots, \alpha_m$，并对目标函数关于 $\alpha_1$ 进行坐标上升算法来重新优化。但是似乎存在问题，因为约束条件（19）确保了
 
 <div class="math">
 $$
@@ -1077,9 +1077,12 @@ $$
 $$
 </div>
 
-（这一步使用了事实：$y^{(1)} \in \{-1, 1\}$，因此$(y^{(1)})^2 = 1$。因此，$\alpha_1$ 完全由其他 $\alpha_i$ 决定，如果我们想固定 $\alpha_2, \ldots, \alpha_m$，那么我们无法改变 $\alpha_1$ 而不违反优化问题中的约束（19）。）
+> [!NOTE]
+> 由于 $y^{(1)} \in \\{-1, 1\\}$，有 $(y^{(1)})^2 = 1$
 
-因此，如果我们想更新一些 $\alpha_i$，我们必须至少同时更新两个以保持满足约束条件。这就激励了 SMO 算法的使用，该算法只做以下操作：
+因此，$\alpha_1$ 完全由其他 $\alpha_i$ 决定，如果我们想固定 $\alpha_2, \ldots, \alpha_m$，那么我们无法改变 $\alpha_1$ 而不违反优化问题中的约束（19）。
+
+到这里，如果我们想更新某些 $\alpha_i$，我们必须至少同时更新其中的两个以满足约束条件。于是，我们导出 SMO 算法，该算法只做以下操作：
 
 <div class="math">
 $$
@@ -1092,11 +1095,11 @@ $$
 $$
 </div>
 
-为了测试这个算法的收敛性，我们可以检查是否满足 KKT 条件（公式14-16），通常这些条件足以确定解的优化性。在这里，0.01是收敛的公差参数，用于检测算法的停止条件（请参考其他有效的详细算法来理解为什么SMO是一个有效的迭代求解器）。
+为了测试这个算法的收敛性，我们可以检查是否满足 KKT 条件（公式14-16），通常这些条件足以确定解的优化性。在这里，0.01 是收敛的公差参数，用于检测算法的停止条件（请参考其他有效的详细算法来理解为什么 SMO 是一个有效的迭代求解器）。
 
-关键原因是，更新 $\alpha_i, \alpha_j$ 时，SMO算法可以有效地选择主导的更新。让我们现在快速看看核心思想，说明为什么这种方法能有效地更新。
+其关键原因是，更新 $\alpha_i, \alpha_j$ 时，SMO算法可以有效地选择主导的更新。下面是其核心思想。
 
-假设我们想要固定 $\alpha_3, \ldots, \alpha_m$ ，并希望重新优化 $\alpha_1$ 和 $\alpha_2$（受约束条件（19）的限制）。从（19）我们需要：
+假设我们想要固定 $\alpha_3, \ldots, \alpha_m$ ，并希望重新优化 $\alpha_1$ 和 $\alpha_2$（受约束条件（19）的限制）。由条件（19）我们得到：
 
 <div class="math">
 $$
@@ -1104,15 +1107,15 @@ $$
 $$
 </div>
 
-由于右边的和是固定的（因为我们固定了 $\alpha_3, \ldots, \alpha_m$ ），我们可以仅用一个常数 $g$ 表示它：
+由于右边的和是固定的（因为 $\alpha_3, \ldots, \alpha_m$ 是固定的），我们可以仅用一个常数 $\zeta$ 表示它：
 
 <div class="math">
 $$
-\alpha_1 y^{(1)} + \alpha_2 y^{(2)} = g
+\alpha_1 y^{(1)} + \alpha_2 y^{(2)} = \zeta
 $$
 </div>
 
-我们因此可以将 $\alpha_1$ 和 $\alpha_2$ 上的约束想象如下：
+我们可以将 $\alpha_1$ 和 $\alpha_2$ 上的约束在几何上呈现如下：
 
 <div style="text-align: center;">
  <a href="https://s21.ax1x.com/2024/08/10/pASsAl8.png" data-lightbox="image-6" data-title="SMO">
@@ -1120,27 +1123,26 @@ $$
  </a>
 </div>
 
-从约束条件（18）我们知道，$\alpha_1$ 和 $\alpha_2$ 必须位于图中所示的 $[0, C] \times [0, C]$ 区间内。同时图中也绘制了直线 $\alpha_1 y^{(1)} + \alpha_2 y^{(2)} = g$，从这些约束条件我们知道 $L \leq \alpha_2 \leq H$；否则，$\alpha_2$ 不能同时满足盒子约束和直线约束。在这个例子中，$L = 0$。但是依情况不同，通常会有某个下界 $L$ 和某个上界 $H$，确保 $\alpha_1, \alpha_2$ 能够位于 $[0, C] \times [0, C]$ 的区间内。利用方程（20），我们还可以将 $\alpha_1$ 写作 $\alpha_2$ 的函数：
+从约束条件（18）我们知道，$\alpha_1$ 和 $\alpha_2$ 必须位于图中所示的 $[0, C] \times [0, C]$ 区间内。同时图中也绘制了直线 $\alpha_1 y^{(1)} + \alpha_2 y^{(2)} = g$，从这些约束条件我们知道 $L \leq \alpha_2 \leq H$；否则，$\alpha_2$ 不能同时满足边界约束（box constraint）和直线约束。在这个例子中，$L = 0$。但是依情况不同，通常会有某个下界 $L$ 和某个上界 $H$，确保 $\alpha_1, \alpha_2$ 能够位于 $[0, C] \times [0, C]$ 的区间内。利用方程（20），我们还可以将 $\alpha_1$ 写作 $\alpha_2$ 的函数：
 
 <div class="math">
 $$
-\alpha_1 = (g - \alpha_2 y^{(2)}) y^{(1)}
+\alpha_1 = (\zeta - \alpha_2 y^{(2)}) y^{(1)}
 $$
 </div>
 
-（请自行验证此推导；我们再次使用了事实：$y^{(1)} \in \{-1, 1\}$，因此 $(y^{(1)})^2 = 1$。因此，目标函数 $W(\alpha)$ 可以写作
+> [!NOTE]
+> $y^{(1)} \in \\{-1, 1\\}$，得 $(y^{(1)})^2 = 1$。因此，目标函数 $W(\alpha)$ 可以写作 $ W(\alpha_1, \alpha_2, \ldots, \alpha_m) = W((\zeta - \alpha_2 y^{(2)}) y^{(1)}, \alpha_2, \ldots, \alpha_m) $
 
-$ W(\alpha_1, \alpha_2, \ldots, \alpha_m) = W((g - \alpha_2 y^{(2)}) y^{(1)}, \alpha_2, \ldots, \alpha_m) $
-
-将 $\alpha_3, \ldots, \alpha_m$ 视为常数，你应该能够验证这个目标函数在 $\alpha_2$ 上是一个二次函数形式 $a\alpha_2^2 + b\alpha_2 + c$，其中 $a, b, c$ 是一些合适的常数。如果我们忽略“盒”约束（18）（或等价地，认为 $L \leq \alpha_2 \leq H$），那么我们可以通过将其导数设置为零来轻松最大化这个二次函数。我们让 $\alpha_{2, \text{unclipped}}$ 表示得到的 $\alpha_2$ 的值。你也应该能够自信地证明，如果我们想要最大化 $W$ 关于 $\alpha_2$ 但受到盒约束，那么我们可以通过取 $\alpha_{2, \text{unclipped}}$ 并将其“剪裁”到区间内找到最优值，使得：
+将 $\alpha_3, \ldots, \alpha_m$ 视为常数，你应该能够验证这个目标函数在 $\alpha_2$ 上是一个二次函数形式 $a\alpha_2^2 + b\alpha_2 + c$，其中 $a, b, c$ 是一些合适的常数。如果我们忽略“盒”约束（18）（或等价地，认为 $L \leq \alpha_2 \leq H$），那么我们可以通过将其导数设置为零来轻松最大化这个二次函数。我们让 $\alpha_2^{new,\ unclipped}$ 表示得到的 $\alpha_2$ 的值。如果我们想要最大化 $W$ 关于 $\alpha_2$ 但受到边界约束，那么我们可以通过取 $\alpha_2^{new,\ unclipped}$ 并将其“剪裁”到区间内找到最优值，使得：
 
 <div class="math">
 $$
-\alpha_{2}^{\text{new}} =
+\alpha_{2}^{new} =
 \begin{cases}
-H & \text{if } \alpha_{2}^{\text{new,unclipped}} > H \\[5pt]
-\alpha_{2}^{\text{new,unclipped}} & \text{if } L \leq \alpha_{2}^{\text{new,unclipped}} \leq H \\[5pt]
-L & \text{if } \alpha_{2}^{\text{new,unclipped}} L
+H & \text{if } \alpha_{2}^{new,\ unclipped} > H \\[5pt]
+\alpha_{2}^{new,\ unclipped} & \text{if } L \leq \alpha_{2}^{new,\ unclipped} \leq H \\[5pt]
+L & \text{if } \alpha_{2}^{new,\ unclipped} L
 \end{cases}
 $$
 </div>
