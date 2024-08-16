@@ -1,4 +1,4 @@
-//default values
+// Default values
 var defaultOptions = {
     countable: true,
     position: "top",
@@ -21,6 +21,10 @@ function plugin(hook, vm) {
     }
     let wordsCount
     hook.beforeEach(function (content) {
+        // Remove <span class="math">...</span> and <div class="math">...</div>
+        content = content.replace(/<span class="math">[\s\S]*?<\/span>/g, '')
+                         .replace(/<div class="math">[\s\S]*?<\/div>/g, '');
+
         // Match regex every time you start parsing .md
         wordsCount = content.match(
             /([\u0800-\u4e00]+?|[\u4e00-\u9fa5]+?|[a-zA-Z0-9]+)/g
@@ -43,7 +47,7 @@ function plugin(hook, vm) {
                 Math.ceil(wordsCount / 400) + defaultOptions.localization.minute
         }
 
-        //add html string
+        // Add html string
         next(
             `
         ${defaultOptions.position === "bottom" ? html : ""}
