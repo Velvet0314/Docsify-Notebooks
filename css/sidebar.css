@@ -13,7 +13,7 @@
 	left: -12px;
 	height: 6px;
 	width: 6px;
-    border-right: 1px solid #505d6b;
+	border-right: 1px solid #505d6b;
 	border-bottom: 1px solid #505d6b;
 	transform: rotate(-45deg);
 	transition: transform .1s
@@ -25,4 +25,30 @@
 
 .sidebar-nav ul:not(.app-sub-sidebar)>li.collapse::before {
 	transform: rotate(-45deg)
+}
+
+.sidebar {
+	transition: transform 200ms ease-out;
+	/* 保持或恢复 vue.css 中的动画定义 */
+}
+
+body.close .sidebar {
+	transform: translateX(-300px);
+}
+
+body.close .sidebar-toggle {
+	width: auto;
+}
+
+.sidebar-toggle {
+	background-color: transparent;
+	width: auto;
+	padding: 30px 30px 10px 10px;
+}
+
+body.close .sidebar-toggle {
+	background-color: rgba(255, 255, 255, 0.8);
+	transition: linear 200ms background-color;
+	width: 284px;
+	padding: 10px;
 }

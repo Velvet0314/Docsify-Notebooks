@@ -61,7 +61,7 @@
 
     function l() {
         var e = "true" === (e = localStorage.getItem(c));
-        localStorage.setItem(c, !e), e ? (document.querySelector(".sidebar").style.transform = "translateX(0)", document.querySelector(".content").style.transform = "translateX(0)") : (document.querySelector(".sidebar").style.transform = "translateX(300px)", document.querySelector(".content").style.transform = "translateX(300px)")
+        localStorage.setItem(c, !e), e ? (document.querySelector(".sidebar").classList.add("pinned"), document.querySelector(".content").classList.add("shifted")) : (document.querySelector(".sidebar").classList.remove("pinned"), document.querySelector(".content").classList.remove("shifted"))
     }
     768 < document.documentElement.clientWidth || (localStorage.setItem(c, !1), (r = document.createElement("button")).classList.add("sidebar-pin"), r.onclick = l, document.body.append(r), window.addEventListener("load", function() {
             var n = document.querySelector(".content");
