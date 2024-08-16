@@ -75,7 +75,7 @@ function injectStyles() {
         }
         /* 全局过渡效果定义 */
         body, a, .sidebar, .sidebar-toggle, b, strong {
-            transition: color 0.35s ease; /* 为颜色变化添加平滑过渡效果 */
+            transition: color 0.35s ease, transform 200ms ease-out; /* 为颜色变化添加平滑过渡效果 */
         }
         /* 深色模式的样式 */
         .dark-mode {

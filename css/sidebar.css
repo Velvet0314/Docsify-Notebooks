@@ -34,6 +34,7 @@
 
 body.close .sidebar {
 	transform: translateX(-300px);
+	transition: transform 200ms ease-out;
 }
 
 body.close .sidebar-toggle {
