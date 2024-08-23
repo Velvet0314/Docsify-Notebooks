@@ -17,16 +17,16 @@
 
 为了易于后续公式表达，引入以下符号：
 
-* $x\_j^{(i)}$：第 $i$ 个训练样本的特征 $j$ 的值
-* $x^{(i)}$：第 $i$ 个训练样本的所有特征
-* $m$：训练样本的数量
-* $n$：特征的数量
+* <span class="math">$x\_j^{(i)}$</span>：第 <span class="math">$i$</span> 个训练样本的特征 <span class="math">$j$</span> 的值
+* <span class="math">$x^{(i)}$</span>：第 <span class="math">$i$</span> 个训练样本的所有特征
+* <span class="math">$m$</span>：训练样本的数量
+* <span class="math">$n$</span>：特征的数量
 
 - - -
 
 ### 假设函数
 
-对于一个多元的线性回归问题，我们假设其有 $ n $ 个特征，有这样一个 **假设函数 (hypothesis function)** ：
+对于一个多元的线性回归问题，我们假设其有 <span class="math">$ n $</span> 个特征，有这样一个 **假设函数 (hypothesis function)** ：
 <div class="math">
 $$
 h_\theta(x) = \theta_0 + \theta_1x_1 + \theta_2x_2 + \cdots + \theta_nx_n \ \ \ (其中\ x_0 = 1)
@@ -48,7 +48,7 @@ h_{\theta}(x) = \big[\theta_0,\ \theta_1,\ ... ,\ \theta_n\big] \left[\begin{mat
 $$
 </div>
 
-其中，<sapn class="math">$\theta$</span>  表示  <span class="math">$\theta_0, \theta_1, \theta_2, \cdots, \theta_n$</span> 组成的列向量。
+其中，<span class="math">$\theta$</span>  表示  <span class="math">$\theta_0, \theta_1, \theta_2, \cdots, \theta_n$</span> 组成的列向量。
 
 ### 代价函数
 
@@ -60,11 +60,11 @@ J(\theta_0, \theta_1, \theta_2, \cdots, \theta_n) = \frac{1}{2m}\sum_{i=1}^{m}(h
 $$
 </div>
 
-由代价函数的定义我们可以得知：当 $h_\theta(x)$ 越接近 $y$ 时，代价函数的值越小，即模型训练的效果越好。
+由代价函数的定义我们可以得知：当 <span class="math">$h_\theta(x)$</span> 越接近 <span class="math">$y$</span> 时，代价函数的值越小，即模型训练的效果越好。
 
 ### ⭐LMS Algorithm
 
-为了最小化代价函数以得到最优的模型，我们采用 **最速梯度下降 (Greadient Descent)** 算法来更新参数 $ \theta $：
+为了最小化代价函数以得到最优的模型，我们采用 **最速梯度下降 (Greadient Descent)** 算法来更新参数 <span class="math">$ \theta $</span>：
 
 <div class="math">
 $$
@@ -72,9 +72,9 @@ $$
 $$
 </div>
 
-* 注意：这里的参数 $ \theta = \big[\theta\_0,\ \theta\_1,\ \theta\_2, \cdots, \theta\_n\big] $ 是 **同时更新** 的。
+* 注意：这里的参数 <span class="math">$ \theta = \big[\theta\_0,\ \theta\_1,\ \theta\_2, \cdots, \theta\_n\big] $</span> 是 **同时更新** 的。
 
-其中，$\alpha$ 表示 **学习率 (learning rate)** ，其值决定了梯度下降的步长，通常取一个较小的值。
+其中，<span class="math">$\alpha$</span> 表示 **学习率 (learning rate)** ，其值决定了梯度下降的步长，通常取一个较小的值。
 
 下面对于函数求导部分进行推导，对于其中一个训练样本：
 
@@ -176,7 +176,7 @@ SGD在训练过程中虽然收敛速度更快，但是存在一个问题：SGD�
 
 ##### 矩阵求导入门
 
-对于一个将 $ m×n $ 的矩阵映射到实数的函数 $ f $，定义 $ f:\mathbb{R}^{m×n} \mapsto \mathbb{R}$ 对于 $ A $ 的导数为：
+对于一个将 <span class="math">$ m×n $</span> 的矩阵映射到实数的函数 <span class="math">$ f $</span>，定义 <span class="math">$ f:\mathbb{R}^{m×n} \mapsto \mathbb{R}$</span> 对于 <span class="math">$ A $</span> 的导数为：
 
 <div class="math">
 $$
@@ -188,9 +188,9 @@ $$
 $$
 </div>
 
-也就是说，函数对于矩阵求导就是函数对矩阵里每一项按顺序求导，得到的结果是一个与 $ A $ 相同大小的矩阵。
+也就是说，函数对于矩阵求导就是函数对矩阵里每一项按顺序求导，得到的结果是一个与 <span class="math">$ A $</span> 相同大小的矩阵。
 
-下面是一个简单的例子，假设我们有一个矩阵 $ A $，其大小为 $ 2×2 $，其元素为：
+下面是一个简单的例子，假设我们有一个矩阵 <span class="math">$ A $</span>，其大小为 <span class="math">$ 2×2 $</span>，其元素为：
 
 <div class="math">
 $$
@@ -201,7 +201,7 @@ A = \begin{bmatrix}
 $$
 </div>
 
-那么，对于函数 $ f: $
+那么，对于函数 <span class="math">$ f: $</span>
 
 <div class="math">
 $$
@@ -209,7 +209,7 @@ f(A) = \frac{3}{2}A_{11} + 5A^2_{12} + A_{21}A_{22}
 $$
 </div>
 
-其对于矩阵 $ A $ 的导数为：
+其对于矩阵 <span class="math">$ A $</span> 的导数为：
 
 <div class="math">
 $$
@@ -223,7 +223,7 @@ $$
 
 ##### 矩阵的迹
 
-对于一个 $ n×n $ 的矩阵 $ A (方阵) $ ，其 **迹 (trace)** 定义为：
+对于一个 <span class="math">$ n×n $</span> 的矩阵 <span class="math">$ A (方阵) $</span> ，其 **迹 (trace)** 定义为：
 
 <div class="math">
 $$
@@ -235,7 +235,7 @@ $$
 
 ##### ⭐迹的性质
 
-以下我们有一些容易证明的有关迹的性质，当 $ A $ 和 $ B $ 都是方阵时：
+以下我们有一些容易证明的有关迹的性质，当 <span class="math">$ A $</span> 和 <span class="math">$ B $</span> 都是方阵时：
 
 <div class="math">
 $$
@@ -285,7 +285,7 @@ $$
 
 接下来，我们将利用之前提到的性质对方程进行数学推导。
 
-将每一个参数 $ \theta $ 对应的 $ x $ 值看做是一个列向量，那么特征矩阵 $ X $ （design matrix）可以表示为：
+将每一个参数 <span class="math">$ \theta $</span> 对应的 <span class="math">$ x $</span> 值看做是一个列向量，那么特征矩阵 <span class="math">$ X $</span> （design matrix）可以表示为：
 
 <div class="math">
 $$
@@ -301,9 +301,9 @@ X = \begin{bmatrix}
 $$
 </div>
 
-其中，$ X $ 的大小为 $ m × (n+1) $ 。这里还是假设了 $ x_0 = 1 $，所以 $ X $ 的第一列全为 $ 1 $ 。
+其中，<span class="math">$ X $ 的大小为 <span class="math">$ m × (n+1) $</span> 。这里还是假设了 <span class="math">$ x_0 = 1 $</span>，所以 <span class="math">$ X $</span> 的第一列全为 <span class="math">$ 1 $</span> 。
 
-同样的，我们把 $ y $ 也写成一个列向量形式：
+同样的，我们把 <span class="math">$ y $</span> 也写成一个列向量形式：
 
 <div class="math">
 $$
@@ -314,12 +314,12 @@ $$
     y^{(m)}
 \end{bmatrix}
 \begin{aligned}
-\quad \text{(size: m × 1)} 
+\quad \text{(size: m × 1)}
 \end{aligned}
 $$
 </div>
 
-之前我们提到过假设函数的矩阵表示形式：$h_\theta(x^{(i)}) = (x^{(i)})^T \theta$，那么进行等价代换有：
+之前我们提到过假设函数的矩阵表示形式：<span class="math">$h_\theta(x^{(i)}) = (x^{(i)})^T \theta$</span>，那么进行等价代换有：
 
 <div class="math">
 $$
@@ -342,11 +342,11 @@ X \theta - \vec{y} &= \begin{bmatrix}
 $$
 </div>
 
-这里 $ X \theta - \vec{y} $ 的大小是：$ m × 1 $。因为 $ \theta $ 是一个大小为 $ (n+1) × 1 $ 的列向量，所以 $ X \theta $ 的大小是：$ m × 1 $；进一步地，$ X \theta - \vec{y} $ 的大小也是：$ m × 1 $。
+这里 <span class="math">$ X \theta - \vec{y} $</span> 的大小是：<span class="math">$ m × 1 $</span>。因为 <span class="math">$ \theta $</span> 是一个大小为 <span class="math">$ (n+1) × 1 $</span> 的列向量，所以 <span class="math">$ X \theta $</span> 的大小是：<span class="math">$ m × 1 $</span>；进一步地，<span class="math">$ X \theta - \vec{y} $</span> 的大小也是：<span class="math">$ m × 1 $</span>。
 
-此时，我们的误差也就是 $ X \theta - \vec{y} $。
+此时，我们的误差也就是 <span class="math">$ X \theta - \vec{y} $</span>。
 
-对于一个矩阵 $ z $，我们有性质：$ z^T z = \sum_i z_i^2 $，然后我们将误差转化为实数:
+对于一个矩阵 <span class="math">$ z $</span>，我们有性质：<span class="math">$ z^T z = \sum_i z_i^2 $</span>，然后我们将误差转化为实数:
 <div class="math">
 $$
 \begin{aligned}
@@ -355,7 +355,7 @@ $$
 $$
 </div>
 
-最后，为了最小化 $J$, 我们需要对 $ \theta $ 进行求导。由我们之前在有关 **[矩阵的迹](/note2/Part2?id=矩阵的迹)** 中提到的性质 $ (2)(3) $，有：
+最后，为了最小化 <span class="math">$J$</span>, 我们需要对 <span class="math">$ \theta $</span> 进行求导。由我们之前在有关 **[矩阵的迹](/note2/Part2?id=矩阵的迹)** 中提到的性质 <span class="math">$ (2)(3) $</span>，有：
 
 <div class="math">
 $$
@@ -407,9 +407,9 @@ y^{(i)} = \theta^T x^{(i)} + \epsilon^{(i)}
 $$
 </div>
 
-其中，$ \epsilon $ 是一个误差项，一般指未被学习到的要素或随机噪声。
+其中，<span class="math">$ \epsilon $ 是一个误差项，一般指未被学习到的要素或随机噪声。
 
-进一步地，我们假设 $ \epsilon^{(i)} $ 是 $ distributed\ i.i.d. $ (离散式独立同分布变量) 并服从均值为 $ 0 $，方差为 $ \sigma^2 $ 的正态分布（高斯分布），即 $ \epsilon^{(i)} \sim N(0, \sigma^2) $ 。那么其概率密度函数为：
+进一步地，我们假设 <span class="math">$ \epsilon^{(i)} $</span> 是 <span class="math">$ distributed\ i.i.d. $</span> (离散式独立同分布变量) 并服从均值为 <span class="math">$ 0 $</span>，方差为 <span class="math">$ \sigma^2 $</span> 的正态分布（高斯分布），即 <span class="math">$ \epsilon^{(i)} \sim N(0, \sigma^2) $</span> 。那么其概率密度函数为：
 
 <div class="math">
 $$
@@ -424,10 +424,10 @@ p(y^{(i)} \mid x^{(i)}; \theta) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(- \frac{
 $$
 </div>
 
-也就是说，在给定的参数 $\theta $ 下，确定了一个输入值 $ x^{(i)} $，得到对应的 $ y^{(i)} $ 的概率。
+也就是说，在给定的参数 <span class="math">$\theta $</span> 下，确定了一个输入值 <span class="math">$ x^{(i)} $</span>，得到对应的 <span class="math">$ y^{(i)} $</span> 的概率。
 
 > [!NOTE]
-> **这里解释一下为什么公式没有写为 $ p(y^{(i)} | x^{(i)}, \theta) $ ：因为 $ \theta $ 并非一个随机变量**
+> **这里解释一下为什么公式没有写为 <span class="math">$ p(y^{(i)} | x^{(i)}, \theta) $</span> ：因为 <span class="math">$ \theta $</span> 并非一个随机变量**
 
 在矩阵形式下，我们可以将概率写为：
 
@@ -437,7 +437,7 @@ p(\vec{y} \mid X ; \theta) = \frac{1}{\sqrt{2\pi}\sigma} \exp\left(- \frac{(y^{(
 $$
 </div>
 
-在这样的一个形式下，我们将其视为一个 $ \theta $ 的函数：
+在这样的一个形式下，我们将其视为一个 <span class="math">$ \theta $</span> 的函数：
 
 <div class="math">
 $$
@@ -449,13 +449,13 @@ $$
 
 > [!TIP]
 > **⭐极大似然估计（maximum likelihood estimation）：** <br>
-> **若总体 $ X $ 为离散型，$ \theta \in \Theta $，其中 $ \theta $ 为为待估参数，$ \Theta $ 是 $ \theta $ 可能取值范围。设 $ X_1,X_2,...,X_n $ 是来自 $ X $ 的样本，则其联合分布律为 $$ \prod_{i=1}^n p(x_{i}; \theta) $$** <br>
-> **又设 $ x_1,x_2,...,x_n $ 是相应于样本 $ X_1,X_2,...,X_n $ 的一个样本值，则样本 $ X_1,X_2,...,X_n $ 取到观察值 $ x_1,x_2,...,x_n $ 的概率，即事件 $ \\{ X_1=x_1,X_2=x_2,...,X_n =x_n\\} $ 发生的概率为**
+> **若总体 <span class="math">$ X $</span> 为离散型，<span class="math">$ \theta \in \Theta $</span>，其中 <span class="math">$ \theta $</span> 为为待估参数，<span class="math">$ \Theta $</span> 是 <span class="math">$ \theta $</span> 可能取值范围。设 <span class="math">$ X_1,X_2,...,X_n $</span> 是来自 <span class="math">$ X $</span> 的样本，则其联合分布律为 $$ \prod_{i=1}^n p(x_{i}; \theta) $$** <br>
+> **又设 <span class="math">$ x_1,x_2,...,x_n $</span> 是相应于样本 <span class="math">$ X_1,X_2,...,X_n $</span> 的一个样本值，则样本 <span class="math">$ X_1,X_2,...,X_n $</span> 取到观察值 <span class="math">$ x_1,x_2,...,x_n $</span> 的概率，即事件 <span class="math">$ \\{ X_1=x_1,X_2=x_2,...,X_n =x_n\\} $</span> 发生的概率为**
 > **$$ L(\theta) = L(x_1,x_2,...,x_n;\theta) = \prod_{i=1}^n p(x_{i}; \theta),\ \theta \in \Theta $$**<br>
-> **固定样本观察值 $ x_1,x_2,...,x_n $，在 $ \theta $ 取值的可能范围 $ \Theta $ 内挑选使似然函数达到最大的参数值 $ \hat{\theta} $，即：**<br>
+> **固定样本观察值 <span class="math">$ x_1,x_2,...,x_n $</span>，在 <span class="math">$ \theta $</span> 取值的可能范围 <span class="math">$ \Theta $</span> 内挑选使似然函数达到最大的参数值 <span class="math">$ \hat{\theta} $</span>，即：**<br>
 > **$$ L(x_1,x_2,...,x_n;\hat{\theta}) = \max_{\theta \in \Theta} L(x_1,x_2,...,x_n;\theta)$$**
 
-基于 $ \epsilon^{(i)} $ 的独立同分布，我们可以得到：
+基于 <span class="math">$ \epsilon^{(i)} $</span> 的独立同分布，我们可以得到：
 
 <div class="math">
 $$
@@ -466,7 +466,7 @@ L(\theta) &= \prod_{i=1}^m p(y^{(i)} \mid x^{(i)}; \theta) \\
 $$
 </div>
 
-为了选择合适的 $ \theta $ 以最大化 $ L(\theta) $，采用 **极大似然估计** 的思想，并且将其转化为 **对数似然函数** 易于后续计算：
+为了选择合适的 <span class="math">$ \theta $</span> 以最大化 <span class="math">$ L(\theta) $</span>，采用 **极大似然估计** 的思想，并且将其转化为 **对数似然函数** 易于后续计算：
 
 <div class="math">
 $$
@@ -477,7 +477,7 @@ $$
 $$
 </div>
 
-如此，最大化 $ \ell(\theta) $ 就是去最小化
+如此，最大化 <span class="math">$ \ell(\theta) $</span> 就是去最小化
 
 <div class="math">
 $$ 
@@ -526,7 +526,7 @@ $$
 $$
 </div>
 
-其中，$ w $ 一般通过以下公式得到：
+其中，<span class="math">$ w $</span> 一般通过以下公式得到：
 
 <div class="math">
 $$
@@ -534,9 +534,9 @@ w^{(i)} = \exp \left( -\frac{(x^{(i)}-x)^2}{2\tau^2} \right)
 $$
 </div>
 
-其中，$ x $ 是我们希望的预测点，$ \tau $ 是 **带宽参数（bandwidth）**，控制了权重随距离衰减的速度。
+其中，<span class="math">$ x $</span> 是我们希望的预测点，<span class="math">$ \tau $</span> 是 **带宽参数（bandwidth）**，控制了权重随距离衰减的速度。
 
-公式的形式类似于等质量万有引力定律。通过分析公式，我们发现：$ \left| x^{(i)}-x \right| $ 越大，$ w^{(i)} $ 越小；$ \left| x^{(i)}-x \right| $ 越小。
+公式的形式类似于等质量万有引力定律。通过分析公式，我们发现：<span class="math">$ \left| x^{(i)}-x \right| $</span> 越大，<span class="math">$ w^{(i)} $</span> 越小；<span class="math">$ \left| x^{(i)}-x \right| $</span> 越小。
 这表明：**离预测点越远的数据带来的影响会更小**。在 LWLR 中我们更关注预测点附近值带来的影响。
 
-当 $ \tau \rightarrow \infty,w^{(i)} \rightarrow 1 $ 时，整个模型趋于标准的线性回归。
+当 <span class="math">$ \tau \rightarrow \infty,w^{(i)} \rightarrow 1 $</span> 时，整个模型趋于标准的线性回归。

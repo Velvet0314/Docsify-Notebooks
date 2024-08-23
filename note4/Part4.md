@@ -25,21 +25,21 @@ $$
 
 以下是参数解释：
 
-- $ \eta \ \text{自然参数（natural parameter）} $：这是分布的参数，控制分布的形状。
+- <span class="math">$ \eta \ \text{自然参数（natural parameter）} $</span>：这是分布的参数，控制分布的形状。
 
-- $ T(y) \ \text{充分统计量（sufficient statistic）} $：它是关于数据 $ y $ 的函数。对于我们常见的许多分布，$ T(y) $ 就是 $ y $ 本身。
+- <span class="math">$ T(y) \ \text{充分统计量（sufficient statistic）} $</span>：它是关于数据 <span class="math">$ y $</span> 的函数。对于我们常见的许多分布，<span class="math">$ T(y) $</span> 就是 <span class="math">$ y $</span> 本身。
 
-- $ a(\eta) \ \text{对数分割函数（log partition function）} $：这个函数用于确保概率分布的归一化，即分布 $ p(y; \eta) $ 对所有可能的 $ y $ 求和或积分等于 1。
+- <span class="math">$ a(\eta) \ \text{对数分割函数（log partition function）} $</span>：这个函数用于确保概率分布的归一化，即分布 <span class="math">$ p(y; \eta) $</span> 对所有可能的 <span class="math">$ y $</span> 求和或积分等于 1。
 
-- $ b(y) $：这是关于 $ y $ 的函数，通常用于调整分布的形状。
+- <span class="math">$ b(y) $</span>：这是关于 <span class="math">$ y $</span> 的函数，通常用于调整分布的形状。
 
-当 $ T,a,b $ 都固定时，即定义了一个以 $ \eta $ 为参数的函数分布族。当我们改变 $ \eta $ 时，我们得到该族内的不同分布。
+当 <span class="math">$ T,a,b $</span> 都固定时，即定义了一个以 <span class="math">$ \eta $</span> 为参数的函数分布族。当我们改变 <span class="math">$ \eta $</span> 时，我们得到该族内的不同分布。
 
 我们所熟悉的 **伯努利分布（Bernoulli distribution）** 与 **高斯分布（Gaussian distribution）** 都属于指数族。
 
 接下来，我们将从数学角度来验证上述两个分布是属于指数族的。但在这之前，我们仍简要介绍一下伯努利分布。
 
-具有一个均值 $ \phi $ 的伯努利分布，记作 $ Bernoulli(\phi) $，定义了 $ y \in \\{0,1\\} $ 的概率分布,使得：
+具有一个均值 <span class="math">$ \phi $</span> 的伯努利分布，记作 <span class="math">$ Bernoulli(\phi) $</span>，定义了 <span class="math">$ y \in \\{0,1\\} $</span> 的概率分布,使得：
 
 <div class="math">
 $$
@@ -58,10 +58,9 @@ p(y;\phi) = \phi^y(1-\phi)^{1-y} \ \ \ \ \ \ \ \ y \in \{0,1\}
 $$
 </div>
 
-当我们改变 $ \phi $ 时，我们得到具有不同均值的伯努利分布。
+当我们改变 <span class="math">$ \phi $</span> 时，我们得到具有不同均值的伯努利分布。
 
-
-其中，$ \phi $ 表示 $ y=1 $ 的概率。
+其中，<span class="math">$ \phi $</span> 表示 <span class="math">$ y=1 $</span> 的概率。
 
 下面，我们将伯努利分布写成如下形式：
 
@@ -76,7 +75,7 @@ p(y; \phi) &= \color{orange}{\phi^y (1 - \phi)^{1 - y}} \\[5pt]
 $$
 </div>
 
-因此，自然参数由 $ \eta = \log(\phi / (1 - \phi)) $ 给出。有趣的是，如果我们通过 $ \eta $ 求解 $ \phi $ 来逆转这个定义，我们将得到 $ \phi = 1 / (1 + e^{-\eta}) $。这是我们所熟悉的 Sigmoid 函数！这将在我们将逻辑回归作为 GLM 推导时再次出现。为了完成将伯努利分布作为指数族分布的公式化，我们还有：
+因此，自然参数由 <span class="math">$ \eta = \log(\phi / (1 - \phi)) $</span> 给出。有趣的是，如果我们通过 <span class="math">$ \eta $</span> 求解 <span class="math">$ \phi $</span> 来逆转这个定义，我们将得到 <span class="math">$ \phi = 1 / (1 + e^{-\eta}) $</span>。这是我们所熟悉的 Sigmoid 函数！这将在我们将逻辑回归作为 GLM 推导时再次出现。为了完成将伯努利分布作为指数族分布的公式化，我们还有：
 
 <div class="math">
 $$
@@ -90,7 +89,7 @@ $$
 
 至此，伯努利分布就被改写成了指数族形式。下面，我们将把高斯分布也写成指数族的形式。
 
-在对线性回归进行推导时，$ \sigma^2 $ 的值对最后的结果是没有影响的，所以为了简化推导过程，我们一般取 $ \sigma^2 = 1 $。
+在对线性回归进行推导时，<span class="math">$ \sigma^2 $</span> 的值对最后的结果是没有影响的，所以为了简化推导过程，我们一般取 <span class="math">$ \sigma^2 = 1 $</span>。
 
 <div class="math">
 $$
@@ -126,22 +125,22 @@ $$
 
 ### GLM 的构建
 
-一般地，考虑一个分类或回归问题，我们希望预测某个随机变量 $ y $ 的值，它是 $ x $ 的函数。为了为这个问题推导出一个 GLM 模型，我们将对给定 $ x $ 的 $ y $ 的条件分布以及我们的模型做以下三个假设：
+一般地，考虑一个分类或回归问题，我们希望预测某个随机变量 <span class="math">$ y $</span> 的值，它是 <span class="math">$ x $</span> 的函数。为了为这个问题推导出一个 GLM 模型，我们将对给定 <span class="math">$ x $</span> 的 <span class="math">$ y $</span> 的条件分布以及我们的模型做以下三个假设：
 
 > [!TIP]
->**1. $ y \mid x; \theta \sim \text{ExponentialFamily}(\eta) $。即，给定 $ x $ 和 $\theta$，$ y $ 服从某个参数为 $\eta$ 的指数族分布。**
+>**1. <span class="math">$ y \mid x; \theta \sim \text{ExponentialFamily}(\eta) $</span>。即，给定 <span class="math">$ x $</span> 和 <span class="math">$\theta$</span>，<span class="math">$ y $</span> 服从某个参数为 <span class="math">$\eta$</span> 的指数族分布。**
 >
->**2. 给定 $ x $，我们的目标是预测 $ T(y) $ 的期望值。一般地，我们有 $ T(y) = y $，也就是 $ h(x) = \hat{y} = \mathbb{E}[y \mid x] $。**
+>**2. 给定 <span class="math">$ x $</span>，我们的目标是预测 <span class="math">$ T(y) $</span> 的期望值。一般地，我们有 <span class="math">$ T(y) = y $</span>，也就是 <span class="math">$ h(x) = \hat{y} = \mathbb{E}[y \mid x] $</span>。**
 >
-> **注意，逻辑回归和线性回归中 $ h_\theta(x) $ 均满足这个条件。例如，在对数回归中，我们有 $ h_\theta(x) = p(y = 1 \mid x; \theta) = 0 \cdot p(y = 0 \mid x; \theta) + 1 \cdot p(y = 1 \mid x; \theta) = \mathbb{E}[y \mid x; \theta] $）。**
+> **注意，逻辑回归和线性回归中 <span class="math">$ h_\theta(x) $</span> 均满足这个条件。例如，在对数回归中，我们有 <span class="math">$ h_\theta(x) = p(y = 1 \mid x; \theta) = 0 \cdot p(y = 0 \mid x; \theta) + 1 \cdot p(y = 1 \mid x; \theta) = \mathbb{E}[y \mid x; \theta] $</span>）。**
 >
->**3. 自然参数 $\eta$ 和输入 $ x $ 线性相关：$\eta = \theta^T x $。（如果 $\eta$ 是向量值，那么 $\eta_i = \theta_i^T x $）。**
+>**3. 自然参数 <span class="math">$\eta$</span> 和输入 <span class="math">$ x $</span> 线性相关：<span class="math">$\eta = \theta^T x $</span>。（如果 <span class="math">$\eta$</span> 是向量值，那么 <span class="math">$\eta_i = \theta_i^T x $</span>）。**
 
 其中，第三个假设可能看起来是最不合理的，但它可以被认为是我们设计 GLM 的一个“设计选择”，而不是严格意义上的假设。这三个假设会使我们能够得到一个优秀的学习算法，即 GLM。此外，结果模型通常对不同类型的分布非常有效。例如，GLM 的构建可以在线性回归与逻辑回归中都学习到不错的模型。
 
 #### 最小二乘法
 
-为了证明最小二乘法是广义线性模型（GLM）的一个特例，考虑目标变量 $ y $，在 GLM 术语中也称为 **响应变量（response variable**）是连续的情形，我们将 $ y $ 的条件分布建模为 $ x $ 为高斯分布 $ \mathcal{N}(\mu, \sigma^2) $（这里，$\mu$ 可能依赖于 $ x $）。因此，我们让上述的指数族分布 $ \text{ExponentialFamily}(\eta) $ 是高斯分布。如我们之前所见，在高斯分布作为指数族分布的形式中，我们有 $\mu = \eta$。所以，我们有
+为了证明最小二乘法是广义线性模型（GLM）的一个特例，考虑目标变量 <span class="math">$ y $</span>，在 GLM 术语中也称为 **响应变量（response variable**）是连续的情形，我们将 <span class="math">$ y $</span> 的条件分布建模为 <span class="math">$ x $</span> 为高斯分布 <span class="math">$ \mathcal{N}(\mu, \sigma^2) $</span>（这里，<span class="math">$\mu$</span> 可能依赖于 <span class="math">$ x $</span>）。因此，我们让上述的指数族分布 <span class="math">$ \text{ExponentialFamily}(\eta) $</span> 是高斯分布。如我们之前所见，在高斯分布作为指数族分布的形式中，我们有 <span class="math">$\mu = \eta$</span>。所以，我们有
 
 <div class="math">
 $$
@@ -154,11 +153,11 @@ h_\theta(x) &= \mathbb{E}[y \mid x; \theta] \\[4pt]
 $$
 </div>
 
-第一个等式来自假设 2；第二个等式来自 $ y \mid x; \theta \sim \mathcal{N}(\mu, \sigma^2) $ ，因此其期望值由 $\mu$ 给出；第三个等式来自假设 1（以及我们之前推导出的在高斯作为指数族分布的形式中 $\mu = \eta$ 的结果）；最后一个等式来自假设 3。
+第一个等式来自假设 2；第二个等式来自 <span class="math">$ y \mid x; \theta \sim \mathcal{N}(\mu, \sigma^2) $</span> ，因此其期望值由 <span class="math">$\mu$</span> 给出；第三个等式来自假设 1（以及我们之前推导出的在高斯作为指数族分布的形式中 <span class="math">$\mu = \eta$</span> 的结果）；最后一个等式来自假设 3。
 
 #### 逻辑回归
 
-现在我们开始考虑逻辑回归。这里我们依然以二分类为例，所以 $ y \in \\{0, 1\\} $。由于 $ y $ 是二值的，因此选择伯努利分布来建模给定 $ x $ 的 $ y $ 的条件分布。在我们将伯努利分布作为指数族分布的形式中，我们有 $ \phi = 1/(1 + e^{-\eta}) $。此外，如果 $ y \mid x; \theta \sim \text{Bernoulli}(\phi) $，那么 $ \mathbb{E}[y \mid x; \theta] = \phi $。因此，按照与最小二乘法相似的推导，我们得到：
+现在我们开始考虑逻辑回归。这里我们依然以二分类为例，所以 <span class="math">$ y \in \\{0, 1\\} $</span>。由于 <span class="math">$ y $ 是二值的，因此选择伯努利分布来建模给定 <span class="math">$ x $</span> 的 <span class="math">$ y $</span> 的条件分布。在我们将伯努利分布作为指数族分布的形式中，我们有 <span class="math">$ \phi = 1/(1 + e^{-\eta}) $</span>。此外，如果 <span class="math">$ y \mid x; \theta \sim \text{Bernoulli}(\phi) $</span>，那么 <span class="math">$ \mathbb{E}[y \mid x; \theta] = \phi $</span>。因此，按照与最小二乘法相似的推导，我们得到：
 
 <div class="math">
 $$
@@ -171,28 +170,28 @@ h_\theta(x) &= \mathbb{E}[y \mid x; \theta] \\[4pt]
 $$
 </div>
 
-因此，这给出了形如 $ h_\theta(x) = \displaystyle{\frac{1}{1 + e^{-\theta^T x}}} $ 的假设函数。如果你之前想知道我们是如何得到逻辑回归的函数形式的，那么这个假设就给出了答案。一旦我们假设 $ y $ 条件于 $ x $ 是伯努利分布，它就作为 GLM 和指数族分布自然导出的结果。
+因此，这给出了形如 <span class="math">$ h_\theta(x) = \displaystyle{\frac{1}{1 + e^{-\theta^T x}}} $ 的假设函数。如果你之前想知道我们是如何得到逻辑回归的函数形式的，那么这个假设就给出了答案。一旦我们假设 <span class="math">$ y $ 条件于 <span class="math">$ x $ 是伯努利分布，它就作为 GLM 和指数族分布自然导出的结果。
 
-进一步地，以 $ \eta $ 为参数的函数 $ g $ （$ g(\eta) = \mathbb{E}[T(y) ; \eta] $）叫做 **正则响应函数（canonical response function）**。作为 $ T(y) $ 期望值的反函数 $ g^{-1} $，叫做 **正则关联函数（canonical link function）**。不同的指数族的族内分布的正则响应函数是不同的。例如，高斯分布的正则响应函数就是 **判别函数（identify function）**，伯努利分布的正则响应函数就是 **逻辑函数（logistic function）**。
+进一步地，以 <span class="math">$ \eta $</span> 为参数的函数 <span class="math">$ g $</span> （<span class="math">$ g(\eta) = \mathbb{E}[T(y) ; \eta] $</span>）叫做 **正则响应函数（canonical response function）**。作为 <span class="math">$ T(y) $</span> 期望值的反函数 <span class="math">$ g^{-1} $</span>，叫做 **正则关联函数（canonical link function）**。不同的指数族的族内分布的正则响应函数是不同的。例如，高斯分布的正则响应函数就是 **判别函数（identify function）**，伯努利分布的正则响应函数就是 **逻辑函数（logistic function）**。
 
 #### ⭐Softmax 回归
 
 ##### 类比推广
 
-考虑一个分类问题，其中响应变量 $ y $ 可以取 $ k $ 个值中的任意一个，即 $ y \in \\{1, 2, \ldots, k\\} $。响应变量仍然是离散的，但现在可以取超过两个值。我们因此将其建模为多项分布。
+考虑一个分类问题，其中响应变量 <span class="math">$ y $</span> 可以取 <span class="math">$ k $</span> 个值中的任意一个，即 <span class="math">$ y \in \\{1, 2, \ldots, k\\} $</span>。响应变量仍然是离散的，但现在可以取超过两个值。我们因此将其建模为多项分布。
 
 由之前的二分类，我们可以将伯努利分布转化为多项式分布。
 
 下面，利用 GLM 对多项数据建模进行推导。为此，我们首先将多项式表示为指数族分布。
 
-为了对 $ k $ 个可能结果进行多项式参数化，可以使用 $ k $ 个参数 $\phi_1, \ldots, \phi_k$ 来指定每个结果的概率。然而，这些参数存在着冗余，或者标准地说，它们 **不是独立的**。
+为了对 $ k $ 个可能结果进行多项式参数化，可以使用 <span class="math">$ k $</span> 个参数 <span class="math">$\phi_1, \ldots, \phi_k$</span> 来指定每个结果的概率。然而，这些参数存在着冗余，或者标准地说，它们 **不是独立的**。
 
 > [!WARNING]
-> **因为已知任意 $ k-1 $ 个 $\phi$ 的值,就可以唯一确定最后一个值，因为它们必须满足 $ \sum_{i=1}^{k} \phi_i = 1 $**
+> **因为已知任意 <span class="math">$ k-1 $</span> 个 <span class="math">$\phi$</span> 的值,就可以唯一确定最后一个值，因为它们必须满足 <span class="math">$ \sum_{i=1}^{k} \phi_i = 1 $</span>**
 
-因此，我们将仅使用 $ k-1 $ 个参数 $\phi_1, \ldots, \phi_{k-1}$ 来对多项式进行参数拟合，其中 $ \phi_i = p(y = i; \phi) $，同时 $ p(y = k; \phi) = 1 - \sum_{i=1}^{k-1} \phi_i $。我们还将设 $\phi_k = 1 - \sum_{i=1}^{k-1} \phi_i$，但我们应记住这不是一个参数，并且它完全由 $\phi_1, \ldots, \phi_{k-1}$ 定义的。
+因此，我们将仅使用 <span class="math">$ k-1 $</span> 个参数 <span class="math">$\phi_1, \ldots, \phi_{k-1}$</span> 来对多项式进行参数拟合，其中 <span class="math">$ \phi_i = p(y = i; \phi) $</span>，同时 <span class="math">$ p(y = k; \phi) = 1 - \sum_{i=1}^{k-1} \phi_i $</span>。我们还将设 <span class="math">$\phi_k = 1 - \sum_{i=1}^{k-1} \phi_i$</span>，但我们应记住这不是一个参数，并且它完全由 <span class="math">$\phi_1, \ldots, \phi_{k-1}$</span> 定义的。
 
-为了将多项式表示为一个指数族分布，我们将 $ T(y) \in \mathbb{R}^{k-1} $ 定义如下：
+为了将多项式表示为一个指数族分布，我们将 <span class="math">$ T(y) \in \mathbb{R}^{k-1} $</span> 定义如下：
 
 <div class="math">
 $$
@@ -232,13 +231,13 @@ T(1) = \begin{bmatrix}
 $$
 </div>
 
-与之前的模型不同，我们不将 $ T(y) $ 定义为 $ y $ 的值：$ T(y) $ 现在是一个 $ k-1 $ 维向量，而不再是实数。我们将记 $ (T(y))_i $ 表示向量 $ T(y) $ 的第 $ i $ 个元素。
+与之前的模型不同，我们不将 <span class="math">$ T(y) $</span> 定义为 <span class="math">$ y $</span> 的值：<span class="math">$ T(y) $</span> 现在是一个 <span class="math">$ k-1 $</span> 维向量，而不再是实数。我们将记 <span class="math">$ (T(y))_i $</span> 表示向量 <span class="math">$ T(y) $</span> 的第 <span class="math">$ i $</span> 个元素。
 
-这里我们引入一个非常有用的记号：**指示函数（indicator function）** $ 1\\{\cdot\\} $
+这里我们引入一个非常有用的记号：**指示函数（indicator function）** <span class="math">$ 1\\{\cdot\\} $</span>
 
-在其参数为真时值为 1，在其参数为假时值为 0，即 $ 1 \\{True\\} = 1, 1 \\{False\\} = 0 $。例如，$ 1\\{2 = 3\\} = 0 $， $ 1\\{3 = 5 - 2\\} = 1 $。
+在其参数为真时值为 1，在其参数为假时值为 0，即 <span class="math">$ 1 \\{True\\} = 1, 1 \\{False\\} = 0 $</span>。例如，<span class="math">$ 1\\{2 = 3\\} = 0 $， $ 1\\{3 = 5 - 2\\} = 1 $</span>。
 
-于是，我们可以将 $ T(y) $ 与 $ y $ 的关系写为 $ (T(y))_i = 1\\{y = i\\} $。$ (T(y))_i $ 的其期望为 $ \mathbb{E}[T(y)_i] = P(y = i) = \phi_i $。
+于是，我们可以将 <span class="math">$ T(y) $</span> 与 <span class="math">$ y $</span> 的关系写为 <span class="math">$ (T(y))_i = 1\\{y = i\\} $</span>。<span class="math">$ (T(y))_i $</span> 的其期望为 <span class="math">$ \mathbb{E}[T(y)_i] = P(y = i) = \phi_i $</span>。
 
 ##### 验证并构建 GLM
 
@@ -272,7 +271,7 @@ $$
 
 至此，我们验证了该多项式分布属于指数族。
 
-关联函数（$ \text{for}\ i = 1, \ldots, k $）如下：
+关联函数（<span class="math">$ \text{for}\ i = 1, \ldots, k $</span>）如下：
 
 <div class="math">
 $$
@@ -280,7 +279,7 @@ $$
 $$
 </div>
 
-为了方便起见，我们还定义了 $ \eta_k = \log (\phi_k / \phi_k) = 0 $。为了求反关联函数以得到响应函数，有：
+为了方便起见，我们还定义了 <span class="math">$ \eta_k = \log (\phi_k / \phi_k) = 0 $</span>。为了求反关联函数以得到响应函数，有：
 
 <div class="math">
 $$
@@ -292,7 +291,7 @@ e^{\eta_i} &= \frac{\phi_i}{\phi_k} \\[5pt]
 $$
 </div>
 
-其中， $ \phi_k = \displaystyle{\frac{1}{\sum_{i=1}^{k} e^{\eta_i}}} $，这可以代入回方程（1）得到响应函数：
+其中，<span class="math">$ \phi_k = \displaystyle{\frac{1}{\sum_{i=1}^{k} e^{\eta_i}}} $</span>，这可以代入回方程（1）得到响应函数：
 
 <div class="math">
 $$
@@ -302,13 +301,13 @@ $$
 $$
 </div>
 
-这个将 $ \eta $ 映射到 $ \phi $ 的函数被称为 **softmax函数**。
+这个将 <span class="math">$ \eta $</span> 映射到 <span class="math">$ \phi $</span> 的函数被称为 **softmax函数**。
 
-为了构建模型，我们使用之前提到的假设 3，即 $ \eta_i $ 与 $ x $  线性相关。因此，令 $ \eta_i = \theta_i^T x $（$ \text{for}\ i = 1, \ldots, k-1 $）。
+为了构建模型，我们使用之前提到的假设 3，即 <span class="math">$ \eta_i $</span> 与 <span class="math">$ x $</span> 线性相关。因此，令 <span class="math">$ \eta_i = \theta_i^T x $</span>（<span class="math">$ \text{for}\ i = 1, \ldots, k-1 $</span>）。
 
-其中 $ \theta_1, \ldots, \theta_{k-1} \in \mathbb{R}^{n+1} $ 是模型的参数。
+其中 <span class="math">$ \theta_1, \ldots, \theta_{k-1} \in \mathbb{R}^{n+1} $</span> 是模型的参数。
 
-为了易于记录，可定义 $ \theta_k = 0 $，这样就有 $ \eta_k = \theta_k^T x = 0 $。因此，我们的模型假设在给定 $ x $ 的条件下 $ y $ 的条件分布为：
+为了易于记录，可定义 <span class="math">$ \theta_k = 0 $</span>，这样就有 <span class="math">$ \eta_k = \theta_k^T x = 0 $</span>。因此，我们的模型假设在给定 <span class="math">$ x $</span> 的条件下 <span class="math">$ y $</span> 的条件分布为：
 
 <div class="math">
 $$
@@ -320,7 +319,7 @@ p(y = i | x; \theta)&= \phi_i \\[5pt]
 $$
 </div>
 
-这个模型适用于 $ y \in \\{1, \ldots, k\\} $ 的分类问题，称为 **softmax 回归**，是用于二分类的逻辑回归的推广。
+这个模型适用于 <span class="math">$ y \in \\{1, \ldots, k\\} $</span> 的分类问题，称为 **softmax 回归**，是用于二分类的逻辑回归的推广。
 
 我们的假设函数将输出：
 
@@ -350,14 +349,14 @@ h_\theta(x) &= \mathbb{E}[T(y) | x; \theta] \\[5pt]
 $$
 </div>
 
-换句话说，我们的假设将输出对于 $ i = 1, \ldots, k $ 的每一个值的估计概率 $ p(y = i | x; \theta) $。
+换句话说，我们的假设将输出对于 <span class="math">$ i = 1, \ldots, k $</span> 的每一个值的估计概率 <span class="math">$ p(y = i | x; \theta) $</span>。
 
 > [!WARNING]
-> **即使上面定义的 $ h_\theta(x) $ 仅为 $ k - 1 $ 维，但是显然可以得到 $ p(y = k | x; \theta) $ 为 $ 1 - \sum_{i=1}^{k-1} \phi_i $。**
+> **即使上面定义的 <span class="math">$ h_\theta(x) $</span> 仅为 <span class="math">$ k - 1 $</span> 维，但是显然可以得到 <span class="math">$ p(y = k | x; \theta) $</span> 为 <span class="math">$ 1 - \sum_{i=1}^{k-1} \phi_i $</span>。**
 
 ##### 参数估计
 
-最后，我们进行参数估计。类似于对普通最小二乘法和逻辑回归的推导，如果有一个包含 $ m $ 个样本的训练集 $ \\{(x^{(i)}, y^{(i)}); i = 1, \ldots, m\\} $ 并且希望学习这个模型的参数 $ \theta_i $。
+最后，我们进行参数估计。类似于对普通最小二乘法和逻辑回归的推导，如果有一个包含 <span class="math">$ m $</span> 个样本的训练集 <span class="math">$ \\{(x^{(i)}, y^{(i)}); i = 1, \ldots, m\\} $</span> 并且希望学习这个模型的参数 <span class="math">$ \theta_i $</span>。
 
 首先写出其对数似然函数：
 
@@ -370,6 +369,6 @@ $$
 $$
 </div>
 
-为了得到上述公式的第二行，采用了方程（2）中给出的 $ p(y | x; \theta) $ 的定义。
+为了得到上述公式的第二行，采用了方程（2）中给出的 <span class="math">$ p(y | x; \theta) $</span> 的定义。
 
-我们现在可以通过最大化 $ \ell(\theta )$ 来获得参数 $ \theta $ 的最大似然估计。使用的方法可以是我们之前学习过的梯度上升或牛顿法。
+我们现在可以通过最大化 <span class="math">$ \ell(\theta )$</span> 来获得参数 <span class="math">$ \theta $</span> 的最大似然估计。使用的方法可以是我们之前学习过的梯度上升或牛顿法。

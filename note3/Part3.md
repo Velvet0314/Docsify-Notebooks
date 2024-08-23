@@ -15,7 +15,7 @@
 
 ### ⭐逻辑回归
 
-对于一个分类问题，预测值的多样性就变得无意义。于是，我们将预测值规定在 $ y \in \\{0,1\\} $ 上。相应地，我们也需要变更我们的假设函数：
+对于一个分类问题，预测值的多样性就变得无意义。于是，我们将预测值规定在 <span class="math">$ y \in \\{0,1\\} $</span> 上。相应地，我们也需要变更我们的假设函数：
 
 <div class="math">
 $$
@@ -33,7 +33,7 @@ g(z) = \frac{1}{1 + e^{-z}}
 $$
 </div>
 
-其中，$ g(z) $ 被称为 **logistic 函数** 或 **sigmoid 函数**。其图像如图：
+其中，<span class="math">$ g(z) $</span> 被称为 **logistic 函数** 或 **sigmoid 函数**。其图像如图：
 
 <div style="text-align: center;">
  <a href="https://s21.ax1x.com/2024/05/26/pklcnER.png" data-lightbox="image-3" data-title="sigmoid function">
@@ -98,7 +98,7 @@ $$
 $$
 </div>
 
-如何最大化 $ L(\theta) $ 呢？还是与之前一样，采用 **梯度上升（gradient ascent）**，即更新策略为：$ \theta := \theta + \alpha \nabla_\theta \ell(\theta)\ $。
+如何最大化 <span class="math">$ L(\theta) $</span> 呢？还是与之前一样，采用 **梯度上升（gradient ascent）**，即更新策略为：<span class="math">$ \theta := \theta + \alpha \nabla_\theta \ell(\theta)\ $</span>。
 
 > [!NOTE]
 > 注意这里使用的是 **梯度上升**，因为我们这里是是在“**最大化**”一个函数，而非在梯度下降中“**最小化**”代价函数。
@@ -125,16 +125,15 @@ $$
 $$
 </div>
 
-这样，我们就得到了二分类的学习方法：**逻辑回归（logistic regression）**。如果我们将其与 LMS 更新规则进行比较，我们会发现它看起来是相同的。但这并不是相同的算法，因为 $ h_\theta(x^{(i)}) $ 现在定义为 $ \theta^T x^{(i)} $ 的非线性函数。尽管如此，有点令人惊讶的是，我们最终为一个完全不同的算法和学习问题得到了相同的更新规则。这是巧合，还是背后有更深层的原因？后续的 GLM 模型会解开我们的困惑。
+这样，我们就得到了二分类的学习方法：**逻辑回归（logistic regression）**。如果我们将其与 LMS 更新规则进行比较，我们会发现它看起来是相同的。但这并不是相同的算法，因为 $<span class="math"> h_\theta(x^{(i)}) $</span> 现在定义为 <span class="math">$ \theta^T x^{(i)} $</span> 的非线性函数。尽管如此，有点令人惊讶的是，我们最终为一个完全不同的算法和学习问题得到了相同的更新规则。这是巧合，还是背后有更深层的原因？后续的 GLM 模型会解开我们的困惑。
 
 #### 总结：逻辑回归
 
-在逻辑回归模型中，分类取决于概率。我们可以把这个概率称为决策分数，指 $ \theta^T x $ 的值。该值经过 sigmoid 函数转换为概率。具体来说：
+在逻辑回归模型中，分类取决于概率。我们可以把这个概率称为决策分数，指 <span class="math">$ \theta^T x $</span> 的值。该值经过 sigmoid 函数转换为概率。具体来说：
 
-- 当 $ \theta^T x = 0 $ 时，sigmoid 函数输出为 0.5，即分类边界，表示分类的不确定性最大。
-- 当 $ \theta^T x > 0 $ 时，sigmoid 函数输出大于 0.5，模型倾向于预测正类（标签 1）。
-- 当 $ \theta^T x < 0 $ 时，sigmoid 函数输出小于 0.5，模型倾向于预测负类（标签 0）。
-
+- 当 <span class="math">$ \theta^T x = 0 $</span> 时，sigmoid 函数输出为 0.5，即分类边界，表示分类的不确定性最大。
+- 当 <span class="math">$ \theta^T x > 0 $</span> 时，sigmoid 函数输出大于 0.5，模型倾向于预测正类（标签 1）。
+- 当 <span class="math">$ \theta^T x < 0 $</span> 时，sigmoid 函数输出小于 0.5，模型倾向于预测负类（标签 0）。
 
 ### 感知机
 
@@ -167,7 +166,7 @@ $$
 
 牛顿法是一种用于求解非线性方程的迭代算法，也被广泛应用于优化问题中寻找函数的极值点。其基本思想是利用函数的导数信息，通过线性近似逐步逼近函数的根或极值点。
 
-给出一个初始点 $ x_0 $，利用切线去逼近函数的根，其迭代公式为：
+给出一个初始点 <span class="math">$ x_0 $</span>，利用切线去逼近函数的根，其迭代公式为：
 
 <div class="math">
 $$
@@ -185,7 +184,7 @@ $$
  </a>
 </div>
 
-为了最大化 $ \ell(\theta) $，显然我们需要求解 <font size=4>$ \frac{\partial \ell(\theta)}{\partial \theta} = 0 $</font>，也就是求 $ \ell(\theta) $ 的驻点 $ \ell'(\theta) = 0 $。
+为了最大化 <span class="math">$ \ell(\theta) $</span>，显然我们需要求解 <font size=4><span class="math">$ \frac{\partial \ell(\theta)}{\partial \theta} = 0 $</span></font>，也就是求 <span class="math">$ \ell(\theta) $</span> 的驻点 <span class="math">$ \ell'(\theta) = 0 $</span>。
 
 所以相应地，更新规则为：
 
@@ -195,7 +194,7 @@ $$
 $$
 </div>
 
-由于我们在逻辑回归中采用的 $ \theta $ 是向量形式，于是我们将牛顿法推广到高维，通常也称为 **牛顿-拉弗森法（Newton-Raphson Method）**。此时，更新规则变更为：
+由于我们在逻辑回归中采用的 <span class="math">$ \theta $</span> 是向量形式，于是我们将牛顿法推广到高维，通常也称为 **牛顿-拉弗森法（Newton-Raphson Method）**。此时，更新规则变更为：
 
 <div class="math">
 $$
