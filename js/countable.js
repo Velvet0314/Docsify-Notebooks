@@ -1,80 +1,70 @@
-//default values
+// Default configuration options
 var defaultOptions = {
   countable: true,
-  position: "top",
-  margin: "10px",
-  float: "right",
-  fontsize: "0.9em",
-  color: "rgb(90,90,90)",
-  language: "english",
+  position: "top",          // "top" or "bottom"
+  margin: "10px",           // Margin around the counter
+  float: "right",           // "left" or "right"
+  fontsize: "0.9em",        // Font size of the counter
+  color: "rgb(90,90,90)",   // Text color of the counter
+  language: "english",      // Language: "english" or "chinese"
   localization: {
-    words: "",
-    minute: "",
+    words: " words",        // Custom text for "words" in the counter
+    minute: " min",         // Custom text for "minute" in the counter
   },
-  isExpected: true,
+  isExpected: true,         // Whether to show expected read time
 };
 
 // Docsify plugin functions
-function plugin(hook, vm) {
+function wordCountPlugin(hook, vm) {
   if (!defaultOptions.countable) {
     return;
   }
+
   let wordsCount;
+
   hook.beforeEach(function (content) {
-    // 创建用于统计字数的临时副本，并移除 <span class="math"></span> 和 <div class="math"></div> 及其内容
+    // Remove MathJax content from counting by removing <span class="math">...</span> and <div class="math">...</div>
     let contentForCounting = content
-      .replace(/<span class="math">[\s\S]*?<\/span>/g, "")
-      .replace(/<div class="math">[\s\S]*?<\/div>/g, "");
-    console.log("Content for counting:", contentForCounting);
-    // Match regex every time you start parsing .md
+      .replace(/<span\s+class="math">[\s\S]*?<\/span>/gi, "")
+      .replace(/<div\s+class="math">[\s\S]*?<\/div>/gi, "");
+
+    // Count words by matching alphanumeric sequences and CJK characters
     wordsCount = (
-      contentForCounting.match(
-        /([\u0800-\u4e00]+?|[\u4e00-\u9fa5]+?|[a-zA-Z0-9]+)/g
-      ) || []
+      contentForCounting.match(/([\u0800-\u4e00]+?|[\u4e00-\u9fa5]+?|[a-zA-Z0-9]+)/g) || []
     ).length;
+
     return content;
   });
+
   hook.afterEach(function (html, next) {
     // Support localization
-    let str = wordsCount + " words";
-    let readTime = Math.ceil(wordsCount / 400) + " min";
+    let wordText = wordsCount + (defaultOptions.localization.words || " words");
+    let readTimeText = Math.ceil(wordsCount / 400) + (defaultOptions.localization.minute || " min");
+
     if (defaultOptions.language === "chinese") {
-      str = wordsCount + " 字";
-      readTime = Math.ceil(wordsCount / 400) + " 分钟";
-    } else if (
-      defaultOptions.localization.words.length !== 0 &&
-      defaultOptions.localization.minute.length !== 0
-    ) {
-      str = wordsCount + defaultOptions.localization.words;
-      readTime =
-        Math.ceil(wordsCount / 400) + defaultOptions.localization.minute;
+      wordText = wordsCount + " 字";
+      readTimeText = Math.ceil(wordsCount / 400) + " 分钟";
     }
 
-    //add html string
+    // Create the counter element
+    let counterHtml = `
+      <div style="margin-${defaultOptions.position === "bottom" ? "top" : "bottom"}: ${defaultOptions.margin};">
+        <span style="
+          float: ${defaultOptions.float};
+          font-size: ${defaultOptions.fontsize};
+          color: ${defaultOptions.color};">
+          ${wordText}${defaultOptions.isExpected ? `&nbsp; | &nbsp;${readTimeText}` : ""}
+        </span>
+        <div style="clear: both"></div>
+      </div>`;
+
+    // Add the counter to the HTML content
     next(
-      `
-        ${defaultOptions.position === "bottom" ? html : ""}
-        <div style="margin-${defaultOptions.position ? "bottom" : "top"}: ${
-        defaultOptions.margin
-      };">
-            <span style="
-                  float: ${defaultOptions.float === "right" ? "right" : "left"};
-                  font-size: ${defaultOptions.fontsize};
-                  color:${defaultOptions.color};">
-            ${str}
-            ${defaultOptions.isExpected ? `&nbsp; | &nbsp;${readTime}` : ""}
-            </span>
-            <div style="clear: both"></div>
-        </div>
-        ${defaultOptions.position !== "bottom" ? html : ""}
-            `
+      `${defaultOptions.position === "bottom" ? html : ""}${counterHtml}${defaultOptions.position !== "bottom" ? html : ""}`
     );
   });
 }
 
 // Docsify plugin options
-window.$docsify["count"] = Object.assign(
-  defaultOptions,
-  window.$docsify["count"]
-);
-window.$docsify.plugins = [].concat(plugin, window.$docsify.plugins);
+window.$docsify["count"] = Object.assign(defaultOptions, window.$docsify["count"] || {});
+window.$docsify.plugins = [].concat(wordCountPlugin, window.$docsify.plugins || []);

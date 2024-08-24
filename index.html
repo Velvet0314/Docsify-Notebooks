@@ -31,6 +31,9 @@
       externalLinkTarget: '_blank',
       auto2top: true,
       sidebarDisplayLevel: 4, // set sidebar display level
+      loadSidebar: true,
+      loadNavbar: true,
+      cache: true,
       ga: 'G-JRV316Y223',
       alias: {
         '/.*/_sidebar.md': '/_sidebar.md',
@@ -79,52 +82,6 @@
         depth: 6,
         maxAge: 86400000, // 过期时间，单位毫秒，默认一天
       },
-      autoFooter: {
-        name: "Velvet",
-        url: "https://github.com/Velvet0314/Docsify-Notebooks",
-
-      },
-      plugins: [
-        function (hook, vm) {
-          hook.doneEach(function () {
-            const inlineMaths = document.querySelectorAll('span.math');
-            const blockMaths = document.querySelectorAll('div.math');
-
-            const observer = new IntersectionObserver((entries, observer) => {
-              entries.forEach(entry => {
-                const element = entry.target;
-
-                if (entry.isIntersecting) {
-                  // 进入视图，渲染公式
-                  if (!element.dataset.rendered) {
-                    element.innerHTML = element.dataset.originalContent; // 恢复原始内容
-                    if (window.MathJax) {
-                        MathJax.typesetPromise([element]).then(() => {
-                          element.dataset.rendered = "true"; // 标记已经渲染
-                        }).catch((err) => {
-                          console.error('MathJax rendering failed: ', err);
-                        });
-                    }
-                  }
-                } else {
-                  // 离开视图，取消渲染
-                  if (element.dataset.rendered) {
-                    element.dataset.originalContent = element.innerHTML; // 保存当前内容
-                    element.innerHTML = ''; // 清空内容
-                    delete element.dataset.rendered; // 移除标记
-                  }
-                }
-              });
-            }, { rootMargin: '0px', threshold: 0.1 });
-
-            // 遍历所有公式元素，保存原始内容，并进行观察
-            [...inlineMaths, ...blockMaths].forEach(element => {
-              element.dataset.originalContent = element.innerHTML; // 保存原始内容
-              observer.observe(element);
-            });
-          });
-        }
-      ]
     }
   </script>
 
@@ -152,14 +109,13 @@
   <script src="js/sidebar-collapse.js"></script>
 
   <!-- Docsify-pagination-->
-  <script src="js/pagination.js"></script>
+  <script async src="js/pagination.js"></script>
 
   <!-- Docsify-Count -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify-count@latest/dist/countable.min.js"></script>
-  <!-- <script src="js/countable.js"></script> -->
+  <script src="js/countable.js"></script>
 
   <!-- Docsify Updated -->
-  <script src="https://cdn.jsdelivr.net/npm/docsify-updated/src/time-updater.min.js"></script>
+  <script async src="https://cdn.jsdelivr.net/npm/docsify-updated/src/time-updater.min.js"></script>
 
   <!-- Lightbox2 -->
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox-plus-jquery.js"></script>
@@ -225,10 +181,12 @@
         packages: { '[+]': ['color'] }
       },
       loader: { load: ['[tex]/color'] },
+      startup: {
+        typeset: false  // 禁用自动渲染
+      },
       options: {
-        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
         ignoreHtmlClass: 'tex2jax_ignore',
-        processHtmlClass: 'tex2jax_process'
+        processHtmlClass: 'tex2jax_process',
       },
       svg: {
         fontCache: 'global',
@@ -238,7 +196,8 @@
   <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-  <script src="js/dark-mode.js"></script>
+  <script async src="js/dark-mode.js"></script>
+  <script async src="js/lazy.js"></script>
 </body>
 
 </html>
