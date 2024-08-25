@@ -23,14 +23,14 @@ jobs:
 
       - name: Get last commit dates and format as JSON
         run: |
-          echo "{" > last_commit_dates.json
+          echo "{}" > last_commit_dates.json
+
           for file in $(git ls-files); do
             last_commit_date=$(git log -1 --format="%ci" -- "$file")
-            echo "  \"$file\": \"$last_commit_date\"," | tee last_commit_dates.json
+            # Add the file and date to the JSON object using jq
+            jq --arg file "$file" --arg date "$last_commit_date" \
+              '. + {($file): $date}' last_commit_dates.json > tmp.json && mv tmp.json last_commit_dates.json
           done
-          # Remove the trailing comma and close the JSON object
-          sed -i '$ s/,$//' last_commit_dates.json
-          echo "}" >> last_commit_dates.json
 
       - name: Setup Git config
         run: |
