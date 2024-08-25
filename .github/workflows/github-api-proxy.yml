@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
+
       - name: Fetch Commits
         run: |
           echo "Fetching commits from GitHub API..."
@@ -21,6 +21,16 @@ jobs:
                -H "Accept: application/vnd.github.v3+json" \
                "https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100" | tee commits.json
 
+      - name: Get last commit dates and format as JSON
+        run: |
+          echo "{}" > last_commit_dates.json
+
+          for file in $(git ls-files); do
+            last_commit_date=$(git log -1 --format="%ci" -- "$file")
+            jq --arg file "$file" --arg date "$last_commit_date" \
+              '. + {($file): $date}' last_commit_dates.json > tmp.json && mv tmp.json last_commit_dates.json
+          done
+          
       - name: Setup Git config
         run: |
           git config --global user.name "github-actions[bot]"
@@ -33,6 +43,6 @@ jobs:
 
       - name: Deploy to GitHub Pages
         run: |
-          git add commits.json
-          git commit -m "Deploy commits.json to GitHub Pages"
+          git add commits.json last_commit_dates.json
+          git commit -m "Deploy commits.json and last_commit_dates.json to GitHub Pages"
           git push -f origin gh-pages
