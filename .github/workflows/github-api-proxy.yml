@@ -14,16 +14,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
         
-      - name: Check directory permissions
-        run: ls -ld .
+      - name: Debug Directory
+        run: |
+          echo "Current directory:"
+          pwd
+          echo "Files in current directory:"
+          ls -lh
 
       - name: Fetch Commits
         run: |
           echo "Fetching commits from GitHub API..."
-          > commits.json  # 清空文件
           curl -v -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
                -H "Accept: application/vnd.github.v3+json" \
-               https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100 | tee commits.json
+               "https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100" | tee commits.json
 
       - name: Setup Git config
         run: |
