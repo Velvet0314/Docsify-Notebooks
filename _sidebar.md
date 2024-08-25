@@ -79,3 +79,6 @@
   * [SMO 算法](note6/Part6.md?id=SMO-算法)
     * [坐标上升](note6/Part6.md?id=坐标上升)
     * [SMO 详解](note6/Part6.md?id=SMO-详解)
+* [第七章&ensp;学习理论](note7/Part7.md)
+  * [偏差/方差权衡](note7/Part7.md?id=偏差-方差权衡)
+  * [知识准备](note7/Part7.md?id=知识准备)
