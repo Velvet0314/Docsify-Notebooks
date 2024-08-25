@@ -23,6 +23,13 @@ jobs:
         run: |
           echo "REPO_TOKEN: ${{ secrets.REPO_TOKEN }}"
           
+      - name: Delete existing commits.json
+        run: |
+          if [ -f commits.json ]; then
+            echo "Deleting existing commits.json..."
+            rm commits.json
+          fi
+
       - name: Fetch Commits
         run: |
           echo "Fetching commits from GitHub API..."
