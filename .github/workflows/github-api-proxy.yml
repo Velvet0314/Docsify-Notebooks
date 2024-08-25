@@ -13,13 +13,32 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-        
-      - name: Fetch Commits
+
+      - name: Fetch commits
         run: |
           echo "Fetching commits from GitHub API..."
-          curl -v -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
+          # 获取最新的 100 次提交的基本信息
+          curl -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
                -H "Accept: application/vnd.github.v3+json" \
-               "https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100" | tee commits.json
+               "https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100" > commits_base.json
+          echo "Fetched basic commit information."
+
+      - name: Fetch detailed commit data
+        run: |
+          echo "Fetching detailed commit data..."
+          mkdir -p commits_details
+          for sha in $(jq -r '.[].sha' commits_base.json); do
+            curl -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
+                 -H "Accept: application/vnd.github.v3+json" \
+                 "https://api.github.com/repos/${{ github.repository }}/commits/$sha" > "commits_details/$sha.json"
+          done
+          echo "Fetched detailed commit data."
+
+      - name: Combine commit data
+        run: |
+          echo "Combining commit data..."
+          jq -s '[.[][]]' commits_details/*.json > commits.json
+          echo "Combined commit data into commits.json."
 
       - name: Setup Git config
         run: |
