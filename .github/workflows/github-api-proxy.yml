@@ -1,9 +1,9 @@
 name: GitHub API Proxy
 
 on:
-  push:
-    branches:
-      - gh-pages  # 在推送到 GitHub Pages 分支时运行工作流
+  workflow_dispatch:
+  repository_dispatch:
+    types: [fetch-commits]
 
 jobs:
   fetch_commits:
@@ -19,7 +19,7 @@ jobs:
       - name: Check Commits JSON
         run: |
           echo "Checking commits.json..."
-          cat commits.json  # 这里可以输出生成的 commits.json 内容，进行调试
+          cat commits.json
 
       - name: Upload Commits Data
         uses: actions/upload-artifact@v2
