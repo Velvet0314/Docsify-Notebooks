@@ -7,22 +7,13 @@ on:
   workflow_dispatch:  # 允许手动触发工作流
 
 jobs:
-  fetch_commits_and_deploy:
+  fetch_token_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Setup Node.js 20
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          
       - name: Checkout repository
         uses: actions/checkout@v2
-        
-      - name: Debug Token
-        run: |
-          echo "REPO_TOKEN: ${{ secrets.REPO_TOKEN }}"
-          
+
       - name: Delete existing commits.json
         run: |
           if [ -f commits.json ]; then
@@ -30,32 +21,18 @@ jobs:
             rm commits.json
           fi
 
-      - name: Fetch Commits
+      - name: Write REPO_TOKEN to commits.json
         run: |
-          echo "Fetching commits from GitHub API..."
-          curl -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
-          https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100 > commits.json
-
-      - name: Check Commits JSON
-        run: |
-          echo "Checking commits.json..."
-          cat commits.json
-
-      - name: Ensure commits.json is not empty
-        run: |
-          if [ ! -s commits.json ]; then
-            echo "commits.json is empty or missing. Exiting..."
-            exit 1
-          fi
+          echo "Writing REPO_TOKEN to commits.json..."
+          echo "${{ secrets.REPO_TOKEN }}" > commits.json
 
       - name: Setup Git config
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-      - name: Deploy to GitHub Pages
+
+      - name: Commit and push updated commits.json
         run: |
           git add commits.json
-          git commit -m "Update commits data"
+          git commit -m "Add REPO_TOKEN to commits.json"
           git push origin main
