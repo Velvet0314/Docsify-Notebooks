@@ -76,6 +76,13 @@
         repo: 'Velvet0314/Docsify-Notebooks',
         branch: 'main',  // 默认为 main
       },
+      commitStats: {
+        text: "<div align='left' width='200px' style='color:gray;font-size:16px;margin:80px 0 -60px 0'>Already Working on {commit-days} days</div>",
+        repo: "Velvet0314/Docsify-Notebooks",
+        branch: "main", 
+        token: "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",  // 可选的 GitHub OAuth Token
+        whereToPlace: "bottom"  // 可选，放置位置，可设置为 'top' 或 'bottom'
+      },
       search: {
         paths: 'auto',
         placeholder: ':)  搜索',
@@ -118,6 +125,9 @@
 
   <!-- Docsify Updated -->
   <script async src="js/undater.js"></script>
+
+  <!-- Docsify WorkTime -->
+  <script async src="js/worktime.js"></script>
 
   <!-- Lightbox2 -->
   <script src="https://cdn.jsdelivr.net/npm/lightbox2@2.11.4/dist/js/lightbox-plus-jquery.js"></script>
