@@ -13,12 +13,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Fetch Commits Debugging
-        run: |
-          echo "Fetching commits from GitHub API..."
-          curl -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
-          -H "Accept: application/vnd.github.v3+json" \
           
       - name: Write REPO_TOKEN to commits.json
         run: |
