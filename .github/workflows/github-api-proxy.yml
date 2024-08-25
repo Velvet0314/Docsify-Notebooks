@@ -7,32 +7,29 @@ on:
   workflow_dispatch:  # 允许手动触发工作流
 
 jobs:
-  fetch_token_and_deploy:
+  fetch_commits_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Delete existing commits.json
+      - name: Fetch Commits
         run: |
-          if [ -f commits.json ]; then
-            echo "Deleting existing commits.json..."
-            rm commits.json
-          fi
-
-      - name: Write REPO_TOKEN to commits.json
-        run: |
-          echo "Writing REPO_TOKEN to commits.json..."
-          echo "${{ secrets.REPO_TOKEN }}" > commits.json
+          echo "Fetching commits from GitHub API..."
+          curl -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
+          -H "Accept: application/vnd.github.v3+json" \
+          https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100 > commits.json
 
       - name: Setup Git config
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Commit and push updated commits.json
+      - name: Deploy to GitHub Pages
         run: |
+          git checkout --orphan gh-pages
+          git reset --hard
           git add commits.json
-          git commit -m "Add REPO_TOKEN to commits.json"
-          git push origin main
+          git commit -m "Deploy commits.json to GitHub Pages"
+          git push -f origin gh-pages
