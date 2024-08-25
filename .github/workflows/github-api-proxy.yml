@@ -1,4 +1,4 @@
-name: Generate and Deploy Commits Data
+name: Github Token Proxy
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
         run: |
           echo "REPO_TOKEN: ${{ secrets.REPO_TOKEN }}"
           
-      - name: Fetch commits data
+      - name: Token
         run: |
           echo "Fetching commits from GitHub API..."
           curl -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
