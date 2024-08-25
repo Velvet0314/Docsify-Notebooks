@@ -27,11 +27,10 @@ jobs:
 
           for file in $(git ls-files); do
             last_commit_date=$(git log -1 --format="%ci" -- "$file")
-            # Add the file and date to the JSON object using jq
             jq --arg file "$file" --arg date "$last_commit_date" \
               '. + {($file): $date}' last_commit_dates.json > tmp.json && mv tmp.json last_commit_dates.json
           done
-
+          
       - name: Setup Git config
         run: |
           git config --global user.name "github-actions[bot]"
