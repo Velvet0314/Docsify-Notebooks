@@ -7,20 +7,13 @@ on:
   workflow_dispatch:  # 允许手动触发工作流
 
 jobs:
-  fetch_commits_and_deploy:
+  get_commits_and_deploy:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
         
-      - name: Debug Directory
-        run: |
-          echo "Current directory:"
-          pwd
-          echo "Files in current directory:"
-          ls -lh
-
       - name: Fetch Commits
         run: |
           echo "Fetching commits from GitHub API..."
