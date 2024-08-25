@@ -18,7 +18,11 @@ jobs:
           
       - name: Checkout repository
         uses: actions/checkout@v2
-
+        
+      - name: Debug Token
+        run: |
+          echo "REPO_TOKEN: ${{ secrets.REPO_TOKEN }}"
+          
       - name: Fetch commits data
         run: |
           echo "Fetching commits from GitHub API..."
