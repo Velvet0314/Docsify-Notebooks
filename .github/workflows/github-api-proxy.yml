@@ -9,6 +9,11 @@ jobs:
   fetch_commits:
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'  # 强制使用 Node.js 20
+
       - name: Fetch Commits
         run: |
           echo "Fetching commits from GitHub API..."
@@ -22,7 +27,7 @@ jobs:
           cat commits.json
 
       - name: Upload Commits Data
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4  # 使用最新版本的上传 Artifact Action
         with:
           name: commits-data
           path: commits.json
