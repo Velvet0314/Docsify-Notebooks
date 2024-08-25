@@ -12,9 +12,12 @@ jobs:
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # 强制使用 Node.js 20
+          node-version: '20'
 
-      - name: Fetch Commits
+      - name: Checkout Code
+        uses: actions/checkout@v2
+
+      - name: Token
         run: |
           echo "Fetching commits from GitHub API..."
           curl -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
@@ -26,8 +29,13 @@ jobs:
           echo "Checking commits.json..."
           cat commits.json
 
-      - name: Upload Commits Data
-        uses: actions/upload-artifact@v4  # 使用最新版本的上传 Artifact Action
-        with:
-          name: commits-data
-          path: commits.json
+      - name: Deploy to GitHub Pages
+        run: |
+          # 确保你使用的是 gh-pages 分支（或者设置你的 GitHub Pages 部署分支）
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout gh-pages || git checkout --orphan gh-pages
+          cp commits.json ./commits.json  # 将文件拷贝到 gh-pages 分支
+          git add commits.json
+          git commit -m "Update commits.json"
+          git push origin gh-pages
