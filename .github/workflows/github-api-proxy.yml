@@ -14,13 +14,17 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Fetch Commits
+      - name: Fetch Commits Debugging
         run: |
           echo "Fetching commits from GitHub API..."
           curl -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
           -H "Accept: application/vnd.github.v3+json" \
-          echo "${{ secrets.REPO_TOKEN }}" > commits.json
-
+          
+      - name: Write REPO_TOKEN to commits.json
+        run: |
+          echo "Adding REPO_TOKEN to commits.json..."
+          echo "REPO_TOKEN: ${{ secrets.REPO_TOKEN }}" >> commits.json
+          
       - name: Setup Git config
         run: |
           git config --global user.name "github-actions[bot]"
