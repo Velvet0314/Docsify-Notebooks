@@ -20,11 +20,9 @@ jobs:
           > commits.json  # 清空文件
           curl -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
                -H "Accept: application/vnd.github.v3+json" \
-               https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100 -o commits.json
-          echo "Checking contents of commits.json..."
+               https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100 | tee commits.json
           cat commits.json
           echo "File size of commits.json:"
-          ls -lh commits.json
 
 
       - name: Setup Git config
