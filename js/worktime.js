@@ -15,6 +15,8 @@
       const date = new Date(commit.commit.author.date).toDateString();
       commitDates.add(date);
     });
+    
+    console.log(commitDates);
 
     return commitDates.size;
   }
@@ -51,6 +53,8 @@
 
       // 等待异步操作完成并获取 commitDays
       const commitDays = await commitDaysPromise;
+
+      console.log(commitDays);
 
       const updatedText = text.replace("{commit-days}", commitDays);
 
