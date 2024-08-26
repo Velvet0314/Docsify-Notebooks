@@ -82,3 +82,4 @@
 * [第七章&ensp;学习理论](note7/Part7.md)
   * [偏差/方差权衡](note7/Part7.md?id=偏差-方差权衡)
   * [知识准备](note7/Part7.md?id=知识准备)
+* [Experience 心得](experience/experience.md)
