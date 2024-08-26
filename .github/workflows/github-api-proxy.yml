@@ -24,15 +24,14 @@ jobs:
       - name: Get last commit dates for each file and format as JSON
         run: |
           echo "{}" > last_commit_dates.json
+          git ls-files | while read file; do
+          
+          last_commit_date=$(git log -1 --format="%ci" -- "$file")
 
-          for file in $(git ls-files); do
-            last_commit_date=$(git log -1 --format="%ci" -- "$file")
-            echo "File: $file"
-            echo "Date: $last_commit_date"
-            jq --arg file "$file" --arg date "$last_commit_date" \
+          jq --arg file "$file" --arg date "$last_commit_date" \
             '. + {($file): $date}' last_commit_dates.json > tmp.json && mv tmp.json last_commit_dates.json
           done
-          
+    
           cat last_commit_dates.json
 
       - name: Setup Git config
