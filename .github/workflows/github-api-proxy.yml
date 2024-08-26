@@ -24,12 +24,12 @@ jobs:
       - name: Get last commit dates and format as JSON
         run: |
           echo "{}" > last_commit_dates.json
-          git log --name-only --format=format:"%ci" | awk 'NF==0{next} /20[0-9]{2}-[0-9]{2}-[0-9]{2}/ {date=$0; next} {print $0, date}' |
-          while read -r file date; do
-            jq --arg file "$file" --arg date "$date" \
+
+          for file in $(git ls-files); do
+            last_commit_date=$(git log -1 --format="%ci" -- $file)
+            jq --arg file "$file" --arg date "$last_commit_date" \
               '. + {($file): $date}' last_commit_dates.json > tmp.json && mv tmp.json last_commit_dates.json
           done
-
 
       - name: Setup Git config
         run: |
