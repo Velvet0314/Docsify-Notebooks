@@ -34,7 +34,8 @@ function lastModifyPlugin(hook, vm) {
       return resolve({});
     }
 
-    const fileUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
+    // const fileUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
+    const fileUrl = `https://cdn.jsdelivr.net/gh/Velvet0314/Docsify-Notebooks@gh-pages/${commitsPath}`;
     // console.log("Fetching last commit dates from URL:", fileUrl);
 
     try {

@@ -33,8 +33,8 @@
         return resolve(0);
       }
 
-      const fileUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
-
+      // const fileUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
+      const fileUrl = `https://cdn.jsdelivr.net/gh/Velvet0314/Docsify-Notebooks@gh-pages/${commitsPath}`;
       try {
         const response = await fetch(fileUrl);
         const commits = await response.json();
