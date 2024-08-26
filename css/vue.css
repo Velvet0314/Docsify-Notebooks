@@ -919,3 +919,28 @@ code .token {
 .math {
   font-size: 17.5px; /* 调整数学公式的大小 */
 }
+
+/* 初始状态：按钮隐藏但区域可交互 */
+.copy-btn {
+  position: absolute;
+  opacity: 0; /* 默认隐藏（透明） */
+  top: 0;
+  right: 0;
+  background-color: #B0C4DE;
+  color: white;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 12px;
+  z-index: 3;
+  transition: opacity 0.2s ease; /* 添加过渡效果 */
+}
+
+/* 鼠标悬停在按钮区域时显示按钮 */
+.copy-btn:hover {
+  opacity: 1; /* 鼠标悬停时按钮变为可见 */
+}
+
+
+
