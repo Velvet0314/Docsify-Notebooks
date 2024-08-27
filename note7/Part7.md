@@ -35,7 +35,7 @@
 
 <div class="math">
 $$
-P(A_1 \cup \dots \cup A_k) \leq P(A_1) + \dots + P(A_k)。
+P(A_1 \cup \dots \cup A_k) \leq P(A_1) + \dots + P(A_k)
 $$
 </div>
 
@@ -53,7 +53,7 @@ $$
 
 <div class="math">
 $$
-P(|\phi - \hat{\phi}| > \gamma) \leq 2 \exp(-2 \gamma^2 m)。
+P(|\phi - \hat{\phi}| > \gamma) \leq 2 \exp(-2 \gamma^2 m)
 $$
 </div>
 
@@ -75,7 +75,7 @@ $$
 
 <div class="math">
 $$
-\epsilon(h) = P_{(x, y) \sim \mathcal{D}}(h(x) \neq y)。
+\epsilon(h) = P_{(x, y) \sim \mathcal{D}}(h(x) \neq y)
 $$
 </div>
 
@@ -104,3 +104,180 @@ $$
 </div>
 
 **PAC** 指的是“可能近似正确”（probably approximately correct），这是一个框架和一组假设，基于这些假设，学习理论中的大量结果得以证明。其中，训练集和测试集来自同一分布的假设，以及独立抽取的训练样本的假设是最为重要的。
+
+### 有限假设类 <span class="math">$ \Large{\mathcal{H}} $</span>
+
+首先考虑一个学习问题，其中我们有一个有限假设类 <span class="math">$ H = \{h_1, \dots, h_k\} $</span>，由 <span class="math">$ k $</span> 个假设组成。因此，<span class="math">$ H $</span> 就是一个从 <span class="math">$ X $</span> 到 <span class="math">$\{0, 1\}$</span> 的 <span class="math">$ k $</span> 个函数集合，经验风险最小化选出的 <span class="math">$ h $</span> 是这 <span class="math">$ k $</span> 个函数中训练误差最小的一个。
+
+我们希望对 <span class="math">$ h $</span> 的泛化误差提供保证。这种策略分为两部分：首先，我们将展示 <span class="math">$ \hat{e}(h) $</span> 是所有 <span class="math">$ h $</span> 的可靠估计。其次，我们将证明这意味着 <span class="math">$ \hat{h} $</span> 的泛化误差有上限。
+
+取任意一个固定的 <span class="math">$ h_i \in H $</span>。考虑一个伯努利随机变量 <span class="math">$ Z $</span>，其分布定义如下。我们将从分布 <span class="math">$ D $</span> 中抽取样本 <span class="math">$ (x, y) $</span>，然后设置 <span class="math">$ Z = 1\{h_i(x) \neq y\} $</span>。即我们将抽取一个样本，看 <span class="math">$ Z $</span> 是 <span class="math">$ h_i $</span> 从中产生的误分类数。同样，我们也定义 <span class="math">$ Z_j = 1\{h_i(x_j) \neq y_j\} $</span>。由于我们的训练集是从 <span class="math">$ D $</span> 中独立同分布抽取的，<span class="math">$ Z $</span> 和 <span class="math">$ Z_j $</span> 有相同的分布。
+
+我们设定<span class="math">$ Z $</span>的期望分类错误概率为 <span class="math">$ \hat{e}(h) $</span>——这正是 <span class="math">$ Z $</span>（以及 <span class="math">$ Z_j $</span>）的期望值。因此，训练误差可以写为：
+
+<div class="math">
+$$
+\hat{e}(h_i) = \frac{1}{m} \sum_{j=1}^m Z_j
+$$
+</div>
+
+因此，<span class="math">$ \hat{e}(h_i) $</span> 正是从伯努利分布（均值为 <span class="math">$ \hat{e}(h_i) $</span>）中抽取的 <span class="math">$ m $</span> 个随机变量 <span class="math">$ Z_j $</span> 的均值。因此，我们可以应用霍夫丁不等式（Hoeffding inequality），并得到：
+
+<div class="math">
+$$
+P(|\hat{e}(h_i) - \hat{e}(h_i)| > \gamma) \leq 2 \exp(-2\gamma^2 m)
+$$
+</div>
+
+这表明，对于我们特定的 <span class="math">$ h_i $</span>，训练误差将会接近泛化误差，前提是 <span class="math">$ m $</span> 足够大。但我们不仅想保证 <span class="math">$ \hat{e}(h_i) $</span> 接近 <span class="math">$ \hat{e}(h_i) $</span>（高概率），我们希望这对所有 <span class="math">$ h \in H $</span> 同时成立。为此，设 <span class="math">$ A_i $</span> 表示事件 <span class="math">$\hat{e}(h_i) - \hat{e}(h_i) > \gamma$</span>。我们已经展示了对于任何特定的 <span class="math">$ A_i $</span>，都有：
+
+<div class="math">
+$$
+P(A_i) \leq 2 \exp(-2\gamma^2 m)
+$$
+</div>
+
+因此，使用并集界限（union bound），我们可以得到：
+
+<div class="math">
+$$
+P(\exists h \in H.|\hat{e}(h_i) - e(h_i)| > \gamma) = P(A_1 \cup \ldots \cup A_k)
+$$
+</div>
+
+<div class="math">
+$$
+\leq \sum_{i=1}^k P(A_i) \leq \sum_{i=1}^k 2\exp(-2\gamma^2 m) = 2k\exp(-2\gamma^2 m)
+$$
+</div>
+
+从1减去两边，我们得到：
+
+<div class="math">
+$$
+P(\nexists h \in H.|\hat{e}(h_i) - e(h_i)| > \gamma) = P(\forall h \in H.|\hat{e}(h_i) - e(h_i)| \leq \gamma) \geq 1 - 2k\exp(-2\gamma^2 m)
+$$
+</div>
+
+因此，至少以 <span class="math">$1 - 2k\exp(-2\gamma^2 m)$</span> 的概率，<span class="math">$e(h)$</span> 将会在 <span class="math">$e(\hat{h})$</span> 的 <span class="math">$\gamma$</span> 范围内，对所有 <span class="math">$h \in H$</span> 都成立。这被称为统一收敛结果，因为这个界限同时对 <span class="math">$H$</span> 中的所有 <span class="math">$h$</span>（而不仅仅是一个）都成立。
+
+正如上面所讨论的，给定 <span class="math">$m$</span> 和 <span class="math">$\gamma$</span> 的特定值，给出了某些 <span class="math">$h \in H$</span>，<span class="math">$|e(h) - \hat{e}(h)| > \gamma$</span> 的概率上界。这里有三个关注的量：<span class="math">$m$</span>，<span class="math">$\gamma$</span> 和错误概率；我们可以基于其他两者来限定其中之一。
+
+例如，我们可以问以下问题：给定 <span class="math">$\gamma$</span> 和某个 <span class="math">$\delta > 0$</span>，<span class="math">$m$</span> 需要多大才能保证至少以 <span class="math">$1 - \delta$</span> 的概率，训练误差将在泛化误差的 <span class="math">$\gamma$</span> 范围内？通过设置 <span class="math">$\delta = 2k\exp(-2\gamma^2 m)$</span> 并求解 <span class="math">$m$</span>，我们发现：
+
+<div class="math">
+$$
+m \geq \frac{1}{2\gamma^2} \log \frac{2k}{\delta}
+$$
+</div>
+
+那么，至少以 <span class="math">$1 - \delta$</span> 的概率，我们有 <span class="math">$|e(h) - \hat{e}(h)| \leq \gamma$</span> 对所有 <span class="math">$h \in H$</span> 成立。等价地，这表明 <span class="math">$|e(h) - \hat{e}(h)| > \gamma$</span> 的概率最多是 <span class="math">$\delta$</span>。这个界限告诉我们为了保证一个算法或方法达到一定水平的表现，需要多少训练样本。这也称为算法的样本复杂性。
+
+关键的属性之一是，保证这一点所需的训练样本数仅与 <span class="math">$k$</span>，<span class="math">$H$</span> 中假设的数量对数相关。这将在后面变得重要。
+
+同样地，我们也可以固定 <span class="math">$m$</span> 和 <span class="math">$\delta$</span>，求解 <span class="math">$\gamma$</span> 使得之前的等式成立，并展示[再次，说服自己这是正确的！]至少以 <span class="math">$1 - \delta$</span> 的概率对所有 <span class="math">$h \in H$</span> 有：
+
+<div class="math">
+$$
+|e(h) - \hat{e}(h)| \leq \sqrt{\frac{1}{2m} \log \frac{2k}{\delta}}
+$$
+</div>
+
+现在，让我们假设均匀收敛成立，即对所有 <span class="math">$h \in H$</span> 有 <span class="math">$|e(h) - \hat{e}(h)| \leq \gamma$</span>。我们能证明什么关于我们学习算法的泛化误差，这个算法选择了 <span class="math">$\hat{h} = \arg \min_{h \in H} \hat{e}(h)$</span>？定义 <span class="math">$h^*$</span> 是 <span class="math">$H$</span> 中 <span class="math">$e(h)$</span> 最小的假设，这是在 <span class="math">$H$</span> 中我们可能做到的最好的假设。注意，<span class="math">$h^*$</span> 是我们使用 <span class="math">$H$</span> 能做到的最好的，所以比较我们的表现与 <span class="math">$h^*$</span> 是有意义的。我们有：
+
+<div class="math">
+$$
+\hat{e}(h) \leq \hat{e}(h) + \gamma \leq e(h^*) + \gamma \leq e(h^*) + 2\gamma
+$$
+</div>
+
+第一行使用了事实 <span class="math">$|e(h) - \hat{e}(h)| \leq \gamma$</span>（根据我们的均匀收敛假设）。第二行使用了事实 <span class="math">$\hat{h}$</span> 是被选择来最小化 <span class="math">$\hat{e}(h)$</span>，因此 <span class="math">$\hat{e}(h) \leq \hat{e}(h^*)$</span>，并且特别地，<span class="math">$\hat{e}(h) \leq e(h^*)$</span>。第三行再次使用了均匀收敛的假设，以展示 <span class="math">$\hat{e}(h^*) \leq e(h^*) + \gamma$</span>。所以，我们展示的是：如果均匀收敛发生，那么 <span class="math">$\hat{h}$</span> 的泛化误差最多比 <span class="math">$H$</span> 中可能的最佳假设 <span class="math">$h^*$</span> 多 2<span class="math">$\gamma$</span>。
+
+让我们将这一切综合成一个定理：
+
+定理。设 <span class="math">$|H| = k$</span>，且任意 <span class="math">$m, \delta$</span> 固定。那么至少以 <span class="math">$1 - \delta$</span> 的概率，我们有：
+
+<div class="math">
+$$
+\hat{e}(h) \leq \min_{h \in H} e(h) + 2\sqrt{\frac{1}{2m} \log \frac{2k}{\delta}}
+$$
+</div>
+
+这是通过让 <span class="math">$\gamma$</span> 等于 <span class="math">$\sqrt{}$</span> 项，使用我们之前的论证，即均匀收敛至少以 <span class="math">$1 - \delta$</span> 的概率发生，并指出均匀收敛意味着 <span class="math">$\hat{e}(h)$</span> 最多比 <span class="math">$e(h^*) = \min_{h \in H} e(h)$</span> 高 2<span class="math">$\gamma$</span> 来证明的，如我们之前展示的那样。
+
+这也量化了我们之前在模型选择中讨论的偏差/方差权衡。特别是，假设我们有一些假设类 <span class="math">$H$</span>，并正在考虑转向一个更大的假设类 <span class="math">$H'$</span>。如果我们转向 <span class="math">$H'$</span>，那么第一个项 <span class="math">$\min_{h \in H} e(h)$</span> 会改变。
+
+由于如果我们使用一个更大的假设类学习，我们会对一个更大的函数集进行最小化操作，所以误差只能减少（这意味着我们的“偏差”只能减少）。然而，如果 <span class="math">$k$</span> 增加，那么第二个 <span class="math">$\sqrt{}$</span> 项也会增加。这个增加对应于我们使用更大假设类时“方差”的增加。
+
+通过固定 <span class="math">$\gamma$</span> 和 <span class="math">$\delta$</span> 并像之前一样求解 <span class="math">$m$</span>，我们也可以得到以下的样本复杂度界限：
+
+推论。设 <span class="math">$|H| = k$</span>，且任意 <span class="math">$\gamma, \delta$</span> 固定。那么为了 <span class="math">$\hat{e}(h) \leq \min_{h \in H} e(h) + 2\gamma$</span> 至少以 <span class="math">$1 - \delta$</span> 的概率成立，只需满足：
+
+<div class="math">
+$$
+m \geq \frac{1}{2\gamma^2} \log \frac{2k}{\delta} = O\left(\frac{1}{\gamma^2} \log \frac{k}{\delta}\right)
+$$
+</div>
+
+### 无限假设类 <span class="math">$ \Large{\mathcal{H}} $</span>
+
+我们已经证明了一些有用的定理，适用于有限假设类的情况。但许多假设类，包括由实数参数化的类（如线性分类），实际上包含无限数量的函数。我们能为这种情况证明类似的结果吗？
+
+让我们从某些可能不是“正确”论证的假设开始。存在更好和更通用的论点，但这将有助于磨练我们的直觉。
+
+假设我们有一个 <span class="math">$H$</span>，它由实数参数化。由于我们使用计算机来表示实数，而IEEE双精度浮点数（C语言中的 double）使用64位来表示一个浮点数，这意味着我们的学习算法，假设我们使用双精度浮点数，是由64位参数化的。因此，我们的假设类实际上最多包含 <span class="math">$2^{64}$</span> 个不同的假设。根据前面的推论，为了 <span class="math">$\hat{e}(h^*) + 2\gamma$</span> 至少以 <span class="math">$1 - \delta$</span> 的概率成立，我们有：
+
+<div class="math">
+$$
+m \geq O\left(\frac{1}{\gamma^2} \log \frac{2^{64}}{\delta}\right) = O\left(\frac{1}{\gamma^2} \log \frac{1}{\delta}\right)
+$$
+</div>
+
+（<span class="math">$\gamma, \delta$</span> 下标是为了表示最后的大 <span class="math">$O$</span> 隐藏了可能的常数和 <span class="math">$k$</span>）。因此，所需的训练样本数几乎是参数数量的线性倍数。
+
+我们依赖于64位浮点数的事实并不完全令人满意，但结论仍然大致正确：如果我们的目标是最小化训练误差，那么为了学习
+
+当我们使用具有参数的假设类时，通常我们需要在参数数量的线性数量上有训练样本，以便良好地学习。值得注意的是，这些结果是为一个使用经验风险最小化的算法证明的，因此当样本复杂度依赖于 <span class="math">$d$</span>（参数数量）时，这通常适用于大多数试图最小化训练误差或某种近似训练误差的判别学习算法。然而，对于许多非ERM（经验风险最小化）学习算法来说，提供良好的理论保证仍是一个活跃的研究领域。
+
+我们之前论证的另一个稍微不太令人满意的地方是它依赖于 <span class="math">$H$</span> 的参数化。直观上，这似乎并不合适：我们可以有 <span class="math">$n+1$</span> 个参数 <span class="math">$\theta_0, \dots, \theta_n$</span> 的线性分类器 <span class="math">$H$</span>，其形式为 <span class="math">$\{h(x) = 1(\theta_0 + \theta_1 x_1 + \dots + \theta_n x_n \geq 0)\}$</span>，但它也可以用 <span class="math">$2+n$</span> 个参数 <span class="math">$u_i, v_i$</span> 表示为 <span class="math">$\{h(x) = 1(u_1^2 - v_1^2 + \dots + (u_n^2 - v_n^2) \geq 0)\}）。尽管这两种形式使用的参数数量不同，但它们定义的都是同一个 <span class="math">$H$</span>：<span class="math">$n$</span> 维空间中的线性分类器集合。
+
+为了得出更令人满意的论证，让我们定义一些额外的概念。给定一个集合 <span class="math">$S = \{x^{(1)}, \dots, x^{(d)}\}$</span>（与训练集无关的点集），如果对于任何标签集 <span class="math">$\{y^{(1)}, \dots, y^{(d)}\}$</span>，存在某个 <span class="math">$h \in H$</span>，使得对所有 <span class="math">$i = 1, \dots, d$</span> 都有 <span class="math">$h(x^{(i)}) = y^{(i)}$</span>，我们说 <span class="math">$H$</span> 能够“打散”<span class="math">$S$</span>。如果 <span class="math">$H$</span> 可以实现 <span class="math">$S$</span> 上的任意标签化，那么我们说 <span class="math">$H$</span> 能打散 <span class="math">$S$</span>。
+
+给定一个假设类 <span class="math">$H$</span>，我们定义它的Vapnik-Chervonenkis维数（简称VC维），为 <span class="math">$H$</span> 能打散的最大集合的大小。如果 <span class="math">$H$</span> 能够无限制地打散任意大的集合，那么 <span class="math">$VC(H) = \infty$</span>。
+
+例如，考虑下面三个点的集合：
+
+[插入图示：三个点的空间分布]
+
+这个 <span class="math">$H$</span>，二维线性分类器的集合 <span class="math">$\{h(x) = 1(\theta_0 + \theta_1 x_1 + \theta_2 x_2 \geq 0)\}$</span>，能否打散上述集合？答案是肯定的。具体来说，我们可以
+
+对于这些点的任何八种可能的标记方式，我们都可以找到一个线性分类器来实现“零训练误差”。此外，可以证明不存在四个点的集合，使得该假设类能够打散它们。因此，这个假设类可以打散的最大集合大小为3，这意味着它的VC维为3。例如，如果我们有三个点在一条直线上（左图），那么找不到一个线性分隔符来对下图中的三个点进行标记（右图）：
+
+[左图插入：三个在一条直线上的点]
+[右图插入：三个点，无法被线性分割的配置]
+
+换句话说，根据VC维的定义，为了证明 <span class="math">$VC(H)$</span> 至少是 <span class="math">$d$</span>，我们需要证明存在至少一个大小为 <span class="math">$d$</span> 的集合，<span class="math">$H$</span> 可以打散它。
+
+以下定理由Vapnik提出，这也许是学习理论中最重要的定理之一：
+
+定理。给定 <span class="math">$H$</span>，并设 <span class="math">$d = VC(H)$</span>。那么至少以 <span class="math">$1 - \delta$</span> 的概率，对于所有 <span class="math">$h \in H$</span>，我们有：
+
+<div class="math">
+$$
+|e(h) - \hat{e}(h)| \leq O\left(\sqrt{\frac{d}{m} \log \frac{m}{d} + \frac{1}{m} \log \frac{1}{\delta}}\right)
+$$
+</div>
+
+因此，至少以 <span class="math">$1 - \delta$</span> 的概率，我们也有：
+
+<div class="math">
+$$
+\hat{e}(h) \leq e(h^*) + O\left(\sqrt{\frac{d}{m} \log \frac{m}{d} + \frac{1}{m} \log \frac{1}{\delta}}\right)
+$$
+</div>
+
+换句话说，如果一个假设类具有有限的VC维度，那么随着 <span class="math">$m$</span> 变大，均匀收敛会发生，这允许我们用 <span class="math">$e(h^*)$</span> 来给出 <span class="math">$\hat{e}(h)$</span> 的上界。我们也有以下推论：
+
+推论。对于 <span class="math">$|e(h) - \hat{e}(h)| \leq \gamma$</span> 而言，至少以 <span class="math">$1 - \delta$</span> 的概率成立，只需要 <span class="math">$m = O(\frac{d}{\gamma^2})$</span>。
+
+总体来说，使用 <span class="math">$H$</span> 是线性的，在VC维度假设下，大多数假设类的参数数量（假设“合理”的参数化）也大致是参数数量的线性倍数。将这些因素结合起来，我们得出结论，通常所需的训练样本数与 <span class="math">$H$</span> 的参数数量大致成线性关系。

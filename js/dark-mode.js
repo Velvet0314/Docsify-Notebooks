@@ -1,7 +1,7 @@
 document.addEventListener('DOMContentLoaded', function () {
     applyInitialMode();
     addToggleButton();
-    injectStyles();
+    // injectStyles();
 });
 
 function applyInitialMode() {
@@ -23,16 +23,19 @@ function addToggleButton() {
         const isDarkMode = document.body.classList.contains('dark-mode');
         localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
         button.innerHTML = isDarkMode ? getSunIcon() : getMoonIcon();
-        updateStyles(isDarkMode);
+        // updateStyles(isDarkMode);
     };
 
-    // 查找封面元素，然后在其后添加按钮
-    const coverElement = document.querySelector('.cover');
-    if (coverElement) {
-        coverElement.parentNode.insertBefore(button, coverElement.nextSibling);
+    // 获取 main 元素
+    const mainElement = document.querySelector('main');
+    // 查找 sidebar-toggle 按钮
+    const sidebarToggleButton = document.getElementById('sidebar-toggle');
+    // 将 theme-toggle 插入到 sidebar-toggle 后面
+    if (sidebarToggleButton && mainElement) {
+        mainElement.insertBefore(button, sidebarToggleButton.nextSibling);
     } else {
-        // 如果没有找到封面元素，回退到在body的第一个子元素前添加
-        document.body.insertBefore(button, document.body.firstChild);
+        // 如果没有找到 sidebar-toggle，将 theme-toggle 插入 main 的起始位置
+        mainElement.insertBefore(button, mainElement.firstChild);
     }
 }
 
@@ -48,74 +51,74 @@ function getSunIcon() {
     </svg>`;
 }
 
-function injectStyles() {
-    const styles = `
-        .theme-toggle {
-            position: fixed;
-            top: 91.5%;
-            right: 97.25%;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 30;
-            transition: color 0.35s ease; /* Transition for icon color */
-        }
-        .theme-toggle svg {
-            fill: currentColor;
-            color: #333;  /* Light mode icon color */
-        }
-        .dark-mode .theme-toggle svg {
-            transform: translateX(0.5px) translateY(1px);
-            color: #fff;  /* Dark mode icon color */
-        }
-        /* 全局过渡效果定义 */
-        body, a, .sidebar, .sidebar-toggle, b, strong {
-            transition: color 0.35s ease, transform 200ms ease-out; /* 为颜色变化添加平滑过渡效果 */
-        }
-        /* 深色模式的样式 */
-        .dark-mode {
-            background-color: #212121; /* 深色背景 */
-            color: #fff; /* 白色文本 */
-        }
-        .dark-mode a, .dark-mode b, .dark-mode strong {
-            color: #ddd; /* 淡灰色链接 */
-        }
-        .dark-mode .sidebar {
-            background-color: #171717; /* 深色侧边栏背景 */
-            color: #ccc; /* 浅灰色文本 */
-        }
-        .dark-mode .sidebar-toggle {
-            background-color: #171717; /* 深色切换按钮背景 */
-        }
-        body.dark-mode.close .sidebar-toggle {
-            background-color: #212121;  /* 暗模式下关闭状态的深色背景 */
-        }
-        /* 浅色模式样式，确保切换回浅色模式时也有过渡效果 */
-        .light-mode {
-            background-color: #fff; /* 浅色背景 */
-            color: #000; /* 黑色文本 */
-        }
-        .light-mode a, .light-mode b, .light-mode strong {
-            color: #000; /* 黑色链接 */
-        } 
-        .light-mode .sidebar {
-            background-color: #fff; /* 浅色侧边栏背景 */
-            color: #000; /* 黑色文本 */
-        }
-        .light-mode .sidebar-toggle {
-            background-color: #fff; /* 浅色切换按钮背景 */
-        }ground-color: #171717; /* Darker background for the toggle button */
-    }
-    `;
+// function injectStyles() {
+//     const styles = `
+        // .theme-toggle {
+        //     position: fixed;
+        //     top: 91.5%;
+        //     right: 97.25%;
+        //     background-color: transparent;
+        //     border: none;
+        //     cursor: pointer;
+        //     width: 48px;
+        //     height: 48px;
+        //     display: flex;
+        //     align-items: center;
+        //     justify-content: center;
+        //     z-index: 30;
+        //     transition: color 0.35s ease; /* Transition for icon color */
+        // }
+        // .theme-toggle svg {
+        //     fill: currentColor;
+        //     color: #333;  /* Light mode icon color */
+        // }
+        // .dark-mode .theme-toggle svg {
+        //     transform: translateX(0.5px) translateY(1px);
+        //     color: #fff;  /* Dark mode icon color */
+        // }
+        // /* 全局过渡效果定义 */
+        // body, a, .sidebar, .sidebar-toggle, b, strong {
+        //     transition: color 0.35s ease, transform 200ms ease-out; /* 为颜色变化添加平滑过渡效果 */
+        // }
+        // /* 深色模式的样式 */
+        // .dark-mode {
+        //     background-color: #212121; /* 深色背景 */
+        //     color: #fff; /* 白色文本 */
+        // }
+        // .dark-mode a, .dark-mode b, .dark-mode strong {
+        //     color: #ddd; /* 淡灰色链接 */
+        // }
+        // .dark-mode .sidebar {
+        //     background-color: #171717; /* 深色侧边栏背景 */
+        //     color: #ccc; /* 浅灰色文本 */
+        // }
+        // .dark-mode .sidebar-toggle {
+        //     background-color: #171717; /* 深色切换按钮背景 */
+        // }
+        // body.dark-mode.close .sidebar-toggle {
+        //     background-color: #212121;  /* 暗模式下关闭状态的深色背景 */
+        // }
+        // /* 浅色模式样式，确保切换回浅色模式时也有过渡效果 */
+        // .light-mode {
+        //     background-color: #fff; /* 浅色背景 */
+        //     color: #000; /* 黑色文本 */
+        // }
+        // .light-mode a, .light-mode b, .light-mode strong {
+        //     color: #000; /* 黑色链接 */
+        // } 
+        // .light-mode .sidebar {
+        //     background-color: #fff; /* 浅色侧边栏背景 */
+        //     color: #000; /* 黑色文本 */
+        // }
+        // .light-mode .sidebar-toggle {
+        //     background-color: #fff; /* 浅色切换按钮背景 */
+        // ground-color: #171717; /* Darker background for the toggle button */}
+//     }
+//     `;
 
-    const styleSheet = document.createElement('style');
-    styleSheet.innerText = styles;
-    document.head.appendChild(styleSheet);
-}
+//     const styleSheet = document.createElement('style');
+//     styleSheet.innerText = styles;
+//     document.head.appendChild(styleSheet);
+// }
 
 
