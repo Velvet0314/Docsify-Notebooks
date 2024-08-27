@@ -34,7 +34,7 @@
       }
 
       // const fileUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
-      const fileUrl = `https://cdn.jsdelivr.net/gh/Velvet0314/Docsify-Notebooks@gh-pages/${commitsPath}`;
+      const fileUrl = `https://cdn.jsdelivr.net/gh/Velvet0314/Docsify-Notebooks@gh-pages/${commitsPath}?t=${new Date().getTime()}`;
       try {
         const response = await fetch(fileUrl);
         const commits = await response.json();
