@@ -116,3 +116,9 @@ const fileUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPa
 ```
 
 通过 Github 的 CDN 来访问静态资源。
+
+```js
+const fileUrl = `https://cdn.jsdelivr.net/gh/Velvet0314/Docsify-Notebooks@gh-pages/${commitsPath}`;
+```
+
+国内可通过 jsDeliver 来加速，因为 Github 的 CDN 一般需要上梯子。
