@@ -1,94 +1,96 @@
-let defaultDocsifyUpdatedOptions = {
-  text: "> Last Modify: {docsify-updated}",
-  formatUpdated: "{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}",
-  whereToPlace: "bottom",
-  repo: "",  // GitHub 仓库的名称，格式为 'username/repo'
-  branch: "main",  // 分支名称，默认为 main
-  token: "",  // 可选的 GitHub Personal Access Token，用于提高速率限制
-  commitsPath: "last_commit_dates.json",  // last_commit_dates.json 文件在仓库中的路径
-};
-
-function formatDate(date, format) {
-  const map = {
-    YYYY: date.getFullYear(),
-    MM: ('0' + (date.getMonth() + 1)).slice(-2),
-    DD: ('0' + date.getDate()).slice(-2),
-    HH: ('0' + date.getHours()).slice(-2),
-    mm: ('0' + date.getMinutes()).slice(-2),
-    ss: ('0' + date.getSeconds()).slice(-2),
+(function () {
+  let defaultDocsifyUpdatedOptions = {
+    text: "> Last Modify: {docsify-updated}",
+    formatUpdated: "{YYYY}-{MM}-{DD} {HH}:{mm}:{ss}",
+    whereToPlace: "bottom",
+    repo: "",  // GitHub 仓库的名称，格式为 'username/repo'
+    branch: "main",  // 分支名称，默认为 main
+    token: "",  // 可选的 GitHub Personal Access Token，用于提高速率限制
+    commitsPath: "last_commit_dates.json",  // last_commit_dates.json 文件在仓库中的路径
   };
-  return format.replace(/YYYY|MM|DD|HH|mm|ss/gi, matched => map[matched]);
-}
 
-function lastModifyPlugin(hook, vm) {
-  let options = Object.assign({}, defaultDocsifyUpdatedOptions, vm.config.timeUpdater);
+  function formatDate(date, format) {
+    const map = {
+      YYYY: date.getFullYear(),
+      MM: ('0' + (date.getMonth() + 1)).slice(-2),
+      DD: ('0' + date.getDate()).slice(-2),
+      HH: ('0' + date.getHours()).slice(-2),
+      mm: ('0' + date.getMinutes()).slice(-2),
+      ss: ('0' + date.getSeconds()).slice(-2),
+    };
+    return format.replace(/YYYY|MM|DD|HH|mm|ss/gi, matched => map[matched]);
+  }
 
-  // 调试输出：打印配置选项
-  // console.log("Docsify Time Updater Plugin Options:", options);
+  function lastModifyPlugin(hook, vm) {
+    let options = Object.assign({}, defaultDocsifyUpdatedOptions, vm.config.timeUpdater);
 
-  let lastCommitDatesPromise = new Promise(async (resolve, reject) => {
-    const { repo, branch, commitsPath } = options;
+    let lastCommitDatesPromise = new Promise(async (resolve, reject) => {
+      const { repo, branch, commitsPath } = options;
 
-    if (!repo) {
-      console.error("GitHub repository is not specified.");
-      return resolve({});
-    }
-
-    // const fileUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
-    const fileUrl = `https://cdn.jsdelivr.net/gh/Velvet0314/Docsify-Notebooks@gh-pages/${commitsPath}?t=${new Date().getTime()}`;
-    // console.log("Fetching last commit dates from URL:", fileUrl);
-
-    try {
-      const response = await fetch(fileUrl);
-      if (!response.ok) {
-        throw new Error(`Failed to fetch JSON file: ${response.statusText}`);
+      if (!repo) {
+        console.error("GitHub repository is not specified.");
+        return resolve({});
       }
-      const lastCommitDates = await response.json();
-      resolve(lastCommitDates);
-    } catch (error) {
-      console.error("Error fetching last commit dates JSON file:", error);
-      resolve({});  // 如果有错误，返回空对象
-    }
-  });
 
-  hook.beforeEach(async function(content, next) {
-    const { text, formatUpdated, whereToPlace } = options;
-    let path = vm.route.file;
+      const primaryUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
+      const fallbackUrl = `https://cdn.jsdelivr.net/gh/${repo}@${branch}/${commitsPath}?t=${new Date().getTime()}`;
+      
+      try {
+        let response = await fetch(primaryUrl);
+        if (!response.ok) {
+          throw new Error('Primary URL failed');
+        }
+        const lastCommitDates = await response.json();
+        resolve(lastCommitDates);
+      } catch (error) {
+        console.warn('Primary URL failed, trying fallback URL:', error);
+        try {
+          const response = await fetch(fallbackUrl);
+          if (!response.ok) {
+            throw new Error('Fallback URL also failed');
+          }
+          const lastCommitDates = await response.json();
+          resolve(lastCommitDates);
+        } catch (error) {
+          console.error("Error fetching last commit dates JSON file:", error);
+          resolve({});  // 如果有错误，返回空对象
+        }
+      }
+    });
 
-    if (path.startsWith('/')) {
-      path = path.replace(/^\//, '');
-    }
-    // console.log("Processing file:", path);
+    hook.beforeEach(async function(content, next) {
+      const { text, formatUpdated, whereToPlace } = options;
+      let path = vm.route.file;
 
-    // 等待异步操作完成并获取 lastCommitDates
-    const lastCommitDates = await lastCommitDatesPromise;
+      if (path.startsWith('/')) {
+        path = path.replace(/^\//, '');
+      }
 
-    // 调试输出：打印获取的 lastCommitDates 对象
-    console.log("Last commit dates data:", lastCommitDates);
+      const lastCommitDates = await lastCommitDatesPromise;
 
-    if (lastCommitDates[path]) {
-      const lastCommitDate = new Date(lastCommitDates[path]);
-      const formattedDate = formatDate(lastCommitDate, formatUpdated);
-      const updatedText = text.replace('{docsify-updated}', formattedDate);
+      console.log("Last commit dates data:", lastCommitDates);
 
-      // 调试输出：显示插入的时间信息
-      console.log(`Inserting last modify date: ${formattedDate} for file: ${path}`);
+      if (lastCommitDates[path]) {
+        const lastCommitDate = new Date(lastCommitDates[path]);
+        const formattedDate = formatDate(lastCommitDate, formatUpdated);
+        const updatedText = text.replace('{docsify-updated}', formattedDate);
 
-      // 插入到文档内容中
-      if (whereToPlace === 'top') {
-        content = updatedText + "\n\n" + content;
+        console.log(`Inserting last modify date: ${formattedDate} for file: ${path}`);
+
+        if (whereToPlace === 'top') {
+          content = updatedText + "\n\n" + content;
+        } else {
+          content = content + "\n\n" + updatedText;
+        }
       } else {
-        content = content + "\n\n" + updatedText;
+        console.warn(`No modification data found for this file: ${path}`);
       }
-    } else {
-      console.warn(`No modification data found for this file: ${path}`);
-    }
 
-    next(content);
-  });
-}
+      next(content);
+    });
+  }
 
-// 注册插件
-window.$docsify = window.$docsify || {};
-window.$docsify.timeUpdater = Object.assign(defaultDocsifyUpdatedOptions, window.$docsify.timeUpdater);
-window.$docsify.plugins = (window.$docsify.plugins || []).concat(lastModifyPlugin);
+  window.$docsify = window.$docsify || {};
+  window.$docsify.timeUpdater = Object.assign(defaultDocsifyUpdatedOptions, window.$docsify.timeUpdater);
+  window.$docsify.plugins = (window.$docsify.plugins || []).concat(lastModifyPlugin);
+})();

@@ -43,9 +43,9 @@
                 });
               }
             } else {
-              // 当元素离开视口时，取消渲染
+              // 当元素离开视口时，保留占位符并清空内容
               if (element.dataset.rendered) {
-                element.innerHTML = ""; // 清空内容取消渲染
+                element.innerHTML = "<span style='display:inline-block; width:100%; height:1em;'></span>"; // 保留占位符，避免高度突然变化
                 delete element.dataset.rendered; // 移除渲染标记
               }
             }
@@ -61,18 +61,18 @@
             });
           }
         },
-        { rootMargin: "100px 0px", threshold: 0.2 }
+        { rootMargin: "200px 0px", threshold: 0.1 }
       );
 
       inlineMaths.forEach((element) => {
         element.dataset.originalContent = element.innerHTML;
-        element.innerHTML = ""; // 清空内容防止自动渲染
+        element.innerHTML = "<span style='display:inline-block; width:100%; height:1em;'></span>"; // 初始设置占位符
         observer.observe(element);
       });
 
       blockMaths.forEach((element) => {
         element.dataset.originalContent = element.innerHTML;
-        element.innerHTML = ""; // 清空内容防止自动渲染
+        element.innerHTML = "<div style='width:100%; height:2em;'></div>"; // 初始设置占位符
         observer.observe(element);
       });
     }
@@ -80,16 +80,15 @@
     // 调用初始化 MathJax 的函数
     function initializeMathJax() {
       const hash = window.location.hash;
-    
+
       // 检查是否是首页路由
       const isHomePage = (hash === '' || hash === '#/');
-    
+
       if (!isHomePage) {
         MathJax.startup.defaultReady();
         console.log("MathJax initialized.");
       }
     }
-    
 
     // 在每次路由切换后调用
     hook.doneEach(function () {

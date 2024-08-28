@@ -33,18 +33,35 @@
         return resolve(0);
       }
 
-      // const fileUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
-      const fileUrl = `https://cdn.jsdelivr.net/gh/Velvet0314/Docsify-Notebooks@gh-pages/${commitsPath}?t=${new Date().getTime()}`;
+      const primaryUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
+      const fallbackUrl = `https://cdn.jsdelivr.net/gh/${repo}@${branch}/${commitsPath}?t=${new Date().getTime()}`;
+
       try {
-        const response = await fetch(fileUrl);
+        let response = await fetch(primaryUrl);
+        if (!response.ok) {
+          throw new Error('Primary URL failed');
+        }
         const commits = await response.json();
 
         // 统计提交天数
         const commitDays = calculateCommitDays(commits);
         resolve(commitDays);
       } catch (error) {
-        console.error("Error fetching commits file from GitHub:", error);
-        resolve(0); // 如果有错误，返回 0 天
+        console.warn('Primary URL failed, trying fallback URL:', error);
+        try {
+          const response = await fetch(fallbackUrl);
+          if (!response.ok) {
+            throw new Error('Fallback URL also failed');
+          }
+          const commits = await response.json();
+
+          // 统计提交天数
+          const commitDays = calculateCommitDays(commits);
+          resolve(commitDays);
+        } catch (error) {
+          console.error("Error fetching commits file from GitHub:", error);
+          resolve(0); // 如果有错误，返回 0 天
+        }
       }
     });
 
