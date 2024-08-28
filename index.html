@@ -200,22 +200,25 @@
       },
       loader: { load: ['[tex]/color'] },
       startup: {
-        typeset: false  // 禁用自动渲染
-      },
-      options: {
-        ignoreHtmlClass: 'tex2jax_ignore',
-        processHtmlClass: 'tex2jax_process',
-      },
-      svg: {
-        fontCache: 'global',
+        typeset: false,
+        ready: () => {
+            console.log('MathJax ready, but not yet initialized.');
+        },
+        options: {
+          ignoreHtmlClass: 'tex2jax_ignore',
+          processHtmlClass: 'tex2jax_process',
+        },
+        svg: {
+          fontCache: 'global',
+        }
       }
-    };
+    }
   </script>
   <script type="text/javascript" id="MathJax-script" async
     src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
 
-  <script async src="js/dark-mode.js"></script>
-  <script async src="js/lazy.js"></script>
+  <script src="js/dark-mode.js"></script>
+  <script src="js/lazy.js"></script>
 </body>
 
 </html>

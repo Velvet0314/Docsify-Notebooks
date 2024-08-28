@@ -449,11 +449,11 @@ $$
 
 > [!TIP]
 > **⭐极大似然估计（maximum likelihood estimation）：** <br>
-> **若总体 <span class="math">$ X $</span> 为离散型，<span class="math">$ \theta \in \Theta $</span>，其中 <span class="math">$ \theta $</span> 为为待估参数，<span class="math">$ \Theta $</span> 是 <span class="math">$ \theta $</span> 可能取值范围。设 <span class="math">$ X_1,X_2,...,X_n $</span> 是来自 <span class="math">$ X $</span> 的样本，则其联合分布律为 $$ \prod_{i=1}^n p(x_{i}; \theta) $$** <br>
+> **若总体 <span class="math">$ X $</span> 为离散型，<span class="math">$ \theta \in \Theta $</span>，其中 <span class="math">$ \theta $</span> 为为待估参数，<span class="math">$ \Theta $</span> 是 <span class="math">$ \theta $</span> 可能取值范围。设 <span class="math">$ X_1,X_2,...,X_n $</span> 是来自 <span class="math">$ X $</span> 的样本，则其联合分布律为 <div class="math">$$ \prod_{i=1}^n p(x_{i}; \theta) $$</div>** <br>
 > **又设 <span class="math">$ x_1,x_2,...,x_n $</span> 是相应于样本 <span class="math">$ X_1,X_2,...,X_n $</span> 的一个样本值，则样本 <span class="math">$ X_1,X_2,...,X_n $</span> 取到观察值 <span class="math">$ x_1,x_2,...,x_n $</span> 的概率，即事件 <span class="math">$ \\{ X_1=x_1,X_2=x_2,...,X_n =x_n\\} $</span> 发生的概率为**
-> **$$ L(\theta) = L(x_1,x_2,...,x_n;\theta) = \prod_{i=1}^n p(x_{i}; \theta),\ \theta \in \Theta $$**<br>
+> **<div class="math">$$ L(\theta) = L(x_1,x_2,...,x_n;\theta) = \prod_{i=1}^n p(x_{i}; \theta),\ \theta \in \Theta $$</div>**<br>
 > **固定样本观察值 <span class="math">$ x_1,x_2,...,x_n $</span>，在 <span class="math">$ \theta $</span> 取值的可能范围 <span class="math">$ \Theta $</span> 内挑选使似然函数达到最大的参数值 <span class="math">$ \hat{\theta} $</span>，即：**<br>
-> **$$ L(x_1,x_2,...,x_n;\hat{\theta}) = \max_{\theta \in \Theta} L(x_1,x_2,...,x_n;\theta)$$**
+> **<div class="math">$$ L(x_1,x_2,...,x_n;\hat{\theta}) = \max_{\theta \in \Theta} L(x_1,x_2,...,x_n;\theta)$$</div>**
 
 基于 <span class="math">$ \epsilon^{(i)} $</span> 的独立同分布，我们可以得到：
 
