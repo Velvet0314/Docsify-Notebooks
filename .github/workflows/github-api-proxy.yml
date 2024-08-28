@@ -17,9 +17,20 @@ jobs:
       - name: Fetch Commits
         run: |
           echo "Fetching commits from GitHub API..."
-          curl -v -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               "https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=1000" | tee commits.json
+          PAGE=1
+          while true; do
+            RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
+                               -H "Accept: application/vnd.github.v3+json" \
+                               "https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100&page=${PAGE}")
+      
+            echo "$RESPONSE" | jq '.' >> commits.json
+          
+            # Check if the next page exists
+            if [[ $(echo "$RESPONSE" | jq 'length') -lt 100 ]]; then
+              break
+            fi
+            PAGE=$((PAGE + 1))
+          done
 
       - name: Fetch Last Modification Times
         run: |
