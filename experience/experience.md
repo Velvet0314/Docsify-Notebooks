@@ -68,9 +68,34 @@ jobs:
       - name: Fetch Commits
         run: |
           echo "Fetching commits from GitHub API..."
-          curl -v -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
-               -H "Accept: application/vnd.github.v3+json" \
-               "https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100" | tee commits.json
+          PAGE=1
+          echo "[" > commits.json
+          FIRST=true
+          while true; do
+              RESPONSE=$(curl -s -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
+                                 -H "Accept: application/vnd.github.v3+json" \
+                                 "https://api.github.com/repos/${{ github.repository }}/commits?sha=main&per_page=100&page=${PAGE}")
+      
+              # 提取并处理每个提交的日期
+              DATES=$(echo "$RESPONSE" | jq -r '.[].commit.author.date' | cut -d'T' -f1)
+      
+              # 写入日期到 commits.json 中
+              for DATE in $DATES; do
+                if [ "$FIRST" = true ]; then
+                  FIRST=false
+                else
+                  echo "," >> commits.json
+                fi
+                echo "\"$DATE\"" >> commits.json
+              done
+
+              # Check if the next page exists
+              if [[ $(echo "$RESPONSE" | jq 'length') -lt 100 ]]; then
+                break
+              fi
+              PAGE=$((PAGE + 1))
+          done
+          echo "]" >> commits.json
 
       - name: Fetch Last Modification Times
         run: |
@@ -80,7 +105,6 @@ jobs:
           FILES=$(curl -s -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
                   -H "Accept: application/vnd.github.v3+json" \
                   "https://api.github.com/repos/${{ github.repository }}/git/trees/main?recursive=true" | jq -r '.tree[] | select(.type=="blob") | .path')
-
           echo "Fetching last commit dates for each file..."
           for file in $FILES; do
             LAST_COMMIT=$(curl -s -H "Authorization: token ${{ secrets.REPO_TOKEN }}" \
@@ -89,19 +113,15 @@ jobs:
             jq --arg file "$file" --arg date "$LAST_COMMIT" \
                '. + {($file): $date}' last_commit_dates.json > tmp.json && mv tmp.json last_commit_dates.json
           done
-
           cat last_commit_dates.json
-
       - name: Setup Git config
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Switch to gh-pages branch
         run: |
           git checkout --orphan gh-pages
           git reset --hard
-
       - name: Deploy to GitHub Pages
         run: |
           git add commits.json last_commit_dates.json
@@ -117,8 +137,10 @@ jobs:
 const fileUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
 ```
 
-国内可通过 jsDeliver 来加速，因为 Github 的 CDN 一般需要上梯子。
+国内可通过 jsDelivr 来加速，因为 Github 的 CDN 一般需要上梯子。
 
 ```js
 const fileUrl = `https://cdn.jsdelivr.net/gh/${username}/${repo}${branch}/${commitsPath}`;
 ```
+
+需要对提交记录稍微进行处理，防止 jsDelivr 存放过大的文件导致截断。

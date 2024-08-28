@@ -10,20 +10,26 @@
 
   function calculateCommitDays(commits) {
     const commitDates = new Set();
-
-    commits.forEach((commit) => {
-      const date = new Date(commit.commit.author.date).toDateString();
+  
+    // 遍历数组中的每个日期，添加到 Set 中去重
+    commits.forEach((date) => {
       commitDates.add(date);
     });
-    
-    console.log(commitDates);
-
+  
+    console.log("Unique commit dates:", commitDates);
+  
+    // 返回独立日期的数量
     return commitDates.size;
   }
+  
 
   // Docsify 插件主函数
   function commitStatsPlugin(hook, vm) {
-    let options = Object.assign({}, defaultCommitStatsOptions, vm.config.commitStats);
+    let options = Object.assign(
+      {},
+      defaultCommitStatsOptions,
+      vm.config.commitStats
+    );
 
     let commitDaysPromise = new Promise(async (resolve, reject) => {
       const { repo, branch, commitsPath } = options;
@@ -39,7 +45,7 @@
       try {
         let response = await fetch(primaryUrl);
         if (!response.ok) {
-          throw new Error('Primary URL failed');
+          throw new Error("Primary URL failed");
         }
         const commits = await response.json();
 
@@ -47,11 +53,11 @@
         const commitDays = calculateCommitDays(commits);
         resolve(commitDays);
       } catch (error) {
-        console.warn('Primary URL failed, trying fallback URL:', error);
+        console.warn("Primary URL failed, trying fallback URL:", error);
         try {
           const response = await fetch(fallbackUrl);
           if (!response.ok) {
-            throw new Error('Fallback URL also failed');
+            throw new Error("Fallback URL also failed");
           }
           const commits = await response.json();
 
@@ -88,5 +94,7 @@
 
   // 注册插件
   window.$docsify = window.$docsify || {};
-  window.$docsify.plugins = (window.$docsify.plugins || []).concat(commitStatsPlugin);
+  window.$docsify.plugins = (window.$docsify.plugins || []).concat(
+    commitStatsPlugin
+  );
 })();
