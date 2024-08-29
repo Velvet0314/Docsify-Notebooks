@@ -6,6 +6,7 @@
 
 * 偏差/方差权衡
 * 切尔诺夫界
+* 经验风险最小化
 * VC 维
 
 - - -
@@ -212,7 +213,7 @@ $$
 $$
 </div>
 
-上面的第一行用到了定理 <span class="math">$|e(h) - \hat{\varepsilon}(h)| \leq \gamma$</span>（根据我们的一致收敛假设）。第二行用到的定理 <span class="math">$\hat{h}$</span> 是被选择来最小化 <span class="math">$\hat{\varepsilon}(h)$</span>，因此 <span class="math">$\hat{\varepsilon}(h) \leq \hat{\varepsilon}(h^*)$</span>，并且特别地，<span class="math">$\hat{\varepsilon}(h) \leq e(h^*)$</span>。第三行再次使用了一致收敛的假设，以展示 <span class="math">$\hat{\varepsilon}(h^*) \leq e(h^*) + \gamma$</span>。所以，我们展示的是：如果均匀收敛发生，那么 <span class="math">$\hat{h}$</span> 的泛化误差最多比 <span class="math">$\mathcal{H}$</span> 中可能的最佳假设 <span class="math">$h^*$</span> 多 <span class="math">$2\gamma$</span>。
+上面的第一行用到了定理 <span class="math">$|e(h) - \hat{\varepsilon}(h)| \leq \gamma$</span>（根据我们的一致收敛假设）。第二行用到的定理 <span class="math">$\hat{h}$</span> 是被选择来最小化 <span class="math">$\hat{\varepsilon}(h)$</span>，因此 <span class="math">$\hat{\varepsilon}(h) \leq \hat{\varepsilon}(h^*)$</span>，并且特别地，<span class="math">$\hat{\varepsilon}(h) \leq e(h^*)$</span>。第三行再次使用了一致收敛的假设，以展示 <span class="math">$\hat{\varepsilon}(h^*) \leq e(h^*) + \gamma$</span>。所以，我们展示的是：如果一致收敛发生，那么 <span class="math">$\hat{h}$</span> 的泛化误差最多比 <span class="math">$\mathcal{H}$</span> 中可能的最佳假设 <span class="math">$h^*$</span> 多 <span class="math">$2\gamma$</span>。
 
 让我们将这一切整理为成一个大的定理：
 
@@ -244,29 +245,36 @@ $$
 
 ### 无限假设类 <span class="math">$ \Large{\mathcal{\mathcal{H}}} $</span>
 
-我们已经证明了一些有用的定理，适用于有限假设类的情况。但许多假设类，包括由实数参数化的类（如线性分类），实际上包含无限数量的函数。我们能为这种情况证明类似的结果吗？
+我们已经证明了一些有用的定理，适用于有限假设类的情况。但许多假设类，包括由实数参数化的类（例如线性分类），实际上包含无限个函数。我们能为这种情况得到类似的证明结果吗？
 
-让我们从某些可能不是"正确"论证的假设开始。存在更好和更通用的论点，但这将有助于磨练我们的直觉。
+让我们从某些可能不太"正确"论证的假设开始。当然也有更好的更通用的论证，但先从这种不太"正确"的内容出发，将有助于锻炼我们在此领域内的直觉。
 
-假设我们有一个 <span class="math">$\mathcal{H}$</span>，它由实数参数化。由于我们使用计算机来表示实数，而IEEE双精度浮点数（C语言中的 double）使用64位来表示一个浮点数，这意味着我们的学习算法，假设我们使用双精度浮点数，是由64位参数化的。因此，我们的假设类实际上最多包含 <span class="math">$2^{64}$</span> 个不同的假设。根据前面的推论，为了 <span class="math">$\hat{\varepsilon}(h^*) + 2\gamma$</span> 至少以 <span class="math">$1 - \delta$</span> 的概率成立，我们有：
+假设我们有一个 <span class="math">$\mathcal{H}$</span>，它由 <span class="math">$d$</span> 个实数参数化。由于我们使用计算机来表示实数，而IEEE双精度浮点数（C语言中的 double）使用 64 位来表示一个浮点数，这意味着对于我们的学习算法，假设我们使用双精度浮点数，是由 <span class="math">$64\ d$</span> 个 **位（bit）** 参数化的。因此，我们的假设类实际上最多包含 <span class="math">$2^{64d}$</span> 个不同的假设。根据前面的推论，为了 <span class="math">$\varepsilon(\hat{h}) \leq \varepsilon(h^*) + 2\gamma$</span> 至少以 <span class="math">$1 - \delta$</span> 的概率成立，我们有：
 
 <div class="math">
 $$
-m \geq O\left(\frac{1}{\gamma^2} \log \frac{2^{64}}{\delta}\right) = O\left(\frac{1}{\gamma^2} \log \frac{1}{\delta}\right)
+m \geq O\left(\frac{1}{\gamma^2} \log \frac{2^{64d}}{\delta}\right) = O\left(\frac{d}{\gamma^2} \log \frac{1}{\delta} \right) = O_{\gamma,\delta}\left(d\right)
 $$
 </div>
 
-（<span class="math">$\gamma, \delta$</span> 下标是为了表示最后的大 <span class="math">$O$</span> 隐藏了可能的常数和 <span class="math">$k$</span>）。因此，所需的训练样本数几乎是参数数量的线性倍数。
+这里 <span class="math">$\gamma, \delta$</span> 下标是用于表明最后的大 <span class="math">$O$</span> 是一个依赖于<span class="math">$\gamma, \delta$</span>。因此，所需的训练样本数与参数数量的关系是线性的。
 
-我们依赖于64位浮点数的事实并不完全令人满意，但结论仍然大致正确：如果我们的目标是最小化训练误差，那么为了学习
+上述论证依赖于假定参数是 64 位浮点数（但是实际上实数参数不一定如此实现），所以最后的结果可能不尽人意，但所幸结论仍然大致正确：
 
-当我们使用具有参数的假设类时，通常我们需要在参数数量的线性数量上有训练样本，以便良好地学习。值得注意的是，这些结果是为一个使用经验风险最小化的算法证明的，因此当样本复杂度依赖于 <span class="math">$d$</span>（参数数量）时，这通常适用于大多数试图最小化训练误差或某种近似训练误差的判别学习算法。然而，对于许多非ERM（经验风险最小化）学习算法来说，提供良好的理论保证仍是一个活跃的研究领域。
+**如果我们试图使训练误差最小化，那么为了使用具有 <span class="math">$d$</span> 个参数的假设类的学习效果"较好"，通常就需要 <span class="math">$d$</span> 的线性规模个训练样本**。
 
-我们之前论证的另一个稍微不太令人满意的地方是它依赖于 <span class="math">$\mathcal{H}$</span> 的参数化。直观上，这似乎并不合适：我们可以有 <span class="math">$n+1$</span> 个参数 <span class="math">$\theta_0, \dots, \theta_n$</span> 的线性分类器 <span class="math">$\mathcal{H}$</span>，其形式为 <span class="math">$\{h(x) = 1(\theta_0 + \theta_1 x_1 + \dots + \theta_n x_n \geq 0)\}$</span>，但它也可以用 <span class="math">$2+n$</span> 个参数 <span class="math">$u_i, v_i$</span> 表示为 <span class="math">$\{h(x) = 1(u_1^2 - v_1^2 + \dots + (u_n^2 - v_n^2) \geq 0)\}）。尽管这两种形式使用的参数数量不同，但它们定义的都是同一个 <span class="math">$\mathcal{H}$</span>：<span class="math">$n$</span> 维空间中的线性分类器集合。
+（当我们使用具有参数的假设类时，通常我们需要在参数数量的线性数量上有训练样本，以便良好地学习。值得注意的是，这些结果是为一个使用经验风险最小化的算法证明的，因此当样本复杂度依赖于 <span class="math">$d$</span>（参数数量）时，这通常适用于大多数试图最小化训练误差或某种近似训练误差的判别学习算法。然而，对很多的非 ERM 学习算法提供可靠的理论论证，仍然是目前很活跃的一个研究领域。）
 
-为了得出更令人满意的论证，让我们定义一些额外的概念。给定一个集合 <span class="math">$S = \{x^{(1)}, \dots, x^{(d)}\}$</span>（与训练集无关的点集），如果对于任何标签集 <span class="math">$\{y^{(1)}, \dots, y^{(d)}\}$</span>，存在某个 <span class="math">$h \in \mathcal{H}$</span>，使得对所有 <span class="math">$i = 1, \dots, d$</span> 都有 <span class="math">$h(x^{(i)}) = y^{(i)}$</span>，我们说 <span class="math">$\mathcal{H}$</span> 能够“打散”<span class="math">$S$</span>。如果 <span class="math">$\mathcal{H}$</span> 可以实现 <span class="math">$S$</span> 上的任意标签化，那么我们说 <span class="math">$\mathcal{H}$</span> 能打散 <span class="math">$S$</span>。
+之前论证的另一个稍微不太令人满意的地方在于，其依赖于 <span class="math">$\mathcal{H}$</span> 的参数化。直观上，这似乎影响不大：我们已经把线性分类器写为了由 <span class="math">$n+1$</span> 个参数 <span class="math">$\theta_0, \dots, \theta_n$</span> 构成的线性分类器 <span class="math">$\mathcal{H}$</span>，其形式为 <span class="math">$h_\theta(x) = 1\\{(\theta_0 + \theta_1 x_1 + \dots + \theta_n x_n \geq 0)\\}$</span>，但它也可以用 <span class="math">$2n+2$</span> 个参数 <span class="math">$u_i, v_i$</span> 表示为 <span class="math">$h_{u,v}(x) = 1\\{u_0^2 - v_0^2+(u_1^2 - v_1^2)x_1 + \dots + (u_n^2 - v_n^2)x_n \geq 0\\}$</span>。尽管这两种形式使用的参数数量不同，但它们定义的都是同一个 <span class="math">$\mathcal{H}$</span> ： <span class="math">$n$</span> 维空间中的线性分类器集合。
 
-给定一个假设类 <span class="math">$\mathcal{H}$</span>，我们定义它的Vapnik-Chervonenkis维数（简称VC维），为 <span class="math">$\mathcal{H}$</span> 能打散的最大集合的大小。如果 <span class="math">$\mathcal{H}$</span> 能够无限制地打散任意大的集合，那么 <span class="math">$VC(\mathcal{H}) = \infty$</span>。
+为了得出更令人满意的论证结果，我们再定义一些额外的概念。
+
+#### VC 维
+
+给定一个集合 <span class="math">$S = \\{x^{(1)}, \dots, x^{(d)}\\}$</span>（与训练集无关的点集），其中 <span class="math">$x^{(i)} \in \mathcal{X}$</span> ，如果 <span class="math">$\mathcal{H}$</span> 能够对集合 <span class="math">$\mathcal{S}$</span> 实现任意的标签化，就称 <span class="math">$\mathcal{H}$</span> **"打散"（shatter）** 了 <span class="math">$\mathcal{S}$</span>。例如，对于任何标签集 <span class="math">$\\{y^{(1)}, \dots, y^{(d)}\\}$</span>，存在某个 <span class="math">$h \in \mathcal{H}$</span>，使得对所有 <span class="math">$i = 1, \dots, d$</span> 都有 <span class="math">$h(x^{(i)}) = y^{(i)}$</span>。
+
+给定一个假设类 <span class="math">$\mathcal{H}$</span>，我们定义它的 **VC维数（Vapnik-Chervonenkis
+dimension）**，写作 <span class="math">$VC(\mathcal{H})$</span>，为 <span class="math">$\mathcal{H}$</span> 能打散的最大集合的大小。如果 <span class="math">$\mathcal{H}$</span> 能够无限制地打散任意大的集合，那么 <span class="math">$VC(\mathcal{H}) = \infty$</span>。
 
 例如，考虑下面三个点的集合：
 
@@ -276,13 +284,17 @@ $$
  </a>
 </div>
 
-这个 <span class="math">$\mathcal{H}$</span>，二维线性分类器的集合 <span class="math">$\{h(x) = 1(\theta_0 + \theta_1 x_1 + \theta_2 x_2 \geq 0)\}$</span>，能否打散上述集合？答案是肯定的。具体来说，我们可以
-对于这些点的任何八种可能的标记方式，我们都可以找到一个线性分类器来实现“零训练误差”。此外，可以证明不存在四个点的集合，使得该假设类能够打散它们。因此，这个假设类可以打散的最大集合大小为3，这意味着它的VC维为3。例如，如果我们有三个点在一条直线上（左图），那么找不到一个线性分隔符来对下图中的三个点进行标记（右图）：
+那么，如下这个二维线性分类器的集合 <span class="math">$\mathcal{H}$</span>，<span class="math">$h(x) = 1\\{\theta_0 + \theta_1 x_1 + \theta_2 x_2 \geq 0\\}$</span>，能否打散上述集合？答案是肯定的。具体来说，我们可以
+对于这些点的任何八种可能的标记方式，我们都可以找到一个线性分类器来实现"零训练误差"：
 
 <div style="text-align: center;">
  <a href="https://s21.ax1x.com/2024/08/28/pAAFOmD.png" data-lightbox="image-7" data-title="linear">
   <img src="https://s21.ax1x.com/2024/08/28/pAAFOmD.png" alt="linear" style="width:100%;max-width:650px;cursor:pointer">
  </a>
+</div>
+
+此外，可以证明不存在四个点的集合，使得该假设类能够打散它们。因此，这个假设类可以打散的最大集合大小为 3，即 <span class="math">$VC(\mathcal{H})=3$</span>。例如，如果我们有三个点在一条直线上（左图），那么找不到一个线性分隔符来对下图中的三个点进行标记（右图）：
+
 </div>
 <div style="text-align: center;">
  <a href="https://s21.ax1x.com/2024/08/28/pAAkC1P.png" data-lightbox="image-7" data-title="VC">
@@ -290,28 +302,30 @@ $$
  </a>
 </div>
 
-换句话说，根据VC维的定义，为了证明 <span class="math">$VC(\mathcal{H})$</span> 至少是 <span class="math">$d$</span>，我们需要证明存在至少一个大小为 <span class="math">$d$</span> 的集合，<span class="math">$\mathcal{H}$</span> 可以打散它。
+换句话说，根据VC维的定义，为了证明 <span class="math">$VC(\mathcal{H})$</span> 至少是 <span class="math">$d$</span>，我们需要证明存在至少一个大小为 <span class="math">$d$</span> 的集合能被 <span class="math">$\mathcal{H}$</span> 打散即可。
 
-以下定理由Vapnik提出，这也许是学习理论中最重要的定理之一：
+以下定理由 Vapnik 提出，这也许是学习理论中最重要的定理之一：
 
-定理。给定 <span class="math">$\mathcal{H}$</span>，并设 <span class="math">$d = VC(\mathcal{H})$</span>。那么至少以 <span class="math">$1 - \delta$</span> 的概率，对于所有 <span class="math">$h \in \mathcal{H}$</span>，我们有：
+> [!TIP]
+> **定理**&ensp;&ensp;**给定 <span class="math">$\mathcal{H}$</span>，并设 <span class="math">$d = VC(\mathcal{H})$</span>。那么至少以 <span class="math">$1 - \delta$</span> 的概率，对于所有 <span class="math">$h \in \mathcal{H}$</span>，我们有：**
+>
+> <div class="math">
+> $$
+> |\varepsilon(h) - \hat{\varepsilon}(h)| \leq O\left(\sqrt{\frac{d}{m} \log \frac{m}{d} + \frac{1}{m} \log \frac{1}{\delta}}\right)
+> $$
+> </div>
+>
+> **因此，至少以 <span class="math">$1 - \delta$</span> 的概率，我们也有：**
+>
+> <div class="math">
+> $$
+> \varepsilon(\hat{h}) \leq e(h^*) + O\left(\sqrt{\frac{d}{m} \log \frac{m}{d} + \frac{1}{m} \log \frac{1}{\delta}}\right)
+> $$
+> </div>
 
-<div class="math">
-$$
-|e(h) - \hat{\varepsilon}(h)| \leq O\left(\sqrt{\frac{d}{m} \log \frac{m}{d} + \frac{1}{m} \log \frac{1}{\delta}}\right)
-$$
-</div>
+换句话说，如果一个假设类具有有限的VC维度，那么随着训练样本规模 <span class="math">$m$</span> 变大，一致收敛会发生，这允许我们用 <span class="math">$e(h^*)$</span> 来给出 <span class="math">$\hat{\varepsilon}(h)$</span> 的上界约束，得到以下推论：
 
-因此，至少以 <span class="math">$1 - \delta$</span> 的概率，我们也有：
+> [!TIP]
+> **推论**&ensp;&ensp;对于任意的 <span class="math">$ h \in \mathcal{H}$</span> 成立的 <span class="math">$|\varepsilon(h) - \hat{\varepsilon}(h)| \leq \gamma$</span>（因此有 <span class="math">$\varepsilon(\hat{h}) \leq \varepsilon(h^*) + 2\gamma$</span>），至少有 <span class="math">$1 - \delta$</span> 的概率，满足 <span class="math">$m = O_{\gamma,\delta}(d)$</span>。
 
-<div class="math">
-$$
-\hat{\varepsilon}(h) \leq e(h^*) + O\left(\sqrt{\frac{d}{m} \log \frac{m}{d} + \frac{1}{m} \log \frac{1}{\delta}}\right)
-$$
-</div>
-
-换句话说，如果一个假设类具有有限的VC维度，那么随着 <span class="math">$m$</span> 变大，均匀收敛会发生，这允许我们用 <span class="math">$e(h^*)$</span> 来给出 <span class="math">$\hat{\varepsilon}(h)$</span> 的上界。我们也有以下推论：
-
-推论。对于 <span class="math">$|e(h) - \hat{\varepsilon}(h)| \leq \gamma$</span> 而言，至少以 <span class="math">$1 - \delta$</span> 的概率成立，只需要 <span class="math">$m = O(\frac{d}{\gamma^2})$</span>。
-
-总体来说，使用 <span class="math">$\mathcal{H}$</span> 是线性的，在VC维度假设下，大多数假设类的参数数量（假设“合理”的参数化）也大致是参数数量的线性倍数。将这些因素结合起来，我们得出结论，通常所需的训练样本数与 <span class="math">$\mathcal{H}$</span> 的参数数量大致成线性关系。
+换句话说，使用假设类 <span class="math">$\mathcal{H}$</span> 来"较好地"学习所需的训练样本数量是与  <span class="math">$\mathcal{H}$</span> 的 VC 维度成线性关系的。实际上，对于大多数假设类来说，VC 维度（假设是"合理地"参数化的）也大致与参数的数量成线性关系。把这些因素结合起来，我们可以得出结论：**对于试图最小化训练误差的算法来说，通常所需的训练样本数量大致与  <span class="math">$\mathcal{H}$</span> 的参数数量成线性关系。**

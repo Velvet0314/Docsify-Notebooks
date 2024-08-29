@@ -86,4 +86,5 @@
     * [经验风险最小化](note7/Part7.md?id=经验风险最小化)
   * [有限假设类 <span class="math">$\small{\mathcal{H}}$</span>](note7/Part7.md?id=有限假设类-largemathcalh-)
   * [无限假设类 <span class="math">$\small{\mathcal{H}}$</span>](note7/Part7.md?id=无限假设类-largemathcalmathcalh-)
+    * [VC 维](note7/Part7.md?id=VC-维)
 * [Experience 心得](experience/experience.md)
