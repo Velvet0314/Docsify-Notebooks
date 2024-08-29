@@ -36,20 +36,3 @@ body.close .sidebar {
 	transform: translateX(-300px);
 	transition: transform 200ms ease-out;
 }
-
-body.close .sidebar-toggle {
-	width: auto;
-}
-
-.sidebar-toggle {
-	background-color: transparent;
-	width: auto;
-	padding: 30px 30px 10px 10px;
-}
-
-body.close .sidebar-toggle {
-	background-color: rgba(255, 255, 255, 0.8);
-	transition: linear 200ms background-color;
-	width: 284px;
-	padding: 10px;
-}
