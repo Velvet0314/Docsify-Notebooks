@@ -757,7 +757,7 @@ L(w, b, \alpha) = \sum_{i=1}^m \alpha_i - \frac{1}{2} \sum_{i,j=1}^m y^{(i)} y^{
 $$
 </div>
 
-由于我们是通过最小化 $ \mathcal{L}$ 相对于 <span class="math">$w$</span> 和 <span class="math">$b$</span> 的函数得到上述方程的，并且一直有 <span class="math">$\alpha_i \geq 0 $</span> 的约束和方程<span class="math">$(10)$</span>。于是，我们得到以下对偶优化问题：
+由于我们是通过最小化 <span class="math">$ \mathcal{L} $</span> 相对于 <span class="math">$w$</span> 和 <span class="math">$b$</span> 的函数得到上述方程的，并且一直有 <span class="math">$\alpha_i \geq 0 $</span> 的约束和方程<span class="math">$(10)$</span>。于是，我们得到以下对偶优化问题：
 
 <div class="math">
 $$

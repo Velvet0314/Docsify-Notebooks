@@ -59,7 +59,7 @@ $$
 
 <span class="math">$ p(x) = 1 $</span> 表示 <span class="math">$ p(x) $</span> 涵盖了所有的情况。
 
-#### * 多元正态分布
+#### 多元正态分布*
 
 多元正态分布是由 **均值向量（mean vector）** <span class="math">$ \displaystyle{\mu \in \mathbb{R}^n} $</span> 与一个 **协方差矩阵（covariance matrix）** <span class="math">$ \displaystyle{\Sigma \in \mathbb{R}^{n \times n}} $</span> 确定的。符号记为 <span class="math">$ \mathcal{N}(\mu,\Sigma) $</span>：
 
@@ -492,7 +492,7 @@ $$
 
 实际上，是否对 <span class="math">$ \phi_y $</span> 应用拉普拉斯平滑通常不太重要，因为我们通常会有相当一部分的垃圾邮件和非垃圾邮件，所以 <span class="math">$ \phi_y $</span> 将是 <span class="math">$ p(y=1) $</span> 的合理估计，并且会远离零。
 
-#### * 文本分类的事件模型
+#### 文本分类的事件模型*
 
 在结束生成学习算法的讨论之际，让我们谈谈一个专门用于文本分类的模型。虽然朴素贝叶斯模型适用于许多分类问题，但对于文本分类，有一个相关的模型可能表现更佳。
 
