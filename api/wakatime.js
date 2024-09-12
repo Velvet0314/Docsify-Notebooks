@@ -1,3 +1,11 @@
+// 用于存储缓存数据
+let cache = {
+  total_seconds: null,
+  timestamp: null
+};
+
+const CACHE_DURATION = 60 * 60 * 1000; // 缓存持续时间：1小时（60分钟）
+
 export default async function handler(req, res) {
   const { project } = req.query;
   const apiKey = process.env.WAKATIME_API_KEY;
@@ -7,6 +15,12 @@ export default async function handler(req, res) {
   }
 
   const range = 'all_time'; // 设置统计范围，例如 'last_7_days', 'last_30_days', 'all_time'
+
+  // 检查缓存是否存在且未过期
+  if (cache.total_seconds && cache.timestamp && (Date.now() - cache.timestamp < CACHE_DURATION)) {
+    console.log(`Serving from cache: ${cache.total_seconds} seconds`);
+    return res.status(200).json({ total_seconds: cache.total_seconds });
+  }
 
   // 构造 WakaTime Stats API URL
   const wakatimeUrl = `https://wakatime.com/api/v1/users/current/stats/${range}?api_key=${apiKey}`;
@@ -31,6 +45,10 @@ export default async function handler(req, res) {
 
     const totalSeconds = projectData.total_seconds;
     console.log(`Total seconds for project ${project}:`, totalSeconds); // 输出找到的项目编码时间
+
+    // 更新缓存
+    cache.total_seconds = totalSeconds;
+    cache.timestamp = Date.now();
 
     // 允许跨域访问的 HTTP 头
     res.setHeader('Access-Control-Allow-Origin', '*');
