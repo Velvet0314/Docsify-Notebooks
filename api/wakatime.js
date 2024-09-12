@@ -1,12 +1,18 @@
 // 用于存储缓存数据
 let cache = {
   total_seconds: null,
-  timestamp: null
+  timestamp: null,
 };
 
 const CACHE_DURATION = 60 * 60 * 1000; // 缓存持续时间：1小时（60分钟）
 
 export default async function handler(req, res) {
+  
+  // 允许跨域访问的 HTTP 头
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+
   const { project } = req.query;
   const apiKey = process.env.WAKATIME_API_KEY;
 
@@ -14,10 +20,14 @@ export default async function handler(req, res) {
     return res.status(400).json({ error: "Project or API key is missing" });
   }
 
-  const range = 'all_time'; // 设置统计范围，例如 'last_7_days', 'last_30_days', 'all_time'
+  const range = "all_time"; // 设置统计范围，例如 'last_7_days', 'last_30_days', 'all_time'
 
   // 检查缓存是否存在且未过期
-  if (cache.total_seconds && cache.timestamp && (Date.now() - cache.timestamp < CACHE_DURATION)) {
+  if (
+    cache.total_seconds &&
+    cache.timestamp &&
+    Date.now() - cache.timestamp < CACHE_DURATION
+  ) {
     console.log(`Serving from cache: ${cache.total_seconds} seconds`);
     return res.status(200).json({ total_seconds: cache.total_seconds });
   }
@@ -37,7 +47,7 @@ export default async function handler(req, res) {
     console.log("WakaTime API Response:", data); // 输出完整的 API 返回数据
 
     // 查找指定项目的编码时间
-    const projectData = data.data.projects.find(p => p.name === project);
+    const projectData = data.data.projects.find((p) => p.name === project);
 
     if (!projectData) {
       throw new Error(`Project '${project}' not found in the statistics`);
@@ -50,14 +60,8 @@ export default async function handler(req, res) {
     cache.total_seconds = totalSeconds;
     cache.timestamp = Date.now();
 
-    // 允许跨域访问的 HTTP 头
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET');
-    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-
     // 返回成功响应
     return res.status(200).json({ total_seconds: totalSeconds });
-
   } catch (error) {
     console.error("Error in WakaTime Stats API:", error);
 
