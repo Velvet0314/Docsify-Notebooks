@@ -32,29 +32,18 @@
         return resolve({});
       }
 
-      const primaryUrl = `https://raw.githubusercontent.com/${repo}/${branch}/${commitsPath}`;
       const fallbackUrl = `https://cdn.jsdelivr.net/gh/${repo}@${branch}/${commitsPath}?t=${new Date().getTime()}`;
       
       try {
-        let response = await fetch(primaryUrl);
+        const response = await fetch(fallbackUrl);
         if (!response.ok) {
-          throw new Error('Primary URL failed');
+          throw new Error('Failed to fetch from fallback URL');
         }
         const lastCommitDates = await response.json();
         resolve(lastCommitDates);
       } catch (error) {
-        console.warn('Primary URL failed, trying fallback URL:', error);
-        try {
-          const response = await fetch(fallbackUrl);
-          if (!response.ok) {
-            throw new Error('Fallback URL also failed');
-          }
-          const lastCommitDates = await response.json();
-          resolve(lastCommitDates);
-        } catch (error) {
-          console.error("Error fetching last commit dates JSON file:", error);
-          resolve({});  // 如果有错误，返回空对象
-        }
+        console.error("Error fetching last commit dates JSON file:", error);
+        resolve({});  // 如果有错误，返回空对象
       }
     });
 
