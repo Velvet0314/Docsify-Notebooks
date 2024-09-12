@@ -38,11 +38,6 @@ export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Methods', 'GET');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // 返回 JSON，包含 total_seconds 和 log_data
-    res.status(200).json({
-      total_seconds: totalSeconds,
-      log_data: data  // 返回完整的 WakaTime Stats API 响应数据
-    });
   } catch (error) {
     console.error("Error in WakaTime Stats API:", error);
     res.status(500).json({ error: error.message });
