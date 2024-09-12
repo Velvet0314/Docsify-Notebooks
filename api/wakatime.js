@@ -15,7 +15,7 @@ export default async function handler(req, res) {
   const range = "today"; // 设置统计范围，例如 'today' 或其他
 
   // 构造 WakaTime Stats API URL，加入时间戳来防止缓存
-  const wakatimeUrl = `https://wakatime.com/api/v1/users/current/stats/${range}?api_key=${apiKey}&t=${new Date().getTime()}`;
+  const wakatimeUrl = `https://wakatime.com/api/v1/users/current/stats/${range}?api_key=${apiKey}`;
 
   try {
     // 超时机制：如果 WakaTime API 请求超过 5000 毫秒（5 秒），则中止请求
