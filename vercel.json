@@ -7,7 +7,7 @@
     ],
     "functions": {
       "api/wakatime.js": {
-        "maxDuration": 30
+        "maxDuration": 10
       }
     }
   }
