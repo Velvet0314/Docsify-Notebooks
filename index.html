@@ -81,7 +81,12 @@
         text: "<div align='left' width='200px' style='color:gray;font-size:16px;margin:80px 0 -60px 0'>Already working on {commit-days} days</div>",
         repo: 'Velvet0314/Docsify-Notebooks',
         branch: 'gh-pages',
-        whereToPlace: "bottom"
+        whereToPlace: "bottom",
+      },
+      wakatimeStats: {
+        text: "<div align='left' width='200px' style='color:gray;font-size:16px;margin:80px 0 -60px 0'>Total coding time:{coding-hours}</div>",
+        project: "Docsify-Notebooks",
+        whereToPlace: "bottom",
       },
       search: {
         paths: 'auto',
@@ -128,6 +133,9 @@
 
   <!-- Docsify WorkTime -->
   <script src="js/worktime.js"></script>
+
+    <!-- Docsify CodeTime -->
+    <script src="js/codetime.js"></script>
 
   <!-- Prism -->
   <script src="//cdn.jsdelivr.net/npm/prismjs@1/components/prism-bash.min.js"></script>
@@ -206,7 +214,7 @@
       startup: {
         typeset: false,
         ready: () => {
-            console.log('MathJax ready, but not yet initialized.');
+          console.log('MathJax ready, but not yet initialized.');
         },
         options: {
           ignoreHtmlClass: 'tex2jax_ignore',
