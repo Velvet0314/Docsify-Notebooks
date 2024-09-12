@@ -46,7 +46,6 @@ export default async function handler(req, res) {
     const data = await response.json();
     console.log("WakaTime API Response:", data); // 输出完整的 API 返回数据
 
-    // 查找指定项目的编码时间
     const projectData = data.data.projects.find((p) => p.name === project);
 
     if (!projectData) {

@@ -116,4 +116,3 @@
     * [值函数近似](note13/Part13.md?id=值函数近似)
       * [使用一个模型或模拟器](note13/Part13.md?id=使用一个模型或模拟器)
       * [拟合值迭代](note13/Part13.md?id=拟合值迭代)
-* [Experience 心得](experience/experience.md)

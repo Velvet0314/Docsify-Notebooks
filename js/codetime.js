@@ -10,7 +10,7 @@
     const url = `https://api.velvet-notes.org/api/wakatime?project=${project}`;
   
     try {
-      console.log("Requesting data from:", url);  // 检查请求 URL
+      console.log("Requesting data from:", url);
       let response = await fetch(url);
   
       if (!response.ok) {

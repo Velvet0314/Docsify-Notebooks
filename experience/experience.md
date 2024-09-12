@@ -4,7 +4,7 @@
 
 ### Github API 访问速率限制解决
 
-##### 背景故事
+#### 背景故事
 
 由于我的这个网站基于 Docsify，我个人意在打造一个简单易用的文档网站，所有我并没有租赁任何的云服务器，而是选择将其托管到 Github Pages 上进行快速部署。这是一个十分简易的操作方式，而且基本不需要任何的费用开销。
 
@@ -14,11 +14,11 @@
 
 这就是我本次心得开始的背景故事，现在让我们进入正题。
 
-##### 问题详情
+#### 问题详情
 
 由于开发调试，我需要频繁发送请求。但是未认证的 GitHub API 的访问速率被限制在了 60 times / h。而通过 Github 的 **PAT （personal access tokens）**，通过获取 token 可以将访问速率提高到 5000 times / h。基本上请求不会出现 401、403。但是我在实际操作过程中遇到了另一个问题。由于我的页面没有"后端"，无法将 token 存放到后端再调取，所以我只能将生成的 token 直接放入前端代码中。但是代码需要上传至 Repo，出于隐私保护，Github 会直接自动撤销该 token。也就是说无法设置 token，那么自然也就无法获取高速率的访问了。
 
-##### 解决方案
+#### 解决方案
 
 下面是我的解决方案：**通过 Github Actions 的 workflow 来帮助我进行 token 的暂存与 Github API 的访问，并将返回的结果作为静态资源托管到仓库分支，而后直接访问静态资源进行处理**。
 
@@ -147,21 +147,23 @@ const fileUrl = `https://cdn.jsdelivr.net/gh/${username}/${repo}${branch}/${comm
 
 ### API 请求的 CORS（跨域资源共享）问题
 
-##### 背景故事
+#### 背景故事
 
 承接[上个问题的背景故事](/experience/experience.md?id=Github-API-访问速率限制解决)，在之前寻找如何记录工时期间，我得知了一个叫做 wakatime 的工具。这个工具可以有效地跟踪你在 IDE 中的工作时长，可以更加直观地看到自己的工作情况，需要在 IDE 中安装其对应的插件即可。但是出于各种原因，我当时没有采用 wakatime，而是用 Github 的 commits 来做一个粗略的统计。在今天（2024-09-12）无意间又注意到了 wakatime，于是我开始思考如何将其统计的 Totol time 展示在页面上。
 
 这就是我本次心得开始的背景故事，现在让我们进入正题。
 
-##### 问题详情
+#### 问题详情
 
-wakatime 即使是免费版，也提供一定的基础的可视化功能与部分 API 的访问权限。在经过我的寻找后，发现可以通过 Stats 来获取对应仓库的 Totol time。但是由于我没有服务器，所有在访问时遇到了经典的跨域问题。
+wakatime 即使是免费版，也提供一定的基础的可视化功能与部分 API 的访问权限。在经过我的寻找后，发现可以通过 Stats 来获取对应仓库的 Totol time。但是由于我没有服务器，所有在访问时遇到了经典的跨域问题。解决方案是 **通过 Vercel 页面托管平台进行 API 代理转发**。但这也同时带来了另一个问题：由于我采用了 Vercel 进行 API 代理转发，而 Vercel 的服务器在国外，需要 VPN 才能进行正常访问。于是，我采用了 Cloudflare 来加速 API 代理从而实现国内也能轻松访问 Vercel。
 
-##### 解决方案
+#### 解决方案
 
-下面是我的解决方案：**通过 Vercel 页面托管平台进行 API 代理转发**。
+下面是我的解决方案：**通过 Vercel 页面托管平台进行 API 代理转发，再借由 Cloudflare 加速 API 请求，进而在国内也可轻松获取 Vercel 代理的 API 请求的返回数据。**
 
 以下是我的具体操作步骤。
+
+##### Ⅰ. Vercel 的基本设置
 
 ###### 1.访问 Stats API 获取需要的数据
 
@@ -171,7 +173,7 @@ wakatime 即使是免费版，也提供一定的基础的可视化功能与部�
  </a>
 </div>
 
-这样会出现跨域问题，然后我们通过 Vercel API 代理来解决。
+网页直接访问 API 会出现跨域问题（CORS），因为浏览器只允许允许同一个源的文档或脚本之间互相访问资源，如果网页试图访问不同源的资源（比如不同的域名、协议或者端口号），浏览器默认会阻止这个请求。我们通过 Vercel API 代理为请求添加上 CORS 响应头来解决 CORS 问题。
 
 ###### 2.通过 Vercel 进行页面的部署
 
@@ -191,12 +193,78 @@ wakatime 即使是免费版，也提供一定的基础的可视化功能与部�
  </a>
 </div>
 
-###### 4.设置 Vercel 的域名解析使其能够重定向到我们的域名上
+设置的原因之前已经讲过了，忘记或者想要回顾一下可以通过背景故事里的超链接来回顾一下。
 
-到自己购买的域名的运营商处，添加 A record 和 CName record 来解析 Vercel 的 DNS，让我们的 API 代理能够正确重定向到我们的域名下，保证 Vercel 能够正确地转发请求。
+###### 4.编写代码以使用 API 代理
+
+在 Vercel 导入了仓库里后，如果需要通过其进行 API 相关操作，需要在根目录下创建 `api` 文件夹，在 `api` 中创建编写 `js` 文件来处理 API 代理。
+
+目录应该如下：
+
+```markdown
+my-project/
+└── api/
+    └── proxy.js
+```
+
+然后编写原本的 `api` 的请求：
+
+```js
+const wakatimeUrl = `https://wakatime.com/api/v1/users/current/stats/${range}?api_key=${apiKey}`;
+```
+
+到这里，Vercel 的配置基本完成，接下来我们需要对 Cloudflare 进行配置来加速请求。
+
+##### Ⅱ.Cloudflare 加速 API 代理
+
+这里默认已经在 Cloudflare 上托管好了 DNS 解析服务。如果没有可以自己按照官方教程进行托管。大致流程是在你的域名服务商使用 Cloudflare 的名称服务器，然后等待 DNS 传播就好了，完成后 Cloudflare 会给你发送成功的邮件。
 
 <div style="text-align: center;">
- <a href="https://s21.ax1x.com/2024/09/12/pAnMisU.png" data-lightbox="image-ex" data-title="ex2-4">
-  <img src="https://s21.ax1x.com/2024/09/12/pAnMisU.png" alt="ex2-4" style="width:100%;max-width:600px;cursor:pointer">
+ <a href="https://s21.ax1x.com/2024/09/12/pAnNmHP.png" data-lightbox="image-ex" data-title="ex2-4">
+  <img src="https://s21.ax1x.com/2024/09/12/pAnNmHP.png" alt="ex2-4" style="width:100%;max-width:500px;cursor:pointer">
  </a>
 </div>
+
+现在的关键问题是：如何让 Cloudflare 知道需要加速的 API 请求呢？
+
+###### 1.通过子域调用 Vercel 的 API
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/09/12/pAnN8js.png" data-lightbox="image-ex" data-title="ex2-5">
+  <img src="https://s21.ax1x.com/2024/09/12/pAnN8js.png" alt="ex2-5" style="width:100%;max-width:800px;cursor:pointer">
+ </a>
+</div>
+
+填写子域的名称，让该子域指向需要代理的 API 请求。
+
+###### 2.Vercel 绑定子域以生成 SSL 证书
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/09/12/pAnNd4U.png" data-lightbox="image-ex" data-title="ex2-5">
+  <img src="https://s21.ax1x.com/2024/09/12/pAnNd4U.png" alt="ex2-5" style="width:100%;max-width:800px;cursor:pointer">
+ </a>
+</div>
+
+只有在 Vercel 中绑定了 API 代理的子域名，代理才能生效。不然会出现没有 SSL 的 `525` 错误。
+
+###### 3.修改 Cloudflare 设置保证代理生效
+
+- 在 SSL/TLS 的边缘证书中关闭"自动 HTTPS 重写"
+- 在 安全性 的设置中将安全级别设置为"低"
+
+###### 4.前端访问 API 代理
+
+原本的 Vercel API 代理访问：
+
+```js
+const url = `https://docsify-notebooks.vercel.app/api/wakatime?project=${project}`;
+
+```
+
+经由 Cloudflare 加速后的 API 代理变更为：
+
+```js
+const url = `https://api.velvet-notes.org/api/wakatime?project=${project}`;
+```
+
+也就是指向 Vercel API 代理的子域。
