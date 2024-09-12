@@ -1,6 +1,6 @@
 # Experience 心得
 
-这里用来记录我在维护网站时遇见的值得记录的问题，以及我的解决方式。
+这里用来记录我在维护网站时遇见的值得记录的问题，以及我的解决方式。这里的诸多问题其实主要是在一个限制条件下：没有服务器，而导致的。如果你也像我一样，不想去租用一个服务器，那么下面的经验或许会对你有些启发。
 
 ### Github API 访问速率限制解决
 
@@ -144,3 +144,59 @@ const fileUrl = `https://cdn.jsdelivr.net/gh/${username}/${repo}${branch}/${comm
 ```
 
 需要对提交记录稍微进行处理，防止 jsDelivr 存放过大的文件导致截断。
+
+### API 请求的 CORS（跨域资源共享）问题
+
+##### 背景故事
+
+承接[上个问题的背景故事](/experience/experience.md?id=Github-API-访问速率限制解决)，在之前寻找如何记录工时期间，我得知了一个叫做 wakatime 的工具。这个工具可以有效地跟踪你在 IDE 中的工作时长，可以更加直观地看到自己的工作情况，需要在 IDE 中安装其对应的插件即可。但是出于各种原因，我当时没有采用 wakatime，而是用 Github 的 commits 来做一个粗略的统计。在今天（2024-09-12）无意间又注意到了 wakatime，于是我开始思考如何将其统计的 Totol time 展示在页面上。
+
+这就是我本次心得开始的背景故事，现在让我们进入正题。
+
+##### 问题详情
+
+wakatime 即使是免费版，也提供一定的基础的可视化功能与部分 API 的访问权限。在经过我的寻找后，发现可以通过 Stats 来获取对应仓库的 Totol time。但是由于我没有服务器，所有在访问时遇到了经典的跨域问题。
+
+##### 解决方案
+
+下面是我的解决方案：**通过 Vercel 页面托管平台进行 API 代理转发**。
+
+以下是我的具体操作步骤。
+
+###### 1.访问 Stats API 获取需要的数据
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/09/12/pAnKQEj.png" data-lightbox="image-ex" data-title="ex2-1">
+  <img src="https://s21.ax1x.com/2024/09/12/pAnKQEj.png" alt="ex2-1" style="width:100%;max-width:700px;cursor:pointer">
+ </a>
+</div>
+
+这样会出现跨域问题，然后我们通过 Vercel API 代理来解决。
+
+###### 2.通过 Vercel 进行页面的部署
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/09/12/pAnKjaj.png" data-lightbox="image-ex" data-title="ex2-2">
+  <img src="https://s21.ax1x.com/2024/09/12/pAnKjaj.png" alt="ex2-2" style="width:100%;max-width:700px;cursor:pointer">
+ </a>
+</div>
+
+将对应的仓库进行导入（需要有完整的一个网页应用的支持），这样 Vercel 就能自动帮助我们进行网页的部署。
+
+###### 3.利用 Vercel 项目的环境变量保存 API keys
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/09/12/pAnMSGq.png" data-lightbox="image-ex" data-title="ex2-3">
+  <img src="https://s21.ax1x.com/2024/09/12/pAnMSGq.png" alt="ex2-3" style="width:100%;max-width:700px;cursor:pointer">
+ </a>
+</div>
+
+###### 4.设置 Vercel 的域名解析使其能够重定向到我们的域名上
+
+到自己购买的域名的运营商处，添加 A record 和 CName record 来解析 Vercel 的 DNS，让我们的 API 代理能够正确重定向到我们的域名下，保证 Vercel 能够正确地转发请求。
+
+<div style="text-align: center;">
+ <a href="https://s21.ax1x.com/2024/09/12/pAnMisU.png" data-lightbox="image-ex" data-title="ex2-4">
+  <img src="https://s21.ax1x.com/2024/09/12/pAnMisU.png" alt="ex2-4" style="width:100%;max-width:600px;cursor:pointer">
+ </a>
+</div>

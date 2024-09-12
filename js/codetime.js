@@ -7,7 +7,7 @@
 
   // 从 Vercel API 获取编码时间
   async function fetchCodingTimeFromVercel(project) {
-    const url = `https://docsify-notebooks.vercel.app/api/wakatime?project=${project}`;
+    const url = `https://api.velvet-notes.org/api/wakatime?project=${project}`;
   
     try {
       console.log("Requesting data from:", url);  // 检查请求 URL
