@@ -4,6 +4,11 @@
         "src": "/api/(.*)",
         "dest": "/api/$1"
       }
-    ]
+    ],
+    "functions": {
+      "api/wakatime.js": {
+        "maxDuration": 30
+      }
+    }
   }
   
