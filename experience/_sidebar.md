@@ -4,7 +4,7 @@
   * [3. 编写 workflow 生成静态文件](experience/experience.md?id=_3编写-workflow-生成静态文件)
   * [4. 请求访问静态文件](experience/experience.md?id=_4请求访问静态文件)
 
-- [API 请求的 CORS（跨域资源共享）问题](experience/experience.md?id=api-请求的-cors跨域资源共享问题)
+- [API 请求的 CORS（跨域资源共享）问题](experience/experience.md?id=api-请求的-cors（跨域资源共享）问题)
   - [Ⅰ. Vercel 的基本设置](experience/experience.md?id=Ⅰ-vercel-的基本设置)
     - [1. 访问 Stats API 获取需要的数据](experience/experience.md?id=_1访问-stats-api-获取需要的数据)
     - [2. 通过 Vercel 进行页面的部署](experience/experience.md?id=_2通过-vercel-进行页面的部署)
