@@ -270,9 +270,9 @@ $$
 $$
 </div>
 
-关于参数  <span class="math">$ \mu $</span> 、 <span class="math">$ \Lambda $</span> 和 <span class="math">$ \Psi $</span> 。我们将只推导  <span class="math">$ \Lambda $</span> 的优化部分，而将 <span class="math">$ \mu $</span>  和  <span class="math">$ \Psi $</span>  的推导留给读者作为练习。
+关于参数 <span class="math">$ \mu $</span>、<span class="math">$ \Lambda $</span> 和 <span class="math">$ \Psi $</span>。我们将只推导 <span class="math">$ \Lambda $</span> 的优化部分，而将 <span class="math">$ \mu $</span> 和 <span class="math">$ \Psi $</span> 的推导留给读者作为练习。
 
-我们可以将公式 (4) 简化为：
+我们可以将公式<span class="math">$ (4) $</span>简化为：
 
 <div class="math">
 $$
@@ -286,7 +286,7 @@ $$
 $$
 </div>
 
-其中， <span class="math">$ z^{(i)} \sim Q_i $</span>  的下标表示期望是关于从  <span class="math">$ Q_i $</span>  采样的  <span class="math">$ z^{(i)} $</span> 。在随后的推导中，我们将省略此下标，以避免混淆。省略掉与参数无关的项后，我们需要最大化：
+其中，<span class="math">$ z^{(i)} \sim Q_i $</span> 的下标表示期望是关于从 <span class="math">$ Q_i $</span> 取得的 <span class="math">$ z^{(i)} $</span>。在随后的推导中，我们将省略此下标，以避免混淆。省略掉与参数无关的项后，我们需要最大化：
 
 <div class="math">
 $$
@@ -335,11 +335,11 @@ $$
 $$
 </div>
 
-类似之处在于，这里的 <span class="math">$ x $</span> 是 <span class="math">$ z $</span> 的线性函数（加上噪声）。由于E步已经为 <span class="math">$ z $</span> 提供了“猜测”，我们现在将尝试估计未知的线性关系 <span class="math">$ \Lambda $</span> ，它将  <span class="math">$ x $</span> 与 <span class="math">$ z $</span> 联系起来。因此，出现与正规方程相似的结果并不令人惊讶。
+类似之处在于，这里的 <span class="math">$ x $</span> 是关于 <span class="math">$ z $</span> 的线性函数（加上了噪声）。由于 <span class="math">$ \text{E-Step} $</span> 已经为 <span class="math">$ z $</span> 提供了"猜测"，我们现在将尝试估计未知的线性关系 <span class="math">$ \Lambda $</span> ，其将  <span class="math">$ x $</span> 与 <span class="math">$ z $</span> 联系起来。因此，出现与正规方程相似的结果并不意外。
 
-然而，有一个重要的区别，这与只使用 <span class="math">$ z $</span> 的“最佳猜测”来执行最小二乘法的算法不同；我们将看到这个差异。
+然而，有一个重要的区别，这与只使用 <span class="math">$ z $</span> 的"最佳猜测"来执行最小二乘法的算法不同；稍后我们将看到这个差异。
 
-为了完成我们的 <span class="math">$\text{M-Step}$</span> 更新，我们将计算方程 (7) 中期望的值。由于 <span class="math">$ Q_i $</span> 是高斯分布，均值为 <span class="math">$ \mu_{z^{(i)}|x^{(i)}} $</span> 且协方差为 <span class="math">$ \Sigma_{z^{(i)}|x^{(i)}} $</span>，我们很容易得到：
+为了完成我们的 <span class="math">$\text{M-Step}$</span> 更新，我们将计算方程<span class="math">$ (7) $</span>中期望的值。由于 <span class="math">$ Q_i $</span> 是高斯分布，其均值为 <span class="math">$ \mu_{z^{(i)}|x^{(i)}} $</span> 且协方差为 <span class="math">$ \Sigma_{z^{(i)}|x^{(i)}} $</span>，我们很容易得到：
 
 <div class="math">
 $$
@@ -358,7 +358,7 @@ $$
 $$
 </div>
 
-因此 <span class="math">$ \text{E}[YY^T] = \text{Cov}(Y) + \text{E}[Y]\text{E}[Y^T] $</span>。将其代入公式 (7)，我们得到 <span class="math">$ \Lambda $</span> 的 <span class="math">$\text{M-Step}$</span> 更新：
+因此 <span class="math">$ \text{E}[YY^T] = \text{Cov}(Y) + \text{E}[Y]\text{E}[Y^T] $</span>。将其代入公式<span class="math">$ (7) $</span>，我们得到 <span class="math">$ \Lambda $</span> 的 <span class="math">$\text{M-Step}$</span> 更新规则：
 
 <div class="math">
 $$
@@ -366,11 +366,11 @@ $$
 $$
 </div>
 
-值得注意的是，方程右侧的 <span class="math">$ \Sigma_{z^{(i)|x^{(i)}}} $</span> 是存在的。它是后验分布 <span class="math">$ p(z^{(i)}|x^{(i)}) $</span> 中的协方差， <span class="math">$\text{M-Step}$</span> 必须考虑到后验中 <span class="math">$ z $</span> 的不确定性。
+值得注意的是，方程右侧的 <span class="math">$ \Sigma_{z^{(i)|x^{(i)}}} $</span> 是后验分布 <span class="math">$ p(z^{(i)}|x^{(i)}) $</span> 中的协方差， <span class="math">$\text{M-Step}$</span> 必须考虑到后验中 <span class="math">$ z $</span> 的不确定性。
 
-关于 <span class="math">$ z^{(i)} $</span> 在后验分布中的推导。一个常见的错误是在推导EM算法时假设在E步中只需要计算潜在随机变量 <span class="math">$ z $</span> 的期望 <span class="math">$ \text{E}[z] $</span>，然后将其代入到 <span class="math">$\text{M-Step}$</span> 的优化中。虽然这种方法适用于像高斯混合模型这样的简单问题，但在我们的因子分析推导中，我们需要 <span class="math">$ \text{E}[z z^T] $</span> 以及 <span class="math">$ \text{E}[z] $</span>。正如我们所见，<span class="math">$ \text{E}[z z^T] $</span> 和 <span class="math">$ \text{E}[z] \text{E}[z^T] $</span> 在量 <span class="math">$ \Sigma_{z|x} $</span> 上有所不同。因此， <span class="math">$\text{M-Step}$</span> 更新必须考虑到在后验分布 <span class="math">$ p(z^{(i)}|x^{(i)}) $</span> 中 <span class="math">$ z $</span> 的协方差。
+关于 <span class="math">$ z^{(i)} $</span> 在后验分布中的推导。一个常见的错误是在推导 EM 算法时假设在 <span class="math">$ \text{E-Step} $</span> 中只需要计算潜在随机变量 <span class="math">$ z $</span> 的期望 <span class="math">$ \text{E}[z] $</span>，然后将其代入到 <span class="math">$\text{M-Step}$</span> 的优化中。虽然这种方法适用于像高斯混合模型这样的简单问题，但在我们的因子分析推导中，我们需要 <span class="math">$ \text{E}[z z^T] $</span> 以及 <span class="math">$ \text{E}[z] $</span>。正如我们所见，<span class="math">$ \text{E}[z z^T] $</span> 和 <span class="math">$ \text{E}[z] \text{E}[z^T] $</span> 在 <span class="math">$ \Sigma_{z|x} $</span> 上有所不同。因此， <span class="math">$\text{M-Step}$</span> 更新必须考虑到在后验分布 <span class="math">$ p(z^{(i)}|x^{(i)}) $</span> 中 <span class="math">$ z $</span> 的协方差。
 
-最后，我们还可以找到参数 <span class="math">$ \mu $</span> 和  <span class="math">$ \Psi $</span> 的 <span class="math">$\text{M-Step}$</span> 优化。第一个公式很容易得出：
+最后，我们还可以找到参数 <span class="math">$ \mu $</span> 和  <span class="math">$ \Psi $</span> 的 <span class="math">$\text{M-Step}$</span> 优化。由第一个公式容易得出：
 
 <div class="math">
 $$
