@@ -6,3 +6,5 @@
 * [回归](deep-learning/Regression.md)
 * [分类](deep-learning/Classification.md)
 * [逻辑回归](deep-learning/LogisticRegression.md)
+* [训练策略](deep-learning/ML-optimazation.md)
+* [训练问题](deep-learning/Gradient.md)
