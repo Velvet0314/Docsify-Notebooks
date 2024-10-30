@@ -115,10 +115,3 @@ CNN 是 self-attention 的特例
 consider edge 考虑边
 
 ![1730118358792](image/self-attention/1730118358792.png)
-
-
-
-
-
-
-
