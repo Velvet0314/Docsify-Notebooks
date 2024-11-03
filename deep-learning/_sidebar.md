@@ -12,3 +12,4 @@
 * [自注意力机制](deep-learning/self-attention.md)
 * [RNN](deep-learning/RNN.md)
 * [Transformer](deep-learning/Transformer.md)
+* [GAN](deep-learning/GAN.md)
