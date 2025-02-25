@@ -13,3 +13,5 @@
 * [RNN](deep-learning/RNN.md)
 * [Transformer](deep-learning/Transformer.md)
 * [GAN](deep-learning/GAN.md)
+* [Auto Encoder](deep-learning/Auto-Encoder.md)
+* [Diffusion Model](deep-learning/DiffusionModel.md)
